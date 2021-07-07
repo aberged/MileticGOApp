@@ -10,5 +10,6 @@
     <string name="collection_button">kolekcija</string>
     <string name="results_button">top rezultati</string>
     <string name="settings_button">podesavanja</string>
+    <string name="google_maps_key">maps_key_here</string>
 
 </resources>
