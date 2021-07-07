@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainMenuFragment">
+
+    <fragment
+        android:id="@+id/mainMenuFragment"
+        android:name="com.mileticgo.app.view.MainMenuFragment"
+        tools:layout="@layout/fragment_main_menu"
+        android:label="MainMenuFragment" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_ARFragment"
+            app:destination="@id/ARFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_collectionFragment"
+            app:destination="@id/collectionFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_topResultsFragment"
+            app:destination="@id/topResultsFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.mileticgo.app.view.MapsFragment"
+        tools:layout="@layout/fragment_map"
+        android:label="MapFragment" >
+        <action
+            android:id="@+id/action_mapFragment_to_placeDetailsFragment"
+            app:destination="@id/placeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ARFragment"
+        android:name="com.mileticgo.app.view.ARFragment"
+        tools:layout="@layout/fragment_ar"
+        android:label="ARFragment" />
+    <fragment
+        android:id="@+id/placeDetailsFragment"
+        android:name="com.mileticgo.app.view.PlaceDetailsFragment"
+        tools:layout="@layout/fragment_place_details"
+        android:label="PlaceDetailsFragment" />
+    <fragment
+        android:id="@+id/collectionFragment"
+        android:name="com.mileticgo.app.view.CollectionFragment"
+        tools:layout="@layout/fragment_collection"
+        android:label="CollectionFragment" >
+        <action
+            android:id="@+id/action_collectionFragment_to_placeDetailsFragment"
+            app:destination="@id/placeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/topResultsFragment"
+        android:name="com.mileticgo.app.view.TopResultsFragment"
+        tools:layout="@layout/fragment_top_results"
+        android:label="TopResultsFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mileticgo.app.view.SettingsFragment"
+        tools:layout="@layout/fragment_settings"
+        android:label="SettingsFragment" />
+</navigation>
