@@ -122,6 +122,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
 
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }
 
 eclipse.project.name = appName + "-android"

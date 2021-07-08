@@ -32,35 +32,24 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
         val miletic = LatLng(45.2550458, 19.8447484)
         googleMap.addMarker(MarkerOptions().position(miletic).title("spomenik sivom тићу Милетићу"))
         googleMap.setMinZoomPreference(15.0F)
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(miletic))
         googleMap.setOnInfoWindowClickListener {
 
-            val infoText = "Слава, слава, слава Србину!\n" +
-                    "Оро кличе са висине, глас се чује из дубине,\n" +
-                    "ни бриге те, сиви тићу, ми смо с тобом Светозаре Милетићу!\n" +
-                    "Кад извесни шалај куцне час, зови само ево нас!\n" +
-                    "\n" +
-                    "Слава, слава, слава Србину!\n" +
-                    "Петсто века већ је прошло како Србин робује,\n" +
-                    "ни бриге те, сиви тићу, ми смо с тобом Светозаре Милетићу!\n" +
-                    "Кад извесни шалај куцне час, зови само ево нас!\n" +
-                    "\n" +
-                    "Слава, слава, слава Србину!\n" +
-                    "Светозаре, српски сине, ти си сине дика Војводине,\n" +
-                    "ни бриге те, сиви тићу, ми смо с тобом Светозаре Милетићу!\n" +
-                    "Кад извесни шалај куцне час, зови само ево нас!"
+            val infoText = "Grickao si klitoris Lepi Mario\n" +
+                    "Dobio si sifilis Lepi Mario\n" +
+                    "Jebi se sada ti\n" +
+                    " \n" +
+                    "Puno sperme rukometno igralište\n" +
+                    "Moja guzica bogato nalazište\n" +
+                    "Evo ti moj probušeni kišobran\n" +
+                    "Evo ti moj uzavreli jorgovan\n" +
+                    " \n" +
+                    "Novi Zeland ima šume\n" +
+                    "a Jamajka uzgaja pume\n" +
+                    "Patike Adidas\n"
 
             //setting data for sending to place details fragment
             parentFragmentManager.setFragmentResult("420", bundleOf("info_data" to infoText))
@@ -69,9 +58,8 @@ class MapsFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
-
 
         return binding.root
     }
