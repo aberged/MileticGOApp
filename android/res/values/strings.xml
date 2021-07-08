@@ -12,4 +12,9 @@
     <string name="settings_button">podesavanja</string>
     <string name="google_maps_key">maps_key_here</string>
 
+    <string name="exit_title">Izlazak iz aplikacije</string>
+    <string name="exit_message">Da li ste sigurni da želite da napustite aplikaciju?</string>
+    <string name="yes">Da</string>
+    <string name="no">Ne</string>
+
 </resources>

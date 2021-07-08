@@ -20,6 +20,12 @@ class PlaceDetailsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_place_details, container, false)
 
+        //getting data from maps fragment
+        parentFragmentManager.setFragmentResultListener("420", this) { key, bundle ->
+            val result = bundle.getString("info_data")
+            binding.textView3.text = result
+        }
+
         return binding.root
     }
 }
