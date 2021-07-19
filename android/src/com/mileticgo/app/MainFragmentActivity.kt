@@ -1,7 +1,10 @@
 package com.mileticgo.app
 
+import android.app.ActivityManager
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -15,6 +18,9 @@ val FragmentManager.currentNavigationFragment: Fragment?
 class MainFragmentActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!isSupportedDevice()) {
+            return
+        }
         setContentView(R.layout.main_activity)
 
     }
@@ -45,5 +51,17 @@ class MainFragmentActivity: AppCompatActivity() {
         val alertDialog = alertDialogBuilder.create()
         alertDialog.setCancelable(true)
         alertDialog.show()
+    }
+
+    private fun isSupportedDevice(): Boolean {
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val openGlVersionString = activityManager.deviceConfigurationInfo.glEsVersion
+        if (openGlVersionString.toDouble() < 3.0) {
+            Toast.makeText(this, "AR view requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
+                .show()
+            finish()
+            return false
+        }
+        return true
     }
 }
