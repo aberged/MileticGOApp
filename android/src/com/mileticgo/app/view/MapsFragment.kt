@@ -18,29 +18,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.getSystemService
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.google.android.gms.location.*
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.ar.sceneform.AnchorNode
 import com.mileticgo.app.R
 import com.mileticgo.app.api.PlacesService
 import com.mileticgo.app.ar.PlacesArFragment
 import com.mileticgo.app.databinding.FragmentMapBinding
 import com.mileticgo.app.model.Place
+import com.mileticgo.app.view_model.MapViewModel
 
 class MapsFragment : Fragment() {
 
@@ -49,6 +44,7 @@ class MapsFragment : Fragment() {
     private lateinit var placesService: PlacesService
     private lateinit var arFragment: PlacesArFragment
     private lateinit var mapFragment: SupportMapFragment
+    private val mapViewModel by viewModels<MapViewModel>()
 
     // Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -75,7 +71,7 @@ class MapsFragment : Fragment() {
         get() = LatLng(this.latitude, this.longitude)
 
     val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        println("##### isGranted = $isGranted")
+        //println("##### isGranted = $isGranted")
         locationPermission = isGranted
         if (isGranted) {
             setUpMaps()
@@ -94,7 +90,7 @@ class MapsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arFragment = childFragmentManager.findFragmentById(R.id.ar_fragment) as PlacesArFragment
+        //arFragment = childFragmentManager.findFragmentById(R.id.ar_fragment) as PlacesArFragment
 
         mapFragment = (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!
         //mapFragment.getMapAsync(callback)
@@ -109,14 +105,14 @@ class MapsFragment : Fragment() {
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                println("##### onLocationResult locationResult - ${locationResult.locations}")
+                //println("##### onLocationResult locationResult - ${locationResult.locations}")
                 super.onLocationResult(locationResult)
                 currentLocation = locationResult.lastLocation
 
             }
 
             override fun onLocationAvailability(p0: LocationAvailability) {
-                println("##### onLocationAvailability - $p0")
+                //println("##### onLocationAvailability - $p0")
                 super.onLocationAvailability(p0)
             }
         }
@@ -141,10 +137,14 @@ class MapsFragment : Fragment() {
         mapFragment.getMapAsync { googleMap ->
             map = googleMap
             map.isMyLocationEnabled = true
-            println("###### setUpMaps - current location - $currentLocation")
+            //println("###### setUpMaps - current location - $currentLocation")
             val miletic = LatLng(45.2550458, 19.8447484) //todo we should get marker location from server
             map.addMarker(MarkerOptions().position(miletic).title("spomenik sivom тићу Милетићу"))
-            map.setMinZoomPreference(15.0F)
+            map.setMinZoomPreference(12.0F)
+
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style_json))
 
             /*googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(
                 currentLocation!!.latLng, 13f)))*/
@@ -171,11 +171,12 @@ class MapsFragment : Fragment() {
                         "Novi Zeland ima šume\n" +
                         "a Jamajka uzgaja pume\n" +
                         "Patike Adidas\n"
+                val place = currentLocation?.let { it1 -> Place(currentLocation!!.latitude, currentLocation!!.longitude, it1.altitude) }
+                //println("####### SEND PLACE $place")
 
-                //setting data for sending to place details fragment
-                parentFragmentManager.setFragmentResult("420", bundleOf("info_data" to infoText))
-
-                Navigation.findNavController(binding.root).navigate(R.id.action_mapFragment_to_placeDetailsFragment)
+                val bundle = Bundle()
+                bundle.putSerializable("location_data", place)
+                Navigation.findNavController(binding.root).navigate(R.id.action_mapFragment_to_arFragment, bundle)
             }
         }
     }
@@ -205,7 +206,7 @@ class MapsFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {
-        println("####### isLocationEnabled() ${isLocationEnabled()} ")
+        //println("####### isLocationEnabled() ${isLocationEnabled()} ")
         if (isLocationEnabled()) {
             fusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()) { task ->
                 val location : Location? = task.result
@@ -214,7 +215,7 @@ class MapsFragment : Fragment() {
                 } else {
                     currentLocation = location
                     map.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(
-                        currentLocation!!.latLng, 13f)))
+                        currentLocation!!.latLng, 12f)))
                 }
             }
         } else {
@@ -226,7 +227,7 @@ class MapsFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
-        println("##### requestNewLocationData")
+        //println("##### requestNewLocationData")
         val locationRequest = LocationRequest.create().apply {
             this.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             this.interval = 0
@@ -246,7 +247,6 @@ class MapsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        println("##### ON RESUME ")
         if (isLocationEnabled()) {
             checkPermissions()
         } else {

@@ -17,6 +17,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:1.2.0"
+
+        classpath 'com.google.ar.sceneform:plugin:1.17.1'
     }
 }
 

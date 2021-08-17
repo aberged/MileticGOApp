@@ -14,9 +14,6 @@
             android:id="@+id/action_mainMenuFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
         <action
-            android:id="@+id/action_mainMenuFragment_to_ARFragment"
-            app:destination="@id/ARFragment" />
-        <action
             android:id="@+id/action_mainMenuFragment_to_collectionFragment"
             app:destination="@id/collectionFragment" />
         <action
@@ -32,14 +29,9 @@
         tools:layout="@layout/fragment_map"
         android:label="MapFragment" >
         <action
-            android:id="@+id/action_mapFragment_to_placeDetailsFragment"
-            app:destination="@id/placeDetailsFragment" />
+            android:id="@+id/action_mapFragment_to_arFragment"
+            app:destination="@id/arFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/ARFragment"
-        android:name="com.mileticgo.app.view.ARFragment"
-        tools:layout="@layout/fragment_ar"
-        android:label="ARFragment" />
     <fragment
         android:id="@+id/placeDetailsFragment"
         android:name="com.mileticgo.app.view.PlaceDetailsFragment"
@@ -64,4 +56,13 @@
         android:name="com.mileticgo.app.view.SettingsFragment"
         tools:layout="@layout/fragment_settings"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/arFragment"
+        android:name="com.mileticgo.app.view.ARFragment"
+        tools:layout="@layout/fragment_ar"
+        android:label="ARFragment">
+        <action
+            android:id="@+id/action_ARFragment_to_placeDetailsFragment"
+            app:destination="@id/placeDetailsFragment" />
+    </fragment>
 </navigation>

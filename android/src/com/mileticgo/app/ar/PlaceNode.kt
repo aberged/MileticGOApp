@@ -34,10 +34,10 @@ class PlaceNode(
                 setRenderable(renderable)
                 placeRenderable = renderable
 
-                place?.let {
+                /*place?.let {
                     textViewPlace = renderable.view.findViewById(R.id.placeName)
                     textViewPlace?.text = it.name
-                }
+                }*/
             }
     }
 
