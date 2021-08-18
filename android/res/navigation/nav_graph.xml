@@ -55,7 +55,11 @@
         android:id="@+id/settingsFragment"
         android:name="com.mileticgo.app.view.SettingsFragment"
         tools:layout="@layout/fragment_settings"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/arFragment"
         android:name="com.mileticgo.app.view.ARFragment"
@@ -65,4 +69,8 @@
             android:id="@+id/action_ARFragment_to_placeDetailsFragment"
             app:destination="@id/placeDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.mileticgo.app.view.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>

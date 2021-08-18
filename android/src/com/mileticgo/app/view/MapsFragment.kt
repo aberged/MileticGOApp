@@ -58,7 +58,7 @@ class MapsFragment : Fragment() {
 
     private var anchorNode: AnchorNode? = null
     private var markers: MutableList<Marker> = emptyList<Marker>().toMutableList()
-    private var places: List<Place>? = null
+    //private var places: List<Place>? = null
     private var currentLocation: Location? = null
     private lateinit var map: GoogleMap
 
