@@ -20,6 +20,10 @@ public class Repository {
         this.preferences = preferences;
     }
 
+    public void setUser(String email, String password) {
+
+    }
+
     public User getUser(){
         return new User("asd");
     }

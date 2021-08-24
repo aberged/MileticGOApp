@@ -13,14 +13,14 @@ import androidx.fragment.app.FragmentManager
 import com.google.ar.core.ArCoreApk
 import com.mileticgo.app.view.MainMenuFragment
 
-//added to inform what is visible fragment in main activity
+//added to inform which fragment is visible in main activity
 val FragmentManager.currentNavigationFragment: Fragment?
     get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
 class MainFragmentActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!isSupportedDevice()) {
+        if (!isSupportedDevice() && !checkARCoreAvailability()) {
             return
         }
         setContentView(R.layout.main_activity)
@@ -67,18 +67,8 @@ class MainFragmentActivity: AppCompatActivity() {
         return true
     }
 
-    /*private fun checkIfDeviceIsARCompatible(context: Context, deviceCompatibilityCallback: DeviceCompatibilityCallback) {
-        val availability = ArCoreApk.getInstance().checkAvailability(context)
-        if (availability.isTransient) {
-            Handler().postDelayed({ checkIfDeviceIsARCompatible(context, deviceCompatibilityCallback) }, DELAY_UNTIL_ASK_AGAIN)
-            return deviceCompatibilityCallback.isDeviceCompatibleWithAR(AR_COMPATIBLE_STATUS_UNKNOWN)
-        }
-        return when (availability) {
-            ArCoreApk.Availability.SUPPORTED_NOT_INSTALLED -> deviceCompatibilityCallback.isDeviceCompatibleWithAR(AR_COMPATIBLE_STATUS_COMPATIBLE)
-            ArCoreApk.Availability.SUPPORTED_APK_TOO_OLD -> deviceCompatibilityCallback.isDeviceCompatibleWithAR(AR_COMPATIBLE_STATUS_COMPATIBLE)
-            ArCoreApk.Availability.SUPPORTED_INSTALLED -> deviceCompatibilityCallback.isDeviceCompatibleWithAR(AR_COMPATIBLE_STATUS_COMPATIBLE)
-            ArCoreApk.Availability.UNKNOWN_CHECKING -> deviceCompatibilityCallback.isDeviceCompatibleWithAR(AR_COMPATIBLE_STATUS_UNKNOWN)
-            else -> deviceCompatibilityCallback.isDeviceCompatibleWithAR(AR_COMPATIBLE_STATUS_UNKNOWN)
-        }
-    }*/
+    private fun checkARCoreAvailability(): Boolean {
+        val availability = ArCoreApk.getInstance().checkAvailability(this)
+        return availability.isSupported
+    }
 }

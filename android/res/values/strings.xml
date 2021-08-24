@@ -16,8 +16,12 @@
     <string name="exit_message">Da li ste sigurni da želite da napustite aplikaciju?</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
+
+    <!--login-->
     <string name="login_email_text">Email</string>
     <string name="login_password_text">Šifra</string>
     <string name="login_button_text">Prijavi se</string>
+    <string name="not_valid_email">Uneta email adresa nije u validnom obliku</string>
+    <string name="enter_password">Unesite šifru</string>
 
 </resources>
