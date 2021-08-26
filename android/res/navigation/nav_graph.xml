@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_mapFragment_to_arFragment"
             app:destination="@id/arFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_placeDetailsFragment"
+            app:destination="@id/placeDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/placeDetailsFragment"

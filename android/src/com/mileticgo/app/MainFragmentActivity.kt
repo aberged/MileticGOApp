@@ -2,16 +2,14 @@ package com.mileticgo.app
 
 import android.app.ActivityManager
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Handler
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.ar.core.ArCoreApk
 import com.mileticgo.app.view.MainMenuFragment
+import com.mileticgo.app.view.twoButtonsDialog
 
 //added to inform which fragment is visible in main activity
 val FragmentManager.currentNavigationFragment: Fragment?
@@ -21,38 +19,31 @@ class MainFragmentActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!isSupportedDevice() && !checkARCoreAvailability()) {
-            return
+            setArFlag(false)
+        } else {
+            setArFlag(true)
         }
         setContentView(R.layout.main_activity)
 
     }
 
+    //set flag for ar support
+    private fun setArFlag(supported: Boolean) {
+        val sharedPreferences = getPreferences(MODE_PRIVATE)
+        sharedPreferences.edit().putBoolean(getString(R.string.ar_supported_flag), supported).apply()
+    }
+
     override fun onBackPressed() {
         val currentFragment = supportFragmentManager.currentNavigationFragment
         if (currentFragment is MainMenuFragment) {
-            createExitDialog()
+            this.twoButtonsDialog(resources.getString(R.string.exit_title), resources.getString(R.string.exit_message),
+                resources.getString(R.string.yes), resources.getString(R.string.no), firstButtonCallback = {
+                    finish()
+                }
+            )
         } else {
             super.onBackPressed()
         }
-    }
-
-    private fun createExitDialog() {
-        val alertDialogBuilder = AlertDialog.Builder(this)
-        alertDialogBuilder.setTitle(R.string.exit_title)
-        alertDialogBuilder.setMessage(R.string.exit_message)
-
-        alertDialogBuilder.setPositiveButton(R.string.yes) { dialogInterface: DialogInterface, i: Int ->
-            finish()
-        }
-
-        alertDialogBuilder.setNegativeButton(R.string.no) { dialogInterface: DialogInterface, i: Int ->
-
-        }
-
-        //create alert dialog
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.setCancelable(true)
-        alertDialog.show()
     }
 
     private fun isSupportedDevice(): Boolean {

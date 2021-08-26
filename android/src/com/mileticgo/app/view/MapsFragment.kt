@@ -3,6 +3,7 @@ package com.mileticgo.app.view
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.SensorManager
@@ -18,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
@@ -51,10 +53,6 @@ class MapsFragment : Fragment() {
 
     // Sensor
     private lateinit var sensorManager: SensorManager
-    private val accelerometerReading = FloatArray(3)
-    private val magnetometerReading = FloatArray(3)
-    private val rotationMatrix = FloatArray(9)
-    private val orientationAngles = FloatArray(3)
 
     private var anchorNode: AnchorNode? = null
     private var markers: MutableList<Marker> = emptyList<Marker>().toMutableList()
@@ -66,6 +64,8 @@ class MapsFragment : Fragment() {
 
     //private lateinit var locationRequest : LocationRequest
     private lateinit var locationCallback : LocationCallback
+
+    private var isArrSupported = false
 
     val Location.latLng: LatLng
         get() = LatLng(this.latitude, this.longitude)
@@ -116,9 +116,9 @@ class MapsFragment : Fragment() {
                 super.onLocationAvailability(p0)
             }
         }
-
+        //check if ar is supported
+        isArrSupported = isARSupported()
         //setUpMaps()
-
     }
 
     private fun checkPermissions() {
@@ -157,6 +157,10 @@ class MapsFragment : Fragment() {
 
             //googleMap.moveCamera(CameraUpdateFactory.newLatLng(miletic))
 
+            if (!isArrSupported) { //todo proveri da li je vec prikazan dijalog sa obavestenjem
+                requireContext().oneButtonDialog(null, getString(R.string.ar_not_supported), getString(R.string.ok))
+            }
+
             googleMap.setOnInfoWindowClickListener {
 
                 val infoText = "Grickao si klitoris Lepi Mario\n" +
@@ -176,7 +180,13 @@ class MapsFragment : Fragment() {
 
                 val bundle = Bundle()
                 bundle.putSerializable("location_data", place)
-                Navigation.findNavController(binding.root).navigate(R.id.action_mapFragment_to_arFragment, bundle)
+                if (isArrSupported) {
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_mapFragment_to_arFragment, bundle)
+                } else {
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_mapFragment_to_placeDetailsFragment)
+                }
             }
         }
     }
@@ -262,5 +272,10 @@ class MapsFragment : Fragment() {
 
     private fun stopLocationUpdates() {
         fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
+    private fun isARSupported() : Boolean {
+        val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
+        return sharedPreferences.getBoolean(getString(R.string.ar_supported_flag), false)
     }
 }

@@ -24,4 +24,11 @@
     <string name="not_valid_email">Uneta email adresa nije u validnom obliku</string>
     <string name="enter_password">Unesite šifru</string>
 
+
+    <string name="ar_not_supported">Vaš uređaj ne podžava AR funkcionalnost</string>
+
+
+    <string name="ar_supported_flag">ar_supported</string>
+    <string name="ok">OK</string>
+
 </resources>
