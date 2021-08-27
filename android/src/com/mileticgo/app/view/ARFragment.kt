@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.ar.core.Anchor
 import com.google.ar.core.Pose
 import com.google.ar.core.Session
@@ -61,6 +62,11 @@ class ARFragment  : Fragment(), SensorEventListener {
 
         //setupModel()
         //setupPlane()
+
+        binding.myToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
         return binding.root
     }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/light_blue_600"
-    android:layout_width="220dp"
+    android:layout_width="match_parent"
     android:layout_height="300dp"
     android:layout_margin="10dp">
 
@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        android:background="@drawable/petrovaradinski_sat" />
 
     <TextView
         android:id="@+id/tv_item_title"

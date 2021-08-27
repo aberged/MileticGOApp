@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentLoginBinding
@@ -18,12 +21,17 @@ class LoginFragment : Fragment() {
 
     private val loginViewModel by viewModels<LoginViewModel>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         
         binding.btnLogin.setOnClickListener {
             checkEmailAndPassword()
         }
+
+        binding.myToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
         return binding.root
     }
 

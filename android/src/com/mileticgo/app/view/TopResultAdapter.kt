@@ -7,11 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mileticgo.app.R
 
-class CustomAdapter : RecyclerView.Adapter<CustomAdapter.MyViewHolder>() {
+class TopResultAdapter: RecyclerView.Adapter<TopResultAdapter.MyViewHolder>() {
+
     private lateinit var mItemsList : List<CollectionItem>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.collection_item, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.top_result_item, parent, false)
         return MyViewHolder(itemView)
     }
 

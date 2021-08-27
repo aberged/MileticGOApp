@@ -11,16 +11,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="kolekcija"
+    <Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:navigationIcon="?attr/homeAsUpIndicator"
+        android:background="@color/light_blue_600"
+        android:title="KOLEKCIJA"
+        android:titleTextColor="@color/white_overlay" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_diamond_list"
@@ -31,6 +32,6 @@
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
