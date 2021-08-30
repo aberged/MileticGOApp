@@ -70,16 +70,16 @@ class ARFragment  : Fragment(), SensorEventListener {
         return binding.root
     }
 
-    private fun setupPlane() {
+    /*private fun setupPlane() {
         arFragment.setOnTapArPlaneListener { hitresult, plane, motionEvent ->
             val anchor = hitresult.createAnchor()
             val anchorNode = AnchorNode(anchor)
             anchorNode.setParent(arFragment.arSceneView.scene)
             createModel(anchorNode)
         }
-    }
+    }*/
 
-    private fun createModel(anchorNode: AnchorNode) {
+    /*private fun createModel(anchorNode: AnchorNode) {
         val node = TransformableNode(arFragment.transformationSystem).apply {
             setOnTapListener{_, _ ->
                 println("##### node touch listener")
@@ -89,7 +89,7 @@ class ARFragment  : Fragment(), SensorEventListener {
         node.renderable = modelRenderable
         node.scaleController
         node.select()
-    }
+    }*/
 
     /*private fun setupModel() {
         //println("###### PARSE URI ${Uri.parse("wolves.sfb")}")
@@ -115,13 +115,22 @@ class ARFragment  : Fragment(), SensorEventListener {
     }
 
     private fun setupAR() {
-        arFragment.setOnTapArPlaneListener { hitResult, _, _ ->
+        val session: Session? = arFragment.arSceneView.session
+        val pos = floatArrayOf(0F, 0.5F, -2.5f)
+        val rotation = floatArrayOf(0f, 0f, 0f, 1f)
+        val anchor: Anchor? = session?.createAnchor(Pose(pos, rotation))
+        anchorNode = AnchorNode(anchor)
+        anchorNode?.setParent(arFragment.arSceneView.scene)
+        addPlaces(anchorNode!!)
+
+        /*arFragment.setOnTapArPlaneListener { hitResult, _, _ ->
             // Create anchor
             val anchor = hitResult.createAnchor()
             anchorNode = AnchorNode(anchor)
             anchorNode?.setParent(arFragment.arSceneView.scene)
             addPlaces(anchorNode!!)
-        }
+        }*/
+
         //Add an Anchor and a renderable in front of the camera
         /*val session: Session = Session(context)  // arFragment.arSceneView.session
         arFragment.arSceneView.setupSession(session)
