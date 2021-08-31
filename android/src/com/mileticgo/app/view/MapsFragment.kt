@@ -19,7 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
@@ -95,10 +94,7 @@ class MapsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //arFragment = childFragmentManager.findFragmentById(R.id.ar_fragment) as PlacesArFragment
-
         mapFragment = (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!
-        //mapFragment.getMapAsync(callback)
 
         sensorManager = requireActivity().getSystemService()!!
         placesService = PlacesService.create()
@@ -142,7 +138,6 @@ class MapsFragment : Fragment() {
         mapFragment.getMapAsync { googleMap ->
             map = googleMap
             map.isMyLocationEnabled = true
-            //println("###### setUpMaps - current location - $currentLocation")
             val miletic = LatLng(45.2550458, 19.8447484) //todo we should get marker location from server
             map.addMarker(MarkerOptions().position(miletic).title("spomenik sivom тићу Милетићу"))
             map.setMinZoomPreference(12.0F)
@@ -159,11 +154,11 @@ class MapsFragment : Fragment() {
                 googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos))
             }*/
 
-
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(miletic))
-
-            if (!isArrSupported) { //todo proveri da li je vec prikazan dijalog sa obavestenjem
-                requireContext().oneButtonDialog(null, getString(R.string.ar_not_supported), getString(R.string.ok))
+            if (!isArrSupported) { //proveri da li je vec prikazan dijalog sa obavestenjem
+                if (!wasDialogAlreadyShown()) {
+                    requireContext().oneButtonDialog(null, getString(R.string.ar_not_supported), getString(R.string.ok))
+                    setARDialogFlag()
+                }
             }
 
             googleMap.setOnInfoWindowClickListener {
@@ -194,6 +189,16 @@ class MapsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setARDialogFlag() {
+        val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
+        sharedPreferences.edit().putBoolean(getString(R.string.was_dialog_shown), true).apply()
+    }
+
+    private fun wasDialogAlreadyShown(): Boolean {
+        val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
+        return sharedPreferences.getBoolean(getString(R.string.was_dialog_shown), false)
     }
 
     /*private fun getCurrentLocation(onSuccess: (Location) -> Unit) {

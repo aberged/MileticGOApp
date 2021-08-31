@@ -31,5 +31,6 @@
     <string name="ar_supported_flag">ar_supported</string>
     <string name="ok">OK</string>
     <string name="app_logo_description">app logo</string>
+    <string name="was_dialog_shown">was_dialog_shown</string>
 
 </resources>
