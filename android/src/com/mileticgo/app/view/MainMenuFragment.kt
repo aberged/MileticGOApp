@@ -39,4 +39,16 @@ class MainMenuFragment : Fragment() {
 
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        showLoginInfo()
+    }
+
+    //if user is not logged in - show dialog
+    private fun showLoginInfo() {
+        requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title),
+            getString(R.string.login_dialog_info_message), getString(R.string.ok))
+    }
 }

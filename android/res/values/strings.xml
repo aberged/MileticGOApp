@@ -32,5 +32,7 @@
     <string name="ok">OK</string>
     <string name="app_logo_description">app logo</string>
     <string name="was_dialog_shown">was_dialog_shown</string>
+    <string name="login_dialog_info_title">Login info</string>
+    <string name="login_dialog_info_message">Korisnik nije prijavljen, mozete se prijaviti u settings sekciji</string>
 
 </resources>
