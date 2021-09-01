@@ -23,15 +23,18 @@
     <string name="login_button_text">Prijavi se</string>
     <string name="not_valid_email">Uneta email adresa nije u validnom obliku</string>
     <string name="enter_password">Unesite šifru</string>
+    <string name="was_login_info_dialog_shown">was_login_info_dialog_shown</string>
 
 
     <string name="ar_not_supported">Vaš uređaj ne podžava AR funkcionalnost</string>
+    <string name="location_permission_denied">Permisija za lokaciju nije odobrena</string>
+    <string name="turn_on_location">Uključite lokaciju</string>
 
 
     <string name="ar_supported_flag">ar_supported</string>
     <string name="ok">OK</string>
     <string name="app_logo_description">app logo</string>
-    <string name="was_dialog_shown">was_dialog_shown</string>
+    <string name="was_ar_dialog_shown">was_dialog_shown</string>
     <string name="login_dialog_info_title">Login info</string>
     <string name="login_dialog_info_message">Korisnik nije prijavljen, mozete se prijaviti u settings sekciji</string>
 

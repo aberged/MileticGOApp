@@ -1,11 +1,9 @@
 package com.mileticgo.app.view
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationManager
@@ -18,8 +16,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -37,6 +33,7 @@ import com.mileticgo.app.api.PlacesService
 import com.mileticgo.app.ar.PlacesArFragment
 import com.mileticgo.app.databinding.FragmentMapBinding
 import com.mileticgo.app.model.Place
+import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.view_model.MapViewModel
 
 class MapsFragment : Fragment() {
@@ -70,7 +67,7 @@ class MapsFragment : Fragment() {
     val Location.latLng: LatLng
         get() = LatLng(this.latitude, this.longitude)
 
-    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+    /*val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         //println("##### isGranted = $isGranted")
         locationPermission = isGranted
         if (isGranted) {
@@ -79,7 +76,7 @@ class MapsFragment : Fragment() {
             //todo location permission is not granted
             Navigation.findNavController(binding.root).popBackStack()
         }
-    }
+    }*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
@@ -100,10 +97,6 @@ class MapsFragment : Fragment() {
         placesService = PlacesService.create()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-        /*locationRequest = LocationRequest.create()
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 20 * 1000*/
-
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 //println("##### onLocationResult locationResult - ${locationResult.locations}")
@@ -119,17 +112,16 @@ class MapsFragment : Fragment() {
         }
         //check if ar is supported
         isArrSupported = isARSupported()
-        //setUpMaps()
     }
 
-    private fun checkPermissions() {
+    /*private fun checkPermissions() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationPermission = true
             setUpMaps()
         } else {
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
-    }
+    }*/
 
     @SuppressLint("MissingPermission")
     private fun setUpMaps() {
@@ -145,14 +137,6 @@ class MapsFragment : Fragment() {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style_json))
-
-            /*googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(
-                currentLocation!!.latLng, 13f)))*/
-
-            /*getCurrentLocation {
-                val pos = CameraPosition.fromLatLngZoom(it.latLng, 13f)
-                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos))
-            }*/
 
             if (!isArrSupported) { //proveri da li je vec prikazan dijalog sa obavestenjem
                 if (!wasDialogAlreadyShown()) {
@@ -191,39 +175,6 @@ class MapsFragment : Fragment() {
         }
     }
 
-    private fun setARDialogFlag() {
-        val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
-        sharedPreferences.edit().putBoolean(getString(R.string.was_dialog_shown), true).apply()
-    }
-
-    private fun wasDialogAlreadyShown(): Boolean {
-        val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
-        return sharedPreferences.getBoolean(getString(R.string.was_dialog_shown), false)
-    }
-
-    /*private fun getCurrentLocation(onSuccess: (Location) -> Unit) {
-        try {
-            println("###### getCurrentLocation try")
-            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()).addOnSuccessListener {
-                println("###### addOnSuccessListener - $it")
-            }.addOnFailureListener {
-                println("###### addOnFailureListener exception - ${it.message}")
-            }
-        } catch (e: Exception) {
-            println("###### getCurrentLocation Exception - ${e.message}")
-        }
-
-        *//*fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                currentLocation = location
-                println("##### current location - $currentLocation")
-                onSuccess(location)
-            }
-        }.addOnFailureListener {
-            println("###### current location exception - ${it.message}")
-        }*//*
-    }*/
-
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {
         //println("####### isLocationEnabled() ${isLocationEnabled()} ")
@@ -239,7 +190,7 @@ class MapsFragment : Fragment() {
                 }
             }
         } else {
-            Toast.makeText(requireContext(), "Ukljucite lokaciju", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.turn_on_location), Toast.LENGTH_SHORT).show()
             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
         }
@@ -259,20 +210,32 @@ class MapsFragment : Fragment() {
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
+    private fun setARDialogFlag() {
+        /*val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
+        sharedPreferences.edit().putBoolean(getString(R.string.was_dialog_shown), true).apply()*/
+        SharedPrefs.save(requireActivity(), getString(R.string.was_ar_dialog_shown), true)
+    }
+
+    private fun wasDialogAlreadyShown(): Boolean {
+        /*val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
+        return sharedPreferences.getBoolean(getString(R.string.was_dialog_shown), false)*/
+        return SharedPrefs.get(requireActivity(), getString(R.string.was_ar_dialog_shown), false) as Boolean
+    }
+
     private fun isLocationEnabled() : Boolean {
         val locationManager : LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
-
     override fun onResume() {
         super.onResume()
-        if (isLocationEnabled()) {
+        setUpMaps()
+        /*if (isLocationEnabled()) {
             checkPermissions()
         } else {
             Toast.makeText(requireContext(), "Morate ukljuciti lokaciju da bi ste koristili aplikaciju", Toast.LENGTH_SHORT).show()
             Navigation.findNavController(binding.root).popBackStack()
-        }
+        }*/
     }
 
     override fun onPause() {
