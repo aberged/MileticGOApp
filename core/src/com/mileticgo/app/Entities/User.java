@@ -5,11 +5,13 @@ import java.util.List;
 public class User {
 
     String name;
+    String email;
 
     CityProfile activeCityProfile;
 
-    public User(String name){
+    public User(String name, String email){
         this.name = name;
+        this.email = email;
     }
 
     public CityProfile getActiveCityProfile(){

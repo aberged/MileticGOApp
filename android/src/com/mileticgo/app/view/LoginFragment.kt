@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
@@ -49,7 +47,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun sendUser(email: String, password: String) {
-        (activity?.application as AndroidApplication).repository.setUser(email, password)
+        (activity?.application as AndroidApplication).repository.register("", email, password, null)
 
         //return to previous fragment/screen
         requireActivity().supportFragmentManager.popBackStack()

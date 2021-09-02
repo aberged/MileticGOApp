@@ -20,25 +20,35 @@ public class Repository {
         this.preferences = preferences;
     }
 
-    public void setUser(String email, String password) {
+    public void register(String name, String email, String password, RepositoryCallback callback) {
+        callback.onResult(true);
+    }
 
+    public void login(String name, String password, RepositoryCallback callback) {
+        callback.onResult(true);
+    }
+
+    public void logout(RepositoryCallback callback) {
+        callback.onResult(true);
     }
 
     public User getUser(){
-        return new User("asd");
+
+        User user = new User("User Name", "user@mail.com");
+        CityProfile cityProfile = new CityProfile();
+        user.setActiveCityProfile(cityProfile);
+        return user;
     }
 
     public CityProfile getActiveCityProfile(){
         return getUser().getActiveCityProfile();
     }
 
-    public List<CityProfile> getAvailableProfiles(){
-        return null;
-    }
-
     public List<CityPin> getActiveCityPins(){
         return getActiveCityProfile().getCityPins();
     }
+
+
 
     public UserInventory getUserInventory(){
         return getUser().getUserInventory();
@@ -50,6 +60,10 @@ public class Repository {
 
     public UserInventory removePinFromInventory(CityPin pin){
         return getUser().removePinFromInventory(pin);
+    }
+
+    public List<CityProfile> getAvailableProfiles(){
+        return null;
     }
 
 }
