@@ -24,7 +24,7 @@ public class Repository {
         callback.onResult(true);
     }
 
-    public void login(String name, String password, RepositoryCallback callback) {
+    public void login(String email, String password, RepositoryCallback callback) {
         callback.onResult(true);
     }
 

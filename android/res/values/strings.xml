@@ -9,7 +9,7 @@
     <string name="map_button">mapa</string>
     <string name="collection_button">kolekcija</string>
     <string name="results_button">top rezultati</string>
-    <string name="settings_button">podesavanja</string>
+    <string name="settings_button">podešavanja</string>
     <string name="google_maps_key">AIzaSyDXj4R-gZGiM4C7fFX1tkgNqIxLDl2iVmU</string>
 
     <string name="exit_title">Izlazak iz aplikacije</string>
@@ -17,16 +17,21 @@
     <string name="yes">Da</string>
     <string name="no">Ne</string>
 
-    <!--login-->
+    <!--login/register-->
     <string name="login_email_text">Email</string>
     <string name="login_password_text">Šifra</string>
+    <string name="register_repeat_password">Unesite šifru jos jednom</string>
     <string name="login_button_text">Prijavi se</string>
     <string name="not_valid_email">Uneta email adresa nije u validnom obliku</string>
     <string name="enter_password">Unesite šifru</string>
     <string name="was_login_info_dialog_shown">was_login_info_dialog_shown</string>
+    <string name="login_dialog_info_title">Login info</string>
+    <string name="login_dialog_info_message">Korisnik nije prijavljen, mozete se prijaviti u settings sekciji</string>
+    <string name="login_unsuccessful">Prijavljivanje nije bilo uspešno, pokušajte ponovo</string>
+    <string name="register_btn_text">Registruj se</string>
 
 
-    <string name="ar_not_supported">Vaš uređaj ne podžava AR funkcionalnost</string>
+    <string name="ar_not_supported">Vaš uređaj ne podržava AR funkcionalnost</string>
     <string name="location_permission_denied">Permisija za lokaciju nije odobrena</string>
     <string name="turn_on_location">Uključite lokaciju</string>
 
@@ -35,7 +40,7 @@
     <string name="ok">OK</string>
     <string name="app_logo_description">app logo</string>
     <string name="was_ar_dialog_shown">was_dialog_shown</string>
-    <string name="login_dialog_info_title">Login info</string>
-    <string name="login_dialog_info_message">Korisnik nije prijavljen, mozete se prijaviti u settings sekciji</string>
+    <string name="not_registered">Niste registrovani? Kliknite ovde</string>
+
 
 </resources>

@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
+import com.mileticgo.app.RepositoryCallback
 import com.mileticgo.app.databinding.FragmentLoginBinding
 import com.mileticgo.app.view_model.LoginViewModel
 
@@ -21,7 +23,15 @@ class LoginFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-        
+        binding.loginViewModel = loginViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        loginViewModel.onRegisterClick.observe(viewLifecycleOwner, {
+            if (it) {
+                setRegisterScreen()
+            }
+        })
+
         binding.btnLogin.setOnClickListener {
             checkEmailAndPassword()
         }
@@ -31,6 +41,13 @@ class LoginFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun setRegisterScreen() {
+        binding.myToolbar.title = getString(R.string.register_btn_text)
+        binding.etRepeatLoginPassword.visibility = View.VISIBLE
+        binding.tvRegisterText.visibility = View.GONE
+        binding.btnLogin.text = getString(R.string.register_btn_text)
     }
 
     private fun checkEmailAndPassword() {
@@ -47,9 +64,15 @@ class LoginFragment : Fragment() {
     }
 
     private fun sendUser(email: String, password: String) {
-        (activity?.application as AndroidApplication).repository.register("", email, password, null)
+        (activity?.application as AndroidApplication).repository.login(email, password) { successful ->
+            if (successful) {
+                //return to previous fragment/screen
+                findNavController().popBackStack()
+            } else {
+                requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.login_unsuccessful), getString(R.string.ok))
+            }
+        }
 
-        //return to previous fragment/screen
-        requireActivity().supportFragmentManager.popBackStack()
+
     }
 }

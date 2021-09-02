@@ -3,7 +3,6 @@ package com.mileticgo.app.view
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
@@ -18,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentMainMenuBinding
 import com.mileticgo.app.utils.SharedPrefs
@@ -54,8 +54,14 @@ class MainMenuFragment : Fragment() {
             Navigation.findNavController(it).navigate(R.id.action_mainMenuFragment_to_settingsFragment)
         }
 
-        if (!(SharedPrefs.get(requireActivity(), getString(R.string.was_login_info_dialog_shown), false) as Boolean)) {
-            showLoginInfo()
+        val user = (activity?.application as AndroidApplication).repository.user
+        if (user != null && !user.name.isNullOrBlank() && !user.email.isNullOrBlank()) {
+            //user is logged in, set flag for dialog to true
+            SharedPrefs.save(requireActivity(), getString(R.string.was_login_info_dialog_shown), true)
+        } else {
+            if (!(SharedPrefs.get(requireActivity(), getString(R.string.was_login_info_dialog_shown), false) as Boolean)) {
+                showLoginInfo()
+            }
         }
 
         return binding.root
@@ -84,7 +90,6 @@ class MainMenuFragment : Fragment() {
     }
 
     val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        //println("##### isGranted = $isGranted")
         if (isGranted) {
             Navigation.findNavController(binding.root).navigate(R.id.action_mainMenuFragment_to_mapFragment)
         } else {

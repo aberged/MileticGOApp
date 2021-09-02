@@ -14,6 +14,14 @@ public class User {
         this.email = email;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public CityProfile getActiveCityProfile(){
         return activeCityProfile;
     }
