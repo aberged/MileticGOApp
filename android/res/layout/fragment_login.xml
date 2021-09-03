@@ -27,13 +27,14 @@
             android:titleTextColor="@color/white_overlay" />
 
         <EditText
-            android:id="@+id/et_login_email"
+            android:id="@+id/et_user_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/login_email_text"
-            android:inputType="textEmailAddress"
+            app:layout_constraintWidth_percent=".8"
+            android:hint="@string/user_name"
+            android:inputType="text"
             android:paddingStart="20dp"
-            android:paddingTop="10dp"
+            android:paddingTop="30dp"
             android:paddingEnd="20dp"
             android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,6 +43,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/my_toolbar"
             app:layout_constraintVertical_bias=".2"
+            android:visibility="@{loginViewModel.onRegisterClick ? android.view.View.VISIBLE : android.view.View.GONE}"/>
+
+        <EditText
+            android:id="@+id/et_login_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_email_text"
+            android:inputType="textEmailAddress"
+            android:paddingStart="20dp"
+            android:paddingTop="30dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_user_name"
             app:layout_constraintWidth_percent=".8" />
 
         <EditText
@@ -62,7 +79,7 @@
             app:layout_constraintWidth_percent=".8" />
 
         <EditText
-            android:id="@+id/et_repeat_login_password"
+            android:id="@+id/et_repeat_register_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -72,7 +89,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="20dp"
             android:paddingBottom="10dp"
-            android:visibility="invisible"
+            android:visibility="@{loginViewModel.onRegisterClick ? android.view.View.VISIBLE : android.view.View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias=".5"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,11 +100,12 @@
             android:id="@+id/tv_register_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/et_repeat_login_password"
+            app:layout_constraintTop_toBottomOf="@+id/et_repeat_register_password"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="30dp"
             android:text="@string/not_registered"
+            android:visibility="@{loginViewModel.onRegisterClick ? android.view.View.GONE : android.view.View.VISIBLE}"
             android:onClick="@{() -> loginViewModel.onRegisterClick()}"/>
 
         <Button
@@ -100,7 +118,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="30dp"
-            android:text="@string/login_button_text"
+            android:text="@{loginViewModel.onRegisterClick ? @string/register_btn_text : @string/login_button_text}"
             android:textSize="16sp"
 
             />

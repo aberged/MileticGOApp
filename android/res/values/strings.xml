@@ -18,9 +18,10 @@
     <string name="no">Ne</string>
 
     <!--login/register-->
+    <string name="user_name">unesite korisničko ime</string>
     <string name="login_email_text">Email</string>
     <string name="login_password_text">Šifra</string>
-    <string name="register_repeat_password">Unesite šifru jos jednom</string>
+    <string name="register_repeat_password">Unesite šifru još jednom</string>
     <string name="login_button_text">Prijavi se</string>
     <string name="not_valid_email">Uneta email adresa nije u validnom obliku</string>
     <string name="enter_password">Unesite šifru</string>
@@ -28,6 +29,7 @@
     <string name="login_dialog_info_title">Login info</string>
     <string name="login_dialog_info_message">Korisnik nije prijavljen, mozete se prijaviti u settings sekciji</string>
     <string name="login_unsuccessful">Prijavljivanje nije bilo uspešno, pokušajte ponovo</string>
+    <string name="registration_unsuccessful">Registracija nije bilo uspešna, pokušajte ponovo</string>
     <string name="register_btn_text">Registruj se</string>
 
 
@@ -41,6 +43,7 @@
     <string name="app_logo_description">app logo</string>
     <string name="was_ar_dialog_shown">was_dialog_shown</string>
     <string name="not_registered">Niste registrovani? Kliknite ovde</string>
+    <string name="passwords_match_false">Šifre se ne opklapaju, probajte ponovo</string>
 
 
 </resources>

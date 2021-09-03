@@ -21,19 +21,27 @@ class LoginFragment : Fragment() {
 
     private val loginViewModel by viewModels<LoginViewModel>()
 
+    private var isRegisterScreenActive = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         binding.loginViewModel = loginViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         loginViewModel.onRegisterClick.observe(viewLifecycleOwner, {
-            if (it) {
-                setRegisterScreen()
-            }
+            isRegisterScreenActive = it
         })
 
         binding.btnLogin.setOnClickListener {
-            checkEmailAndPassword()
+            if (isRegisterScreenActive) {
+                if (checkUserName() && checkEmailAndPassword() && passwordMatch()) {
+                    registerUser(binding.etUserName.text.toString(), binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
+                }
+            } else {
+                if (checkEmailAndPassword()) {
+                    sendUser(binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
+                }
+            }
         }
 
         binding.myToolbar.setNavigationOnClickListener {
@@ -43,24 +51,40 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    private fun setRegisterScreen() {
-        binding.myToolbar.title = getString(R.string.register_btn_text)
-        binding.etRepeatLoginPassword.visibility = View.VISIBLE
-        binding.tvRegisterText.visibility = View.GONE
-        binding.btnLogin.text = getString(R.string.register_btn_text)
+    private fun checkUserName(): Boolean {
+        if (binding.etUserName.text.isNotBlank()) {
+            return true
+        } else {
+            binding.etUserName.error = getString(R.string.user_name)
+        }
+        return false
     }
 
-    private fun checkEmailAndPassword() {
+    private fun passwordMatch(): Boolean {
+        if (binding.etRepeatRegisterPassword.text.isNotBlank()) {
+            if (binding.etLoginPassword.text.toString() == binding.etRepeatRegisterPassword.text.toString()) {
+                return true
+            } else {
+                binding.etRepeatRegisterPassword.error = getString(R.string.passwords_match_false)
+            }
+        } else {
+            binding.etRepeatRegisterPassword.error = getString(R.string.enter_password)
+        }
+        return false
+    }
+
+    private fun checkEmailAndPassword(): Boolean {
         if (binding.etLoginEmail.text.isNotBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(binding.etLoginEmail.text).matches()) {
             //email is ok, check if password field is empty
             if (binding.etLoginPassword.text.isNotBlank()) {
-                sendUser(binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
+                return true
             } else {
                 binding.etLoginPassword.error = getString(R.string.enter_password)
             }
         } else {
             binding.etLoginEmail.error = getString(R.string.not_valid_email)
         }
+        return false
     }
 
     private fun sendUser(email: String, password: String) {
@@ -72,7 +96,16 @@ class LoginFragment : Fragment() {
                 requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.login_unsuccessful), getString(R.string.ok))
             }
         }
+    }
 
-
+    private fun registerUser(userName: String, email: String, password: String) {
+        (activity?.application as AndroidApplication).repository.register(userName, email, password) { successful ->
+            if (successful) {
+                //return to previous fragment/screen
+                findNavController().popBackStack()
+            } else {
+                requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.registration_unsuccessful), getString(R.string.ok))
+            }
+        }
     }
 }
