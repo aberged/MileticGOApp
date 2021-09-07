@@ -31,6 +31,8 @@
     <string name="login_unsuccessful">Prijavljivanje nije bilo uspešno, pokušajte ponovo</string>
     <string name="registration_unsuccessful">Registracija nije bilo uspešna, pokušajte ponovo</string>
     <string name="register_btn_text">Registruj se</string>
+    <string name="login_label">Login</string>
+    <string name="register_label">Registracija</string>
 
 
     <string name="ar_not_supported">Vaš uređaj ne podržava AR funkcionalnost</string>

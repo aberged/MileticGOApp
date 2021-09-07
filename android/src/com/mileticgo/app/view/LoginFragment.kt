@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
-import com.mileticgo.app.RepositoryCallback
 import com.mileticgo.app.databinding.FragmentLoginBinding
 import com.mileticgo.app.view_model.LoginViewModel
 
@@ -21,28 +19,22 @@ class LoginFragment : Fragment() {
 
     private val loginViewModel by viewModels<LoginViewModel>()
 
-    private var isRegisterScreenActive = false
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         binding.loginViewModel = loginViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        loginViewModel.onRegisterClick.observe(viewLifecycleOwner, {
-            isRegisterScreenActive = it
+        loginViewModel.login.observe(viewLifecycleOwner, {
+            if (checkEmailAndPassword()) {
+                sendUser(binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
+            }
         })
 
-        binding.btnLogin.setOnClickListener {
-            if (isRegisterScreenActive) {
-                if (checkUserName() && checkEmailAndPassword() && passwordMatch()) {
-                    registerUser(binding.etUserName.text.toString(), binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
-                }
-            } else {
-                if (checkEmailAndPassword()) {
-                    sendUser(binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
-                }
+        loginViewModel.register.observe(viewLifecycleOwner, {
+            if (checkUserName() && checkEmailAndPassword() && passwordMatch()) {
+                registerUser(binding.etUserName.text.toString(), binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
             }
-        }
+        })
 
         binding.myToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()

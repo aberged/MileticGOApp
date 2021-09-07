@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:navigationIcon="?attr/homeAsUpIndicator"
             android:background="@color/light_blue_600"
-            android:title="Login"
+            android:title="@{loginViewModel.onRegisterNewUserClick ? @string/register_label : @string/login_label}"
             android:titleTextColor="@color/white_overlay" />
 
         <EditText
@@ -43,7 +43,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/my_toolbar"
             app:layout_constraintVertical_bias=".2"
-            android:visibility="@{loginViewModel.onRegisterClick ? android.view.View.VISIBLE : android.view.View.GONE}"/>
+            android:visibility="@{loginViewModel.onRegisterNewUserClick ? android.view.View.VISIBLE : android.view.View.GONE}"/>
 
         <EditText
             android:id="@+id/et_login_email"
@@ -89,7 +89,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="20dp"
             android:paddingBottom="10dp"
-            android:visibility="@{loginViewModel.onRegisterClick ? android.view.View.VISIBLE : android.view.View.GONE}"
+            android:visibility="@{loginViewModel.onRegisterNewUserClick ? android.view.View.VISIBLE : android.view.View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias=".5"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,8 +105,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="30dp"
             android:text="@string/not_registered"
-            android:visibility="@{loginViewModel.onRegisterClick ? android.view.View.GONE : android.view.View.VISIBLE}"
-            android:onClick="@{() -> loginViewModel.onRegisterClick()}"/>
+            android:visibility="@{loginViewModel.onRegisterNewUserClick ? android.view.View.GONE : android.view.View.VISIBLE}"
+            android:onClick="@{() -> loginViewModel.onRegisterNewUserClick()}"/>
 
         <Button
             android:id="@+id/btn_login"
@@ -118,9 +118,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="30dp"
-            android:text="@{loginViewModel.onRegisterClick ? @string/register_btn_text : @string/login_button_text}"
+            android:text="@{loginViewModel.onRegisterNewUserClick ? @string/register_btn_text : @string/login_button_text}"
             android:textSize="16sp"
-
+            android:onClick="@{() -> loginViewModel.onRegisterNewUserClick ? loginViewModel.register() : loginViewModel.login()}"
             />
 
 
