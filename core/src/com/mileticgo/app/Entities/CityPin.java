@@ -12,4 +12,16 @@ public class CityPin {
         this.lng = lng;
         this.text = text;
     }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public String getText() {
+        return text;
+    }
 }

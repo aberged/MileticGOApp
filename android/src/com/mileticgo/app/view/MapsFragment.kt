@@ -28,6 +28,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.ar.sceneform.AnchorNode
+import com.mileticgo.app.AndroidApplication
+import com.mileticgo.app.Entities.CityPin
+import com.mileticgo.app.Entities.CityProfile
+import com.mileticgo.app.Entities.User
 import com.mileticgo.app.R
 import com.mileticgo.app.api.PlacesService
 import com.mileticgo.app.ar.PlacesArFragment
@@ -38,6 +42,7 @@ import com.mileticgo.app.view_model.MapViewModel
 
 class MapsFragment : Fragment() {
 
+    private var pins: MutableList<CityPin>? = null
     private lateinit var binding : FragmentMapBinding
 
     private lateinit var placesService: PlacesService
@@ -85,6 +90,7 @@ class MapsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        pins = (activity?.application as AndroidApplication).repository.activeCityPins
         return binding.root
     }
 
@@ -130,8 +136,16 @@ class MapsFragment : Fragment() {
         mapFragment.getMapAsync { googleMap ->
             map = googleMap
             map.isMyLocationEnabled = true
-            val miletic = LatLng(45.2550458, 19.8447484) //todo we should get marker location from server
-            map.addMarker(MarkerOptions().position(miletic).title("spomenik sivom тићу Милетићу"))
+            if (pins != null) {
+                if (pins!!.size > 0) {
+                    for (pin in pins!!) {
+                        map.addMarker(MarkerOptions().position(LatLng(pin.lat, pin.lng)).title(pin.text))
+                    }
+                }
+            }
+
+            /*val miletic = LatLng(45.2550458, 19.8447484) //todo we should get marker location from server
+            map.addMarker(MarkerOptions().position(miletic).title("spomenik sivom тићу Милетићу"))*/
             map.setMinZoomPreference(12.0F)
 
             // Customise the styling of the base map using a JSON object defined
