@@ -4,13 +4,15 @@ public class CityPin {
 
     double lat;
     double lng;
+    boolean unlocked;
 
     String text;
 
-    public CityPin(double lat, double lng, String text) {
+    public CityPin(double lat, double lng, String text, boolean unlocked) {
         this.lat = lat;
         this.lng = lng;
         this.text = text;
+        this.unlocked = unlocked;
     }
 
     public double getLat() {
@@ -23,5 +25,9 @@ public class CityPin {
 
     public String getText() {
         return text;
+    }
+
+    public boolean getUnlocked() {
+        return unlocked;
     }
 }

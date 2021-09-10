@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.graphics.Color
 import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationManager
@@ -30,8 +31,6 @@ import com.google.android.gms.maps.model.*
 import com.google.ar.sceneform.AnchorNode
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.Entities.CityPin
-import com.mileticgo.app.Entities.CityProfile
-import com.mileticgo.app.Entities.User
 import com.mileticgo.app.R
 import com.mileticgo.app.api.PlacesService
 import com.mileticgo.app.ar.PlacesArFragment
@@ -139,7 +138,7 @@ class MapsFragment : Fragment() {
             if (pins != null) {
                 if (pins!!.size > 0) {
                     for (pin in pins!!) {
-                        map.addMarker(MarkerOptions().position(LatLng(pin.lat, pin.lng)).title(pin.text))
+                        map.addMarker(MarkerOptions().position(LatLng(pin.lat, pin.lng)).title(pin.text))?.setIcon(setMarkerColor(pin.unlocked))
                     }
                 }
             }
@@ -186,6 +185,17 @@ class MapsFragment : Fragment() {
                         .navigate(R.id.action_mapFragment_to_placeDetailsFragment)
                 }
             }
+        }
+    }
+
+    private fun setMarkerColor(unlocked: Boolean): BitmapDescriptor? {
+        val hsv = FloatArray(3)
+        return if (unlocked) {
+            Color.colorToHSV(Color.GREEN, hsv)
+            BitmapDescriptorFactory.defaultMarker(hsv[0])
+        } else {
+            Color.colorToHSV(Color.CYAN, hsv)
+            BitmapDescriptorFactory.defaultMarker(hsv[0]);
         }
     }
 

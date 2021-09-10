@@ -10,9 +10,9 @@ public class CityProfile {
     private List<CityPin> cityPins;
 
     public CityProfile(){
-        CityPin p1 = new CityPin(45.24797381951175,19.828481122745778,"Staro katolicko groblje");
-        CityPin p2 = new CityPin(45.24991796512109,19.828086628223925,"Futoski park");
-        CityPin p3 = new CityPin(45.2474397019441,19.84313811108686,"Stadio Karadjordje");
+        CityPin p1 = new CityPin(45.24797381951175,19.828481122745778,"Staro katolicko groblje", true);
+        CityPin p2 = new CityPin(45.24991796512109,19.828086628223925,"Futoski park", false);
+        CityPin p3 = new CityPin(45.2474397019441,19.84313811108686,"Stadio Karadjordje", false);
         cityPins = new ArrayList<>();
         cityPins.add(p1);
         cityPins.add(p2);
