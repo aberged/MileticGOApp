@@ -58,6 +58,7 @@ class MainMenuFragment : Fragment() {
         if (user != null && !user.name.isNullOrBlank() && !user.email.isNullOrBlank()) {
             //user is logged in, set flag for dialog to true
             SharedPrefs.save(requireActivity(), getString(R.string.was_login_info_dialog_shown), true)
+            SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), true)
         } else {
             if (!(SharedPrefs.get(requireActivity(), getString(R.string.was_login_info_dialog_shown), false) as Boolean)) {
                 showLoginInfo()

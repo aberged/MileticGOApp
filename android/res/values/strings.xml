@@ -10,6 +10,7 @@
     <string name="collection_button">kolekcija</string>
     <string name="results_button">top rezultati</string>
     <string name="settings_button">podešavanja</string>
+    <string name="settings_label">Podešavanja</string>
     <string name="google_maps_key">AIzaSyDXj4R-gZGiM4C7fFX1tkgNqIxLDl2iVmU</string>
 
     <string name="exit_title">Izlazak iz aplikacije</string>
@@ -23,9 +24,11 @@
     <string name="login_password_text">Šifra</string>
     <string name="register_repeat_password">Unesite šifru još jednom</string>
     <string name="login_button_text">Prijavi se</string>
+    <string name="sign_out_button_text">Odjavi se</string>
     <string name="not_valid_email">Uneta email adresa nije u validnom obliku</string>
     <string name="enter_password">Unesite šifru</string>
     <string name="was_login_info_dialog_shown">was_login_info_dialog_shown</string>
+    <string name="is_user_logged_in">is_user_logged_in</string>
     <string name="login_dialog_info_title">Login info</string>
     <string name="login_dialog_info_message">Korisnik nije prijavljen, mozete se prijaviti u settings sekciji</string>
     <string name="login_unsuccessful">Prijavljivanje nije bilo uspešno, pokušajte ponovo</string>
@@ -46,6 +49,8 @@
     <string name="was_ar_dialog_shown">was_dialog_shown</string>
     <string name="not_registered">Niste registrovani? Kliknite ovde</string>
     <string name="passwords_match_false">Šifre se ne opklapaju, probajte ponovo</string>
+    <string name="sign_out_dialog_title">Odjavi me</string>
+    <string name="sign_out_dialog_message">Da li ste sigurni da želite da se odjavite</string>
 
 
 </resources>
