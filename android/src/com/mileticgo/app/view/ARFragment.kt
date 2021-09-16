@@ -9,16 +9,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.google.ar.core.Anchor
-import com.google.ar.core.Pose
-import com.google.ar.core.Session
+import com.google.ar.core.*
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.TransformableNode
@@ -30,21 +28,19 @@ import com.mileticgo.app.model.Place
 import com.mileticgo.app.model.getPositionVector
 import com.mileticgo.app.view_model.ARViewModel
 import com.mileticgo.app.view_model.MapViewModel
-
+import java.util.*
 
 class ARFragment  : Fragment(), SensorEventListener {
 
     private var place: Place? = null
     private lateinit var arFragment: PlacesArFragment
     private lateinit var binding : FragmentArBinding
-    private val mapViewModel by viewModels<MapViewModel>()
+    private lateinit var sensorManager: SensorManager
     private var anchorNode: AnchorNode? = null
     private val orientationAngles = FloatArray(3)
     private val accelerometerReading = FloatArray(3)
     private val magnetometerReading = FloatArray(3)
     private val rotationMatrix = FloatArray(9)
-
-    private val model_URL = "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
 
     var modelRenderable: ModelRenderable? = null
 
@@ -52,6 +48,8 @@ class ARFragment  : Fragment(), SensorEventListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ar, container, false)
+
+        sensorManager = ((activity?.getSystemService() as SensorManager?)!!)
 
         arFragment = childFragmentManager.findFragmentById(R.id.ux_fragment) as PlacesArFragment
 
@@ -110,12 +108,48 @@ class ARFragment  : Fragment(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        //println("##### onResume")
         setupAR()
+        //println("##### onResume")
+        sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also {
+            sensorManager.registerListener(
+                this,
+                it,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+        }
+        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also {
+            sensorManager.registerListener(
+                this,
+                it,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
     }
 
     private fun setupAR() {
         val session: Session? = arFragment.arSceneView.session
+
+        if (session != null) {
+            val filter = CameraConfigFilter(session)
+            // Return only camera configs that target 30 fps camera capture frame rate.
+            filter.targetFps = EnumSet.of(CameraConfig.TargetFps.TARGET_FPS_30)
+            // Return only camera configs that will not use the depth sensor.
+            filter.depthSensorUsage = EnumSet.of(CameraConfig.DepthSensorUsage.DO_NOT_USE)
+            // Get list of configs that match filter settings.
+            // In this case, this list is guaranteed to contain at least one element,
+            // because both TargetFps.TARGET_FPS_30 and DepthSensorUsage.DO_NOT_USE
+            // are supported on all ARCore supported devices.
+            val cameraConfigList = session.getSupportedCameraConfigs(filter)
+            // Use element 0 from the list of returned camera configs. This is because
+            // it contains the camera config that best matches the specified filter settings.
+            session.cameraConfig = cameraConfigList!![0]
+        }
+
         val pos = floatArrayOf(0F, 0.5F, -2.5f)
         val rotation = floatArrayOf(0f, 0f, 0f, 1f)
         val anchor: Anchor? = session?.createAnchor(Pose(pos, rotation))
@@ -155,7 +189,8 @@ class ARFragment  : Fragment(), SensorEventListener {
             }
         }
         placeNode.setParent(anchorNode)
-        placeNode.localPosition = place!!.getPositionVector(orientationAngles[0])
+        println("###### orientationAngles = ${orientationAngles[0]}")
+        placeNode.localPosition = place!!.getPositionVector(orientationAngles[0], place!!.geometry.location.latLng)
 
     }
 

@@ -35,6 +35,8 @@ import com.mileticgo.app.R
 import com.mileticgo.app.api.PlacesService
 import com.mileticgo.app.ar.PlacesArFragment
 import com.mileticgo.app.databinding.FragmentMapBinding
+import com.mileticgo.app.model.Geometry
+import com.mileticgo.app.model.GeometryLocation
 import com.mileticgo.app.model.Place
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.view_model.MapViewModel
@@ -159,22 +161,7 @@ class MapsFragment : Fragment() {
             }
 
             googleMap.setOnInfoWindowClickListener {
-
-                val infoText = "Grickao si klitoris Lepi Mario\n" +
-                        "Dobio si sifilis Lepi Mario\n" +
-                        "Jebi se sada ti\n" +
-                        " \n" +
-                        "Puno sperme rukometno igralište\n" +
-                        "Moja guzica bogato nalazište\n" +
-                        "Evo ti moj probušeni kišobran\n" +
-                        "Evo ti moj uzavreli jorgovan\n" +
-                        " \n" +
-                        "Novi Zeland ima šume\n" +
-                        "a Jamajka uzgaja pume\n" +
-                        "Patike Adidas\n"
-                val place = currentLocation?.let { it1 -> Place(currentLocation!!.latitude, currentLocation!!.longitude, it1.altitude) }
-                //println("####### SEND PLACE $place")
-
+                val place = currentLocation?.let { it1 -> Place(Geometry(GeometryLocation(it1.latitude, it1.longitude))) }
                 val bundle = Bundle()
                 bundle.putSerializable("location_data", place)
                 if (isArrSupported) {
@@ -201,7 +188,6 @@ class MapsFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {
-        //println("####### isLocationEnabled() ${isLocationEnabled()} ")
         if (isLocationEnabled()) {
             fusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()) { task ->
                 val location : Location? = task.result
@@ -272,7 +258,8 @@ class MapsFragment : Fragment() {
     }
 
     private fun isARSupported() : Boolean {
-        val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
-        return sharedPreferences.getBoolean(getString(R.string.ar_supported_flag), false)
+        //val sharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
+        //return sharedPreferences.getBoolean(getString(R.string.ar_supported_flag), false)
+        return SharedPrefs.get(requireActivity(), getString(R.string.ar_supported_flag), false) as Boolean
     }
 }
