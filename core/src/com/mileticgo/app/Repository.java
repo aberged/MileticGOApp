@@ -33,7 +33,6 @@ public class Repository {
     }
 
     public User getUser(){
-
         User user = new User("User Name", "user@mail.com");
         CityProfile cityProfile = new CityProfile();
         user.setActiveCityProfile(cityProfile);

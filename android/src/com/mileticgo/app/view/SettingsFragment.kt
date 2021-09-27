@@ -37,8 +37,13 @@ class SettingsFragment : Fragment() {
                 requireContext().twoButtonsDialog(getString(R.string.sign_out_dialog_title), getString(R.string.sign_out_dialog_message),
                 getString(R.string.yes), getString(R.string.no), firstButtonCallback = {
                         //todo sign out
+                        SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), false)
                     })
             }
+        }
+
+        binding.btnSettingsAbout.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_settingsFragment_to_aboutFragment)
         }
 
         binding.myToolbar.setNavigationOnClickListener {

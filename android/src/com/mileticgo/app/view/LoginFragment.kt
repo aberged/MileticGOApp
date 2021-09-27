@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentLoginBinding
+import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.view_model.LoginViewModel
 
 class LoginFragment : Fragment() {
@@ -84,6 +85,8 @@ class LoginFragment : Fragment() {
             if (successful) {
                 //return to previous fragment/screen
                 findNavController().popBackStack()
+
+                SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), true)
             } else {
                 requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.login_unsuccessful), getString(R.string.ok))
             }
@@ -95,6 +98,8 @@ class LoginFragment : Fragment() {
             if (successful) {
                 //return to previous fragment/screen
                 findNavController().popBackStack()
+
+                SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), true)
             } else {
                 requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.registration_unsuccessful), getString(R.string.ok))
             }

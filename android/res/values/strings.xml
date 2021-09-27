@@ -40,6 +40,7 @@
 
     <string name="ar_not_supported">Vaš uređaj ne podržava AR funkcionalnost</string>
     <string name="location_permission_denied">Permisija za lokaciju nije odobrena</string>
+    <string name="background_location_permission_denied">Permisija za background lokaciju nije odobrena</string>
     <string name="turn_on_location">Uključite lokaciju</string>
 
 
@@ -51,6 +52,8 @@
     <string name="passwords_match_false">Šifre se ne opklapaju, probajte ponovo</string>
     <string name="sign_out_dialog_title">Odjavi me</string>
     <string name="sign_out_dialog_message">Da li ste sigurni da želite da se odjavite</string>
+    <string name="btn_about">O aplikaciji</string>
+    <string name="about_label">O aplikaciji</string>
 
 
 </resources>

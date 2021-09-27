@@ -49,7 +49,7 @@ class ARFragment  : Fragment(), SensorEventListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ar, container, false)
 
-        sensorManager = ((activity?.getSystemService() as SensorManager?)!!)
+        sensorManager = requireActivity().getSystemService()!!
 
         arFragment = childFragmentManager.findFragmentById(R.id.ux_fragment) as PlacesArFragment
 

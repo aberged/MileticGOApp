@@ -29,14 +29,14 @@ class CollectionFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_collection, container, false)
 
-        layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
         binding.rvDiamondList.layoutManager = layoutManager
 
         adapterCollection = CollectionAdapter {
             //list item click listener
             val bundle = Bundle()
-            bundle.putString("details_name", it.name)
+            bundle.putString("details", it.name)
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_collectionFragment_to_placeDetailsFragment, bundle)
         }

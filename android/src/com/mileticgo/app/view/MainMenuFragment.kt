@@ -55,7 +55,8 @@ class MainMenuFragment : Fragment() {
         }
 
         val user = (activity?.application as AndroidApplication).repository.user
-        if (user != null && !user.name.isNullOrBlank() && !user.email.isNullOrBlank()) {
+        if (user != null && !user.name.isNullOrBlank() && !user.email.isNullOrBlank() &&
+            SharedPrefs.get(requireActivity(), getString(R.string.is_user_logged_in), false) as Boolean) {
             //user is logged in, set flag for dialog to true
             SharedPrefs.save(requireActivity(), getString(R.string.was_login_info_dialog_shown), true)
             SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), true)
@@ -83,19 +84,71 @@ class MainMenuFragment : Fragment() {
     }
 
     private fun checkPermissions() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Navigation.findNavController(binding.root).navigate(R.id.action_mainMenuFragment_to_mapFragment)
         } else {
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                println("######## ACCESS_BACKGROUND_LOCATION ${shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)}")
+                //if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                    //explain user why we need ACCESS_BACKGROUND_LOCATION location
+                    requireContext().twoButtonsDialog("Info", "Da bi aplikacija imala neophodnu funkcionalnost potrebna je dozvola za lokaciju u pozadini. U suprotnom ne mozemo znati kad ste se priblizili itemu. Dozvola se koristi samo u ovu svrhu",
+                    "U redu", "Nije u redu", firstButtonCallback = {
+                            requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION))
+                        })
+                //}
+            } else {
+                requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
+            }*/
+            //requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION))
         }
     }
 
-    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
+    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+        var isGrantedFineLocation = false
+        var isGrantedBackgroundLocation = false
+        for (entry in it.entries) {
+            if (entry.key == Manifest.permission.ACCESS_FINE_LOCATION) {
+                if (!entry.value) {
+                    isGrantedFineLocation = false
+                    //location permission is not granted
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.location_permission_denied),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    isGrantedFineLocation = true
+                }
+            }
+
+            /*if (entry.key == Manifest.permission.ACCESS_BACKGROUND_LOCATION) {
+                if (!entry.value) {
+                    isGrantedBackgroundLocation = false
+                    //background location permission is not granted
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.background_location_permission_denied),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    isGrantedBackgroundLocation = true
+                }
+            }*/
+            if (isGrantedFineLocation) {
+                Navigation.findNavController(binding.root).navigate(R.id.action_mainMenuFragment_to_mapFragment)
+            }
+
+            /*if (isGranted) {
+            Navigation.findNavController(binding.root).navigate(R.id.action_mainMenuFragment_to_mapFragment)
+        }*/
+            /*if (isGranted) {
             Navigation.findNavController(binding.root).navigate(R.id.action_mainMenuFragment_to_mapFragment)
         } else {
             //location permission is not granted
             Toast.makeText(requireContext(), getString(R.string.location_permission_denied), Toast.LENGTH_SHORT).show()
+        }*/
         }
     }
 }

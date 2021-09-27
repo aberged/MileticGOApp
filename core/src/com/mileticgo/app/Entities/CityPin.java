@@ -1,18 +1,24 @@
 package com.mileticgo.app.Entities;
 
-public class CityPin {
+import java.io.Serializable;
+
+public class CityPin implements Serializable {
 
     double lat;
     double lng;
     boolean unlocked;
+    boolean isNear;
 
-    String text;
+    String title;
+    String description;
 
-    public CityPin(double lat, double lng, String text, boolean unlocked) {
+    public CityPin(double lat, double lng, String title, String description, boolean unlocked, boolean isNear) {
         this.lat = lat;
         this.lng = lng;
-        this.text = text;
+        this.title = title;
+        this.description = description;
         this.unlocked = unlocked;
+        this.isNear = isNear;
     }
 
     public double getLat() {
@@ -23,11 +29,23 @@ public class CityPin {
         return lng;
     }
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public boolean getUnlocked() {
         return unlocked;
+    }
+
+    public boolean isNear() {
+        return isNear;
+    }
+
+    public void setNear(boolean near) {
+        isNear = near;
     }
 }
