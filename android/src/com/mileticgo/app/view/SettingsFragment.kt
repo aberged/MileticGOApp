@@ -38,6 +38,7 @@ class SettingsFragment : Fragment() {
                 getString(R.string.yes), getString(R.string.no), firstButtonCallback = {
                         //todo sign out
                         SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), false)
+                        setLoginButtonText()
                     })
             }
         }

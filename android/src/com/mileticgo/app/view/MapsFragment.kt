@@ -35,7 +35,6 @@ class MapsFragment : Fragment() {
 
     private var pins: MutableList<CityPin>? = null
     private lateinit var binding: FragmentMapBinding
-    private lateinit var arFragment: PlacesArFragment
     private lateinit var mapFragment: SupportMapFragment
     private val mapViewModel by viewModels<MapViewModel>()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -89,7 +88,6 @@ class MapsFragment : Fragment() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
                 currentLocation = locationResult.lastLocation
-                //Toast.makeText(requireContext(), "##### onLocationResult currentLocation - $currentLocation", Toast.LENGTH_SHORT).show()
                 map.clear()
                 if (pins!!.size > 0) {
                     for (pin in pins!!) {
@@ -106,12 +104,6 @@ class MapsFragment : Fragment() {
             }
         }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.getMainLooper()
-        )
         //check if ar is supported
         //isArrSupported = isARSupported() todo for first milestone we don't have ar functionality
     }
@@ -159,12 +151,14 @@ class MapsFragment : Fragment() {
                         val bundle = Bundle()
                         //bundle.putSerializable("location_data", pin)
                         bundle.putSerializable("details", pin)
-                        if (isArrSupported) {
-                            Navigation.findNavController(binding.root)
-                                .navigate(R.id.action_mapFragment_to_arFragment, bundle)
-                        } else {
-                            Navigation.findNavController(binding.root)
-                                .navigate(R.id.action_mapFragment_to_placeDetailsFragment, bundle)
+                        if (pin.unlocked) {
+                            if (isArrSupported) {
+                                Navigation.findNavController(binding.root)
+                                    .navigate(R.id.action_mapFragment_to_arFragment, bundle)
+                            } else {
+                                Navigation.findNavController(binding.root)
+                                    .navigate(R.id.action_mapFragment_to_placeDetailsFragment, bundle)
+                            }
                         }
                     }
                 }
@@ -174,6 +168,9 @@ class MapsFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+
         if (isLocationEnabled()) {
             fusedLocationClient.lastLocation.addOnCompleteListener(requireActivity()) { task ->
                 val location: Location? = task.result
@@ -208,9 +205,6 @@ class MapsFragment : Fragment() {
             this.fastestInterval = 30
             //this.numUpdates = 1
         }
-
-        //fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        //fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
     private fun setARDialogFlag() {
