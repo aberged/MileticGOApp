@@ -36,9 +36,11 @@ class MainMenuFragment : Fragment() {
             if (isLocationEnabled()) {
                 checkPermissions()
             } else {
-                Toast.makeText(requireContext(), getString(R.string.turn_on_location), Toast.LENGTH_SHORT).show()
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
+                requireContext().twoButtonsDialog(getString(R.string.info_dialog_title), getString(R.string.turn_location_on_text),
+                    getString(R.string.yes), getString(R.string.no), firstButtonCallback = {
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                        startActivity(intent)
+                    })
             }
         }
 

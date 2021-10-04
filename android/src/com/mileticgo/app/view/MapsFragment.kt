@@ -25,7 +25,6 @@ import com.google.android.gms.maps.model.*
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.Entities.CityPin
 import com.mileticgo.app.R
-import com.mileticgo.app.ar.PlacesArFragment
 import com.mileticgo.app.databinding.FragmentMapBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.view_model.MapViewModel
@@ -181,7 +180,7 @@ class MapsFragment : Fragment() {
                     map.moveCamera(
                         CameraUpdateFactory.newCameraPosition(
                             CameraPosition.fromLatLngZoom(
-                                currentLocation!!.latLng, 12f
+                                currentLocation!!.latLng, mapViewModel.zoomLevel
                             )
                         )
                     )
@@ -235,6 +234,7 @@ class MapsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         stopLocationUpdates()
+        mapViewModel.zoomLevel = map.cameraPosition.zoom
     }
 
     private fun stopLocationUpdates() {

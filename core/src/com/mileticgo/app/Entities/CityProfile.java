@@ -36,18 +36,22 @@ public class CityProfile {
             "Tokom Drugog svetskog rata podignuta je kućica na južnoj strani stadiona, 1991. je dovršena severna tribina. Atletska staza postavljena je 2004. a od 2008. do 2009." +
             " izvršena je manja rekonstrukcija, kada je izgrađena nova jugoistočna tribina, na koju je postavljen savremeni „FILIPS-ov semafor.";
 
-    private String kancelarija = "Najlepse mesto na svetu gde odmaras od zene i dece a mozes i da radis";
+    private String kancelarija = "mozes i da radis";
+
+    private String biotest = "biotest laboratorija";
 
     public CityProfile(){
         CityPin p1 = new CityPin(45.24797381951175,19.828481122745778,"Staro katolicko groblje", katolicko_groblje, true, false);
         CityPin p2 = new CityPin(45.24991796512109,19.828086628223925,"Futoski park", futoski_park,false, false);
         CityPin p3 = new CityPin(45.2474397019441,19.84313811108686,"Stadio Karadjordje", stadium_karadjordje,false, false);
-        CityPin p4 = new CityPin(45.25933175869896, 19.843471700120748,"Kancelarija", kancelarija,true, false);
+        CityPin p4 = new CityPin(45.259301731154984, 19.843383285506537,"Kancelarija", kancelarija,true, false);
+        CityPin p5 = new CityPin(45.24361254451388, 19.80744289461784,"biotest", biotest,true, false);
         cityPins = new ArrayList<>();
         cityPins.add(p1);
         cityPins.add(p2);
         cityPins.add(p3);
         cityPins.add(p4);
+        cityPins.add(p5);
     }
 
     public double getLat() {

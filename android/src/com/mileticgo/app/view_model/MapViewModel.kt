@@ -17,6 +17,9 @@ class MapViewModel : ViewModel() {
        this.place.value = place
     }
 
+    //default map zoom level
+    var zoomLevel = 12f
+
     /**
      * Set marker color
      *
@@ -24,7 +27,6 @@ class MapViewModel : ViewModel() {
      * @param isNear if user is near the marker color marker to green
      */
     fun setMarkerColor(unlocked: Boolean, isNear: Boolean): BitmapDescriptor? {
-        val hsv = FloatArray(3)
         return if (isNear) {
             BitmapDescriptorFactory.fromResource(R.drawable.pin_green_small)
         } else {
@@ -41,8 +43,6 @@ class MapViewModel : ViewModel() {
         val tmpPinLocation = Location("")
         tmpPinLocation.latitude = pin.lat
         tmpPinLocation.longitude = pin.lng
-        if (currentLocation.distanceTo(tmpPinLocation) <= 50) {
-            pin.isNear = true
-        }
+        pin.isNear = currentLocation.distanceTo(tmpPinLocation) <= 60
     }
 }

@@ -54,5 +54,8 @@
     <string name="btn_about">O aplikaciji</string>
     <string name="about_label">O aplikaciji</string>
 
+    <string name="info_dialog_title">Info</string>
+    <string name="turn_location_on_text">Da bi aplikacija imala neophodnu funkcionalnost potrebno je da uključite lokaciju.</string>
+
 
 </resources>
