@@ -14,29 +14,40 @@ public class Repository {
     private final NetJavaImpl net;
     private final Preferences preferences;
 
+    private User user;
+
 
     public Repository(Preferences preferences) {
         this.net = new NetJavaImpl(16);
         this.preferences = preferences;
+        this.user = new User("anonimus", "anonimus");
+        CityProfile cityProfile = new CityProfile();
+        this.user.setActiveCityProfile(cityProfile);
     }
 
     public void register(String name, String email, String password, RepositoryCallback callback) {
+        this.user = new User(name, email);
+        CityProfile cityProfile = new CityProfile();
+        this.user.setActiveCityProfile(cityProfile);
         callback.onResult(true);
     }
 
     public void login(String email, String password, RepositoryCallback callback) {
+        this.user = new User(email, email);
+        CityProfile cityProfile = new CityProfile();
+        this.user.setActiveCityProfile(cityProfile);
         callback.onResult(true);
     }
 
     public void logout(RepositoryCallback callback) {
+        this.user = new User("anonimus", "anonimus");
+        CityProfile cityProfile = new CityProfile();
+        this.user.setActiveCityProfile(cityProfile);
         callback.onResult(true);
     }
 
     public User getUser(){
-        User user = new User("User Name", "user@mail.com");
-        CityProfile cityProfile = new CityProfile();
-        user.setActiveCityProfile(cityProfile);
-        return user;
+        return this.user;
     }
 
     public CityProfile getActiveCityProfile(){
@@ -46,8 +57,6 @@ public class Repository {
     public List<CityPin> getActiveCityPins(){
         return getActiveCityProfile().getCityPins();
     }
-
-
 
     public UserInventory getUserInventory(){
         return getUser().getUserInventory();
@@ -60,6 +69,8 @@ public class Repository {
     public UserInventory removePinFromInventory(CityPin pin){
         return getUser().removePinFromInventory(pin);
     }
+
+    public List<CityPin> getUserInventoryCityPins() { return getUserInventory().getCityPins(getActiveCityProfile()); }
 
     public List<CityProfile> getAvailableProfiles(){
         return null;
