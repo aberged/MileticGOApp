@@ -8,10 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.mileticgo.app.Entities.CityPin
+import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentPlaceDetailsBinding
-import com.mileticgo.app.model.Place
 import com.mileticgo.app.view_model.PlaceDetailsViewModel
 
 class PlaceDetailsFragment : Fragment() {

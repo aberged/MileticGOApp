@@ -19,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
+import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.FragmentMainMenuBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.view_model.MainMenuViewModel
@@ -36,7 +37,7 @@ class MainMenuFragment : Fragment() {
             if (isLocationEnabled()) {
                 checkPermissions()
             } else {
-                requireContext().twoButtonsDialog(getString(R.string.info_dialog_title), getString(R.string.turn_location_on_text),
+                requireContext().twoButtonsDialog("info_dialog_title", "turn_location_on_text",
                     getString(R.string.yes), getString(R.string.no), firstButtonCallback = {
                         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                         startActivity(intent)
@@ -56,12 +57,9 @@ class MainMenuFragment : Fragment() {
             Navigation.findNavController(it).navigate(R.id.action_mainMenuFragment_to_settingsFragment)
         }
 
-        val user = (activity?.application as AndroidApplication).repository.user
-        if (user != null && !user.name.isNullOrBlank() && !user.email.isNullOrBlank() &&
-            SharedPrefs.get(requireActivity(), getString(R.string.is_user_logged_in), false) as Boolean) {
+        if (!Repository.get().user.isAnonymous) {
             //user is logged in, set flag for dialog to true
             SharedPrefs.save(requireActivity(), getString(R.string.was_login_info_dialog_shown), true)
-            SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), true)
         } else {
             if (!(SharedPrefs.get(requireActivity(), getString(R.string.was_login_info_dialog_shown), false) as Boolean)) {
                 showLoginInfo()

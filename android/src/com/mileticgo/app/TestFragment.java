@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mileticgo.app.Entities.User;
-
 public class TestFragment extends Fragment {
 
     public static TestFragment newInstance() {

@@ -55,7 +55,7 @@ class MainFragmentActivity: AppCompatActivity() {
         if (openGlVersionString.toDouble() < 3.0) {
             Toast.makeText(this, "AR view requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
                 .show()
-            finish()
+            //finish()
             return false
         }
         return true

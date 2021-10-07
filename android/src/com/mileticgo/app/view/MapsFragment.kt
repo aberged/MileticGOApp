@@ -23,7 +23,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.mileticgo.app.AndroidApplication
-import com.mileticgo.app.Entities.CityPin
+import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentMapBinding
 import com.mileticgo.app.utils.SharedPrefs

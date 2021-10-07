@@ -109,6 +109,6 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "de.tomgrill.gdxdialogs:gdx-dialogs-core:1.2.5"
         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
-        
+        implementation 'org.json:json:20210307'
     }
 }

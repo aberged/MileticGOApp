@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.mileticgo.app.Entities.CityPin
+import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 import com.mileticgo.app.model.Place
 
