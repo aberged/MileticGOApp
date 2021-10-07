@@ -18,7 +18,17 @@ public class CityProfile {
             "Dominantnu površinu celog kompleksa zauzima Rimokatoličko groblje, dok nešto manji prostor površine od oko dva hektara zauzima prostorna " +
             "celina na kojoj se nalaze izmešani grobovi reformatkse (kalvinističke), kao i grobovi evangelističke (luteranske) konfesionalne pripadnosti. " +
             "Rimokatoičko groblje je od luteranskog i reformatskog simbolično prostorno razdvojeno monumentalnom kapijom u obliku slavoluka ispod " +
-            "koje prolazi centralna popločana staza, odnosno glavna putna komunikacija koja po dužini prolazi kroz čitav kompleks groblja." ;
+            "koje prolazi centralna popločana staza, odnosno glavna putna komunikacija koja po dužini prolazi kroz čitav kompleks groblja." +
+            "Tzv. Kompleks katoličkog groblja obuhvata prostor koji je lociran preko puta Jodne banje, " +
+            "odnosno zauzima prostor duž većeg dela današnje Futoške i ulice Vojvode Knićanina. Površina groblja je nepravilnog " +
+            "pravougaonog, odnosno trapezastog oblika i u potpunosti je okružena zidom i ogradom. Sa dve strane je od okolnih objekata " +
+            "izdvojeno ulicama, dok je sa preostale dve strane groblje praktično stešnjeno uz okolne zgrade i kuće od kojih je izdvojeno samo zidom." +
+            "ako je najčešće poznato kao ,,Katoličko groblje”, celokupni kompleks zapravo čini pet relativno izdvojenih prostornih grobnih celina: " +
+            "Rimokatoličko, Evangelističko (Luteransko) i Reformatsko (Kalvinističko), zatim tzv. Nemačko groblje, kao i Vojno-Avijatičarsko groblje. " +
+            "Dominantnu površinu celog kompleksa zauzima Rimokatoličko groblje, dok nešto manji prostor površine od oko dva hektara zauzima prostorna " +
+            "celina na kojoj se nalaze izmešani grobovi reformatkse (kalvinističke), kao i grobovi evangelističke (luteranske) konfesionalne pripadnosti. " +
+            "Rimokatoičko groblje je od luteranskog i reformatskog simbolično prostorno razdvojeno monumentalnom kapijom u obliku slavoluka ispod " +
+            "koje prolazi centralna popločana staza, odnosno glavna putna komunikacija koja po dužini prolazi kroz čitav kompleks groblja.";
 
     private String futoski_park = "Futoški park je nastao u prvoj dekadi 20.veka, neposredno po izgradnji Jodne banje, kao park specijalne namene podignut oko banje. " +
             "Prvobitno idejno rešewe ovog parka je ponudio Armin Pec Mlađi, čuveni mađarski pejzažni arhitekta. Ovaj projekat nije realizovan, ali su u izvedenom " +

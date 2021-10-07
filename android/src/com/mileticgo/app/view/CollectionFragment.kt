@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentCollectionBinding
 import com.mileticgo.app.view_model.CollectionViewModel
@@ -36,12 +37,14 @@ class CollectionFragment : Fragment() {
         adapterCollection = CollectionAdapter {
             //list item click listener
             val bundle = Bundle()
-            bundle.putString("details", it.name)
+            bundle.putSerializable("details", it)
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_collectionFragment_to_placeDetailsFragment, bundle)
         }
         binding.rvDiamondList.adapter = adapterCollection
-        adapterCollection.refreshList(collectionViewModel.getDummyItems())
+        val cityPins = (activity?.application as AndroidApplication).repository.user.userInventoryCityPins
+        //adapterCollection.refreshList(collectionViewModel.getDummyItems())
+        adapterCollection.refreshList(cityPins)
 
         binding.myToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()

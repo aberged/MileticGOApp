@@ -30,7 +30,8 @@ public class User {
 
     public CityProfile setActiveCityProfile(CityProfile profile){
         this.activeCityProfile = profile;
-        inventory.addCityPinToInventory(profile.getCityPins().get(0), profile);
+        testCityPinInventory(inventory, profile);
+        //inventory.addCityPinToInventory(profile.getCityPins().get(0), profile);
         //inventory.addCityPinToInventory(profile.getCityPins().get(1), profile);
         return activeCityProfile;
     }
@@ -56,5 +57,11 @@ public class User {
     @Override
     public String toString() {
         return super.toString() + "[name=" + this.name + "]";
+    }
+
+    private void testCityPinInventory(UserInventory inventory, CityProfile profile) {
+        for (int i = 0; i < profile.getCityPins().size(); i++) {
+            inventory.addCityPinToInventory(profile.getCityPins().get(i), profile);
+        }
     }
 }
