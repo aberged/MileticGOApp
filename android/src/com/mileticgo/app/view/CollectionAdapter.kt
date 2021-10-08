@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.mileticgo.app.Entities.CityPin
+import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 
 class CollectionAdapter(private val onItemClick: (CityPin) -> Unit) : RecyclerView.Adapter<CollectionAdapter.MyViewHolder>() {

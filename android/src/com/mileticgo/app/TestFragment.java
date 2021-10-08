@@ -26,7 +26,7 @@ public class TestFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((AndroidApplication)TestFragment.this.getActivity().getApplication()).callGame();
-                User user = ((AndroidApplication)TestFragment.this.getActivity().getApplication()).getRepository().getUser();
+                User user = Repository.get().getUser();
                 Log.d("LOG", user.toString());
             }
         });

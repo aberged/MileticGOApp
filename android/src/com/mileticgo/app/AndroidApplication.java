@@ -15,7 +15,7 @@ public class AndroidApplication extends Application {
         super.onCreate();
         Repository.init(new AndroidPreferences(this.getSharedPreferences("data", 0)), valid -> {
             List<CityPin> pins = Repository.get().getUserInventoryCityPinsForActiveCityProfile();
-            Log.d("pins", pins.toString());
+            Log.d("inventory pins", pins.toString());
         });
     }
 

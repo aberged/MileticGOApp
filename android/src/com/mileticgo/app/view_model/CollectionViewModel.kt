@@ -5,7 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mileticgo.app.AndroidApplication
-import com.mileticgo.app.Entities.CityPin
+import com.mileticgo.app.CityPin
+import com.mileticgo.app.Repository
 
 class CollectionViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -14,6 +15,6 @@ class CollectionViewModel(application: Application) : AndroidViewModel(applicati
         get() = _cityPins
 
     init {
-        _cityPins.value = (application as AndroidApplication).repository.user.userInventoryCityPins //get city pins from server
+        _cityPins.value = Repository.get().userInventoryCityPinsForActiveCityProfile //get city pins from server
     }
 }

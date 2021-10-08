@@ -104,6 +104,7 @@ public final class Repository {
         this.user.logout();
         this.preferences.putString(USERSTORE, this.user.toJson()).flush();
         this.user.setActiveCityProfile(findCityProfileByID(user.getActiveCityProfileID()));
+        setupRepository();
         callback.onResult(true);
     }
 

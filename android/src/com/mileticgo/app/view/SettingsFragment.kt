@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.R
+import com.mileticgo.app.Repository
+import com.mileticgo.app.RepositoryCallback
 import com.mileticgo.app.databinding.FragmentSettingsBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.utils.twoButtonsDialog
@@ -37,8 +39,7 @@ class SettingsFragment : Fragment() {
                 requireContext().twoButtonsDialog(getString(R.string.sign_out_dialog_title), getString(R.string.sign_out_dialog_message),
                 getString(R.string.yes), getString(R.string.no), firstButtonCallback = {
                         //todo sign out
-                        SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), false)
-                        setLoginButtonText()
+                        Repository.get().logout { setLoginButtonText() }
                     })
             }
         }
@@ -55,7 +56,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setLoginButtonText() {
-        isLogged = SharedPrefs.get(requireActivity(), getString(R.string.is_user_logged_in), false) as Boolean
+        isLogged = !Repository.get().user.isAnonymous;
         if (isLogged) {
             binding.btnSettingsLogin.text = getString(R.string.sign_out_button_text)
         } else {

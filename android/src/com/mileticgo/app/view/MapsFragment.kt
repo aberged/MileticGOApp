@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.*
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
+import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.FragmentMapBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.view_model.MapViewModel
@@ -57,7 +58,7 @@ class MapsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        pins = (activity?.application as AndroidApplication).repository.activeCityPins
+        pins = Repository.get().activeCityPins
         return binding.root
     }
 

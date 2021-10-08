@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
+import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.FragmentLoginBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.utils.oneButtonDialog
@@ -82,12 +83,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun sendUser(email: String, password: String) {
-        (activity?.application as AndroidApplication).repository.login(email, password) { successful ->
+        Repository.get().login(email, password) { successful ->
             if (successful) {
                 //return to previous fragment/screen
                 findNavController().popBackStack()
-
-                SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), true)
             } else {
                 requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.login_unsuccessful), getString(R.string.ok))
             }
@@ -95,12 +94,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun registerUser(userName: String, email: String, password: String) {
-        (activity?.application as AndroidApplication).repository.register(userName, email, password) { successful ->
+        Repository.get().register(userName, email, password) { successful ->
             if (successful) {
                 //return to previous fragment/screen
                 findNavController().popBackStack()
-
-                SharedPrefs.save(requireActivity(), getString(R.string.is_user_logged_in), true)
             } else {
                 requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.registration_unsuccessful), getString(R.string.ok))
             }
