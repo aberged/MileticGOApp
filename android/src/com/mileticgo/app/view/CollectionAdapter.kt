@@ -5,10 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.mileticgo.app.Entities.CityPin
 import com.mileticgo.app.R
 
-class CollectionAdapter(private val onItemClick: (CollectionItem) -> Unit) : RecyclerView.Adapter<CollectionAdapter.MyViewHolder>() {
-    private lateinit var mItemsList : List<CollectionItem>
+class CollectionAdapter(private val onItemClick: (CityPin) -> Unit) : RecyclerView.Adapter<CollectionAdapter.MyViewHolder>() {
+    private lateinit var mItemsList : List<CityPin>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.collection_item, parent, false)
@@ -17,7 +18,7 @@ class CollectionAdapter(private val onItemClick: (CollectionItem) -> Unit) : Rec
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = mItemsList[position]
-        holder.itemTextView.text = item.name
+        holder.itemTextView.text = item.title
 
         holder.itemView.setOnClickListener {
             onItemClick(item)
@@ -32,7 +33,7 @@ class CollectionAdapter(private val onItemClick: (CollectionItem) -> Unit) : Rec
         var itemTextView : TextView = itemView.findViewById(R.id.tv_item_title)
     }
 
-    fun refreshList(itemsList : List<CollectionItem>) {
+    fun refreshList(itemsList : List<CityPin>) {
         mItemsList = itemsList
         notifyDataSetChanged()
     }

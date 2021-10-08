@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentSettingsBinding
 import com.mileticgo.app.utils.SharedPrefs
+import com.mileticgo.app.utils.twoButtonsDialog
 import com.mileticgo.app.view_model.SettingsViewModel
 
 class SettingsFragment : Fragment() {

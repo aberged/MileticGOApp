@@ -36,12 +36,17 @@ class CollectionFragment : Fragment() {
         adapterCollection = CollectionAdapter {
             //list item click listener
             val bundle = Bundle()
-            bundle.putString("details", it.name)
+            bundle.putSerializable("details", it)
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_collectionFragment_to_placeDetailsFragment, bundle)
         }
         binding.rvDiamondList.adapter = adapterCollection
-        adapterCollection.refreshList(collectionViewModel.getDummyItems())
+
+        collectionViewModel.cityPins.observe(viewLifecycleOwner, { cityPins ->
+            if (cityPins.isNotEmpty()) {
+                adapterCollection.refreshList(cityPins)
+            }
+        })
 
         binding.myToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()

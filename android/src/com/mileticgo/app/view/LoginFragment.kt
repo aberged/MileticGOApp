@@ -12,6 +12,7 @@ import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentLoginBinding
 import com.mileticgo.app.utils.SharedPrefs
+import com.mileticgo.app.utils.oneButtonDialog
 import com.mileticgo.app.view_model.LoginViewModel
 
 class LoginFragment : Fragment() {

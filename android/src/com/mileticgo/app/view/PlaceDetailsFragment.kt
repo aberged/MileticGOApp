@@ -1,6 +1,7 @@
 package com.mileticgo.app.view
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,19 +23,13 @@ class PlaceDetailsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_place_details, container, false)
 
-        //getting data from maps fragment
-        parentFragmentManager.setFragmentResultListener("420", this) { key, bundle ->
-            val result = bundle.getString("info_data")
-            binding.textView3.text = result
-        }
-
-        //getting data from collection list item click
+        //getting data from collection list item click or from click on pin in map
         if (arguments?.getSerializable("details") != null) {
-            if (arguments?.getSerializable("details") is String) {
-                binding.textView3.text = arguments?.getSerializable("details") as String
-            } else if (arguments?.getSerializable("details") is CityPin) {
+            if (arguments?.getSerializable("details") is CityPin) {
                 val cityPin : CityPin = arguments?.getSerializable("details") as CityPin
-                binding.textView3.text = cityPin.description
+                binding.tvDetailsTitle.text = cityPin.title
+                binding.tvDetailsDescription.movementMethod = ScrollingMovementMethod()
+                binding.tvDetailsDescription.text = cityPin.description
             }
         }
 

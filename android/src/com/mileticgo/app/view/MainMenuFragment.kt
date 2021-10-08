@@ -22,6 +22,8 @@ import com.mileticgo.app.R
 import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.FragmentMainMenuBinding
 import com.mileticgo.app.utils.SharedPrefs
+import com.mileticgo.app.utils.oneButtonDialog
+import com.mileticgo.app.utils.twoButtonsDialog
 import com.mileticgo.app.view_model.MainMenuViewModel
 
 class MainMenuFragment : Fragment() {

@@ -1,23 +1,19 @@
 package com.mileticgo.app.view_model
 
-import androidx.lifecycle.ViewModel
-import com.mileticgo.app.view.CollectionItem
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.mileticgo.app.AndroidApplication
+import com.mileticgo.app.Entities.CityPin
 
-class CollectionViewModel : ViewModel() {
+class CollectionViewModel(application: Application) : AndroidViewModel(application) {
 
-    fun getDummyItems(): List<CollectionItem> {
-        val list = arrayListOf<CollectionItem>()
-        list.add(CollectionItem("mirko"))
-        list.add(CollectionItem("slavko"))
-        list.add(CollectionItem("sirogojno"))
-        list.add(CollectionItem("bosko"))
-        list.add(CollectionItem("savo"))
-        list.add(CollectionItem("krcun"))
-        list.add(CollectionItem("branko"))
-        list.add(CollectionItem("ranko"))
-        list.add(CollectionItem("pinki"))
-        list.add(CollectionItem("jovanka"))
+    private val _cityPins = MutableLiveData<List<CityPin>>()
+    val cityPins : LiveData<List<CityPin>>
+        get() = _cityPins
 
-        return list
+    init {
+        _cityPins.value = (application as AndroidApplication).repository.user.userInventoryCityPins //get city pins from server
     }
 }
