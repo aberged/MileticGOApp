@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.ar.core.ArCoreApk
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.view.MainMenuFragment
-import com.mileticgo.app.view.twoButtonsDialog
+import com.mileticgo.app.utils.twoButtonsDialog
 
 //added to inform which fragment is visible in main activity
 val FragmentManager.currentNavigationFragment: Fragment?
@@ -31,8 +31,6 @@ class MainFragmentActivity: AppCompatActivity() {
 
     //set flag for ar support
     private fun setArFlag(supported: Boolean) {
-        /*val sharedPreferences = getPreferences(MODE_PRIVATE)
-        sharedPreferences.edit().putBoolean(getString(R.string.ar_supported_flag), supported).apply()*/
         SharedPrefs.save(this, getString(R.string.ar_supported_flag), supported)
     }
 

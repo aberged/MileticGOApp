@@ -1,8 +1,6 @@
-package com.mileticgo.app.view
+package com.mileticgo.app.utils
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
