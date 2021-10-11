@@ -30,6 +30,8 @@ class SettingsFragment : Fragment() {
 
         setLoginButtonText()
 
+        setUserInfoText()
+
         binding.btnSettingsLogin.setOnClickListener {
             if (!isLogged) {
                 Navigation.findNavController(it)
@@ -39,7 +41,9 @@ class SettingsFragment : Fragment() {
                 requireContext().twoButtonsDialog(getString(R.string.sign_out_dialog_title), getString(R.string.sign_out_dialog_message),
                 getString(R.string.yes), getString(R.string.no), firstButtonCallback = {
                         //todo sign out
-                        Repository.get().logout { setLoginButtonText() }
+                        Repository.get().logout {
+                            setLoginButtonText()
+                            setUserInfoText() }
                     })
             }
         }
@@ -53,6 +57,14 @@ class SettingsFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun setUserInfoText() {
+        if (isLogged) {
+            binding.tvUserInfo.text = Repository.get().user.name
+        } else {
+            binding.tvUserInfo.text = getString(R.string.anonymous)
+        }
     }
 
     private fun setLoginButtonText() {

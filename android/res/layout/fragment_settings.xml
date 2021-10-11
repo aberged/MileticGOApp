@@ -27,7 +27,7 @@
         android:id="@+id/btn_settings_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
@@ -43,5 +43,25 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_settings_login"
         app:layout_constraintWidth_percent=".8"
         android:text="@string/btn_about"/>
+
+    <TextView
+        android:id="@+id/tv_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/user"/>
+
+    <TextView
+        android:id="@+id/tv_user_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_user"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
