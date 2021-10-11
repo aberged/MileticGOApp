@@ -56,6 +56,7 @@
 
     <string name="info_dialog_title">Info</string>
     <string name="turn_location_on_text">Da bi aplikacija imala neophodnu funkcionalnost potrebno je da uključite lokaciju.</string>
+    <string name="empty_city_pins_list">Lista pinova je prazna, pokušajte ponovo</string>
 
 
 </resources>

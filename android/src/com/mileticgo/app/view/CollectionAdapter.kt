@@ -9,7 +9,7 @@ import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 
 class CollectionAdapter(private val onItemClick: (CityPin) -> Unit) : RecyclerView.Adapter<CollectionAdapter.MyViewHolder>() {
-    private lateinit var mItemsList : List<CityPin>
+    private var mItemsList : List<CityPin> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.collection_item, parent, false)

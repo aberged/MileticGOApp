@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentCollectionBinding
+import com.mileticgo.app.utils.oneButtonDialog
 import com.mileticgo.app.view_model.CollectionViewModel
 
 class CollectionFragment : Fragment() {
@@ -45,6 +46,12 @@ class CollectionFragment : Fragment() {
         collectionViewModel.cityPins.observe(viewLifecycleOwner, { cityPins ->
             if (cityPins.isNotEmpty()) {
                 adapterCollection.refreshList(cityPins)
+            } else {
+                requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
+                    getString(R.string.empty_city_pins_list), getString(R.string.ok),
+                    buttonCallback = {
+                        findNavController().popBackStack()
+                    })
             }
         })
 
