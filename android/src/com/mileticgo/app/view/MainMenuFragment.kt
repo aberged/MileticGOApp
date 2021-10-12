@@ -17,7 +17,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
 import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.FragmentMainMenuBinding
@@ -39,7 +38,7 @@ class MainMenuFragment : Fragment() {
             if (isLocationEnabled()) {
                 checkPermissions()
             } else {
-                requireContext().twoButtonsDialog("info_dialog_title", "turn_location_on_text",
+                requireContext().twoButtonsDialog(getString(R.string.info_dialog_title), getString(R.string.turn_location_on_text),
                     getString(R.string.yes), getString(R.string.no), firstButtonCallback = {
                         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                         startActivity(intent)

@@ -22,12 +22,12 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.FragmentMapBinding
 import com.mileticgo.app.utils.SharedPrefs
+import com.mileticgo.app.utils.oneButtonDialog
 import com.mileticgo.app.view_model.MapViewModel
 import java.util.concurrent.TimeUnit
 
@@ -105,7 +105,7 @@ class MapsFragment : Fragment() {
         }
 
         //check if ar is supported
-        //isArrSupported = isARSupported() todo for first milestone we don't have ar functionality
+        isArrSupported = isARSupported()
     }
 
     @SuppressLint("MissingPermission")
@@ -136,13 +136,12 @@ class MapsFragment : Fragment() {
                 )
             )
 
-            //todo for first milestone we don't have ar functionality
-            /*if (!isArrSupported) { //proveri da li je vec prikazan dijalog sa obavestenjem
+            if (!isArrSupported) { //proveri da li je vec prikazan dijalog sa obavestenjem
                 if (!wasDialogAlreadyShown()) {
                     requireContext().oneButtonDialog(null, getString(R.string.ar_not_supported), getString(R.string.ok))
                     setARDialogFlag()
                 }
-            }*/
+            }
 
             googleMap.setOnInfoWindowClickListener {
                 //val place = currentLocation?.let { Place(Geometry(GeometryLocation(it1.latitude, it1.longitude))) }
@@ -152,13 +151,19 @@ class MapsFragment : Fragment() {
                         //bundle.putSerializable("location_data", pin)
                         bundle.putSerializable("details", pin)
                         if (pin.unlocked) {
-                            if (isArrSupported) {
-                                Navigation.findNavController(binding.root)
-                                    .navigate(R.id.action_mapFragment_to_arFragment, bundle)
+                            if (pin.isNear) {
+                                if (isArrSupported) {
+                                    Navigation.findNavController(binding.root)
+                                        .navigate(R.id.action_mapFragment_to_arFragment, bundle)
+                                } else {
+                                    Navigation.findNavController(binding.root)
+                                        .navigate(R.id.action_mapFragment_to_placeDetailsFragment, bundle)
+                                }
                             } else {
                                 Navigation.findNavController(binding.root)
                                     .navigate(R.id.action_mapFragment_to_placeDetailsFragment, bundle)
                             }
+
                         }
                     }
                 }
