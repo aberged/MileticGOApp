@@ -1,23 +1,18 @@
 package com.mileticgo.app.view_model
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mileticgo.app.view.TopResultItem
+import com.mileticgo.app.Repository
+import com.mileticgo.app.TopScoreListItem
 
 class TopResultsViewModel : ViewModel() {
 
-    fun getDummyItems(): List<TopResultItem> {
-        val list = arrayListOf<TopResultItem>()
-        list.add(TopResultItem("mirko", 45))
-        list.add(TopResultItem("slavko", 66))
-        list.add(TopResultItem("sirogojno", 90))
-        list.add(TopResultItem("bosko", 11))
-        list.add(TopResultItem("savo", 4))
-        list.add(TopResultItem("krcun", 23))
-        list.add(TopResultItem("branko", 51))
-        list.add(TopResultItem("ranko", 87))
-        list.add(TopResultItem("pinki", 55))
-        list.add(TopResultItem("jovanka", 49))
+    private val _topScores = MutableLiveData<List<TopScoreListItem>>()
+    val topScores : LiveData<List<TopScoreListItem>>
+        get() = _topScores
 
-        return list
+    init {
+        _topScores.value = Repository.get().topScoresForActiveCityProfile
     }
 }

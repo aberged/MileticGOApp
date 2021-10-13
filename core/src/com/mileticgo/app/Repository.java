@@ -94,7 +94,7 @@ public final class Repository {
 
     public void login(String email, String password, final RepositoryCallback callback) {
         this.preferences.putString(USERSTORE,
-        "{\"name\": \"" + email + "\",\"email\": \"" + email + "\",\"token\": \"\",\"anonymous\": false,\"activeCityProfileID\": \"0\",\"inventory\": [ {\"id\": \"0\",\"pins\": [ {\"id\": \"1\" }] }] }"
+        "{\"name\": \"" + email + "\",\"email\": \"" + email + "\",\"token\": \"\",\"anonymous\": false,\"activeCityProfileID\": \"0\",\"inventory\": [ {\"id\": \"0\",\"pins\": [ {\"id\": \"1\" }, {\"id\": \"2\" }, {\"id\": \"3\" }] }] }"
         ).flush();
         setupRepository();
         callback.onResult(true);
@@ -122,6 +122,10 @@ public final class Repository {
 
     public List<CityPin> getActiveCityPins(){
         return getActiveCityProfile().getCityPins();
+    }
+
+    public List<TopScoreListItem> getTopScoresForActiveCityProfile() {
+        return getActiveCityProfile().getTopScores();
     }
 
     public UserInventory getUserInventory(){

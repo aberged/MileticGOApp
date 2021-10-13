@@ -14,6 +14,7 @@ public class CityProfile {
     private final String name;
 
     private final List<CityPin> cityPins;
+    private final List<TopScoreListItem> topScores;
 
     CityProfile(JSONObject cityProfile) {
         this.lat = cityProfile.getDouble("lat");
@@ -26,6 +27,13 @@ public class CityProfile {
             JSONObject cityPinJson = cityPins.getJSONObject(j);
             CityPin cityPin = new CityPin(cityPinJson);
             this.cityPins.add(cityPin);
+        }
+        JSONArray topScoresJson = cityProfile.getJSONArray("topScores");
+        this.topScores = new ArrayList<>();
+        for (int i = 0; i < topScoresJson.length(); i++) {
+            JSONObject topScoreItemJson = topScoresJson.getJSONObject(i);
+            TopScoreListItem topScoreListItem = new TopScoreListItem(topScoreItemJson);
+            this.topScores.add(topScoreListItem);
         }
     }
 
@@ -47,5 +55,9 @@ public class CityProfile {
 
     public List<CityPin> getCityPins() {
         return cityPins;
+    }
+
+    public List<TopScoreListItem> getTopScores() {
+        return topScores;
     }
 }

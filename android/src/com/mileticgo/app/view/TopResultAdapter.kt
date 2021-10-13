@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mileticgo.app.R
+import com.mileticgo.app.TopScoreListItem
 
 class TopResultAdapter: RecyclerView.Adapter<TopResultAdapter.MyViewHolder>() {
 
-    private lateinit var mItemsList : List<TopResultItem>
+    private var mItemsList : List<TopScoreListItem> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.top_result_item, parent, false)
@@ -18,8 +19,8 @@ class TopResultAdapter: RecyclerView.Adapter<TopResultAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = mItemsList[position]
-        holder.itemTextView.text = item.name
-        holder.itemTVPoints.text = item.points.toString()
+        holder.itemTextView.text = item.userName
+        holder.itemTVPoints.text = item.userPoints.toString()
     }
 
     override fun getItemCount(): Int {
@@ -31,7 +32,7 @@ class TopResultAdapter: RecyclerView.Adapter<TopResultAdapter.MyViewHolder>() {
         var itemTVPoints : TextView = itemView.findViewById(R.id.tv_item_points)
     }
 
-    fun refreshList(itemsList : List<TopResultItem>) {
+    fun refreshList(itemsList : List<TopScoreListItem>) {
         mItemsList = itemsList
         notifyDataSetChanged()
     }

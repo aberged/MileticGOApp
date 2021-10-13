@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentTopResultsBinding
+import com.mileticgo.app.utils.oneButtonDialog
 import com.mileticgo.app.view_model.TopResultsViewModel
 
 class TopResultsFragment : Fragment() {
@@ -29,7 +30,18 @@ class TopResultsFragment : Fragment() {
 
         adapter = TopResultAdapter()
         binding.rvTopResultsList.adapter = adapter
-        adapter.refreshList(topResultViewModel.getDummyItems())
+
+        topResultViewModel.topScores.observe(viewLifecycleOwner, { topScores ->
+            if (topScores.isNotEmpty()) {
+                adapter.refreshList(topScores)
+            } else {
+                requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
+                    getString(R.string.empty_top_scores_list), getString(R.string.ok),
+                    buttonCallback = {
+                        findNavController().popBackStack()
+                    })
+            }
+        })
 
         binding.myToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
