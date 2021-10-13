@@ -13,6 +13,6 @@ class TopResultsViewModel : ViewModel() {
         get() = _topScores
 
     init {
-        _topScores.value = Repository.get().topScoresForActiveCityProfile
+        _topScores.value = emptyList()
     }
 }
