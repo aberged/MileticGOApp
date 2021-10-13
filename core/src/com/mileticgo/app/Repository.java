@@ -123,11 +123,6 @@ public final class Repository {
     public List<CityPin> getActiveCityPins(){
         return getActiveCityProfile().getCityPins();
     }
-
-    public List<TopScoreListItem> getTopScoresForActiveCityProfile() {
-        return getActiveCityProfile().getTopScores();
-    }
-
     public UserInventory getUserInventory(){
         return getUser().getInventory();
     }
