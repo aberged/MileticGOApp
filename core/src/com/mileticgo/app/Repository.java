@@ -2,6 +2,7 @@ package com.mileticgo.app;
 
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.net.NetJavaImpl;
 
 import org.json.JSONArray;
@@ -17,8 +18,10 @@ public final class Repository {
 
     public final static String USERSTORE = "user";
     public final static String PROFILESSTORE = "profiles";
-    public final static String apiBaseUrl = "https://hello-vscf42q7eq-ew.a.run.app/api/";
+    public final static String apiBaseUrl = "https://hello-vscf42q7eq-ew.a.run.app/api/";//"http://10.0.2.2:8080/api/";//
     public final static String apiGetProfiles = apiBaseUrl + "cityprofile/";
+    public final static String apiLogin = apiBaseUrl + "login";
+    public final static String apiRegister = apiBaseUrl + "register";
 
     private final User user = new User();
     private final ArrayList<CityProfile> cityProfiles = new ArrayList<>();
@@ -84,20 +87,67 @@ public final class Repository {
     }
 
     public void register(String name, String email, String password, final RepositoryCallback callback) {
-        this.preferences.putString(USERSTORE,
-        "{\"name\": \"" + name + "\",\"email\": \"" + email + "\",\"token\": \"\",\"anonymous\": false,\"activeCityProfileID\": \"0\",\"inventory\": [ {\"id\": \"0\",\"pins\": [] }] }"
-        ).flush();
-        // TODO inherit inventory and activeCityProfile from anonymous
-        setupRepository();
-        callback.onResult(true);
+        getUser().setName(name);
+        getUser().setEmail(email);
+        getUser().setPassword(password);
+        Net.HttpRequest registerReq = new Net.HttpRequest(Net.HttpMethods.POST);
+        registerReq.setUrl(apiRegister);
+        registerReq.setHeader("Content-Type", "application/json");
+        registerReq.setContent(getUser().toJson());
+        this.net.sendHttpRequest(registerReq, new Net.HttpResponseListener() {
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                HttpStatus status = httpResponse.getStatus();
+                if (status.getStatusCode()==200) {
+                    String res = httpResponse.getResultAsString();
+                    Repository.this.preferences.putString(USERSTORE, res).flush();
+                    setupRepository();
+                    callback.onResult(true);
+                } else {
+                    setupRepository();
+                    callback.onResult(false);
+                }
+            }
+            @Override
+            public void failed(Throwable t) {
+                setupRepository();
+                callback.onResult(false);
+            }
+            @Override
+            public void cancelled() {
+                setupRepository();
+                callback.onResult(false);
+            }
+        });
     }
 
     public void login(String email, String password, final RepositoryCallback callback) {
-        this.preferences.putString(USERSTORE,
-        "{\"name\": \"" + email + "\",\"email\": \"" + email + "\",\"token\": \"\",\"anonymous\": false,\"activeCityProfileID\": \"0\",\"inventory\": [ {\"id\": \"0\",\"pins\": [ {\"id\": \"1\" }, {\"id\": \"2\" }, {\"id\": \"3\" }] }] }"
-        ).flush();
-        setupRepository();
-        callback.onResult(true);
+        Net.HttpRequest loginReq = new Net.HttpRequest(Net.HttpMethods.POST);
+        loginReq.setUrl(apiLogin);
+        loginReq.setHeader("Content-Type", "application/json");
+        loginReq.setContent("{\"email\": \""+email+"\", \"password\":\""+password+"\"}");
+        this.net.sendHttpRequest(loginReq, new Net.HttpResponseListener() {
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                HttpStatus status = httpResponse.getStatus();
+                if (status.getStatusCode()==200) {
+                    String res = httpResponse.getResultAsString();
+                    Repository.this.preferences.putString(USERSTORE, res).flush();
+                    setupRepository();
+                    callback.onResult(true);
+                } else {
+                    callback.onResult(false);
+                }
+            }
+            @Override
+            public void failed(Throwable t) {
+                callback.onResult(false);
+            }
+            @Override
+            public void cancelled() {
+                callback.onResult(false);
+            }
+        });
     }
 
     public void logout(RepositoryCallback callback) {
@@ -160,19 +210,24 @@ public final class Repository {
     }
 
     private void fetchData() {
-        Net.HttpRequest profilesReq = new Net.HttpRequest(Net.HttpMethods.GET);
-        profilesReq.setUrl(apiGetProfiles);
-        this.net.sendHttpRequest(profilesReq, new Net.HttpResponseListener() {
+        Net.HttpRequest cityProfilesReq = new Net.HttpRequest(Net.HttpMethods.GET);
+        cityProfilesReq.setUrl(apiGetProfiles);
+        this.net.sendHttpRequest(cityProfilesReq, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                String res = httpResponse.getResultAsString();
-                preferences.putString(PROFILESSTORE, res).flush();
-                setupRepository();
+                HttpStatus status = httpResponse.getStatus();
+                if (status.getStatusCode()==200) {
+                    String res = httpResponse.getResultAsString();
+                    preferences.putString(PROFILESSTORE, res).flush();
+                    setupRepository();
+                } else {
+                    callback.onResult(false);
+                }
             }
             @Override
-            public void failed(Throwable t) { }
+            public void failed(Throwable t) { callback.onResult(false); }
             @Override
-            public void cancelled() { }
+            public void cancelled() { callback.onResult(false); }
         });
     }
 
