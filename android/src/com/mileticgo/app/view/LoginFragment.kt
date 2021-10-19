@@ -86,9 +86,13 @@ class LoginFragment : Fragment() {
         Repository.get().login(email, password) { successful ->
             if (successful) {
                 //return to previous fragment/screen
-                findNavController().popBackStack()
+                this.activity?.runOnUiThread {
+                    findNavController().popBackStack()
+                }
             } else {
-                requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.login_unsuccessful), getString(R.string.ok))
+                this.activity?.runOnUiThread {
+                    requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.login_unsuccessful), getString(R.string.ok))
+                }
             }
         }
     }

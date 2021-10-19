@@ -82,7 +82,7 @@ public final class Repository {
         }
         this.ready = true;
         if (callback != null) {
-            callback.onResult(true);
+            try { callback.onResult(true); } catch (Error err) {}
         }
     }
 
@@ -102,21 +102,21 @@ public final class Repository {
                     String res = httpResponse.getResultAsString();
                     Repository.this.preferences.putString(USERSTORE, res).flush();
                     setupRepository();
-                    callback.onResult(true);
+                    try { callback.onResult(true); } catch (Error err) {}
                 } else {
                     setupRepository();
-                    callback.onResult(false);
+                    try { callback.onResult(false); } catch (Error err) {}
                 }
             }
             @Override
             public void failed(Throwable t) {
                 setupRepository();
-                callback.onResult(false);
+                try { callback.onResult(false); } catch (Error err) {}
             }
             @Override
             public void cancelled() {
                 setupRepository();
-                callback.onResult(false);
+                try { callback.onResult(false); } catch (Error err) {}
             }
         });
     }
@@ -134,18 +134,18 @@ public final class Repository {
                     String res = httpResponse.getResultAsString();
                     Repository.this.preferences.putString(USERSTORE, res).flush();
                     setupRepository();
-                    callback.onResult(true);
+                    try { callback.onResult(true); } catch (Error err) {}
                 } else {
-                    callback.onResult(false);
+                    try { callback.onResult(false); } catch (Error err) {}
                 }
             }
             @Override
             public void failed(Throwable t) {
-                callback.onResult(false);
+                try { callback.onResult(false); } catch (Error err) {}
             }
             @Override
             public void cancelled() {
-                callback.onResult(false);
+                try { callback.onResult(false); } catch (Error err) {}
             }
         });
     }
@@ -221,13 +221,13 @@ public final class Repository {
                     preferences.putString(PROFILESSTORE, res).flush();
                     setupRepository();
                 } else {
-                    callback.onResult(false);
+                    try { callback.onResult(false); } catch (Error err) {}
                 }
             }
             @Override
-            public void failed(Throwable t) { callback.onResult(false); }
+            public void failed(Throwable t) { try { callback.onResult(false); } catch (Error err) {} }
             @Override
-            public void cancelled() { callback.onResult(false); }
+            public void cancelled() { try { callback.onResult(false); } catch (Error err) {} }
         });
     }
 
