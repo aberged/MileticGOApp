@@ -103,7 +103,9 @@ class LoginFragment : Fragment() {
                 //return to previous fragment/screen
                 findNavController().popBackStack()
             } else {
-                requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.registration_unsuccessful), getString(R.string.ok))
+                this.activity?.runOnUiThread {
+                    requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.registration_unsuccessful), getString(R.string.ok))
+                }
             }
         }
     }

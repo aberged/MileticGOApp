@@ -58,7 +58,19 @@ class MapsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        pins = Repository.get().activeCityPins
+        mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
+            if (cityPins.isNotEmpty()) {
+                pins = cityPins as MutableList<CityPin>?
+                setUpMaps()
+            } else {
+                requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
+                    getString(R.string.empty_map_pins_list), getString(R.string.ok),
+                    buttonCallback = {
+                        setUpMaps()
+                    })
+            }
+        })
+
         return binding.root
     }
 
@@ -89,7 +101,7 @@ class MapsFragment : Fragment() {
                 super.onLocationResult(locationResult)
                 currentLocation = locationResult.lastLocation
                 map.clear()
-                if (pins!!.size > 0) {
+                if (pins != null && pins!!.size > 0) {
                     for (pin in pins!!) {
                         mapViewModel.calculateDistance(locationResult.lastLocation, pin)
                         map.addMarker(
@@ -234,7 +246,7 @@ class MapsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        setUpMaps()
+        //setUpMaps()
     }
 
     override fun onPause() {

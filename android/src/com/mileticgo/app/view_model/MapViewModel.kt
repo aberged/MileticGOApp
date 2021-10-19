@@ -1,20 +1,23 @@
 package com.mileticgo.app.view_model
 
 import android.location.Location
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
-import com.mileticgo.app.model.Place
+import com.mileticgo.app.Repository
 
 class MapViewModel : ViewModel() {
 
-    var place = MutableLiveData<Place>()
+    private var _pins = MutableLiveData<List<CityPin>>()
+    val pins : LiveData<List<CityPin>>
+        get() = _pins
 
-    fun selectPlace(place: Place) {
-       this.place.value = place
+    init {
+        _pins.value = Repository.get().activeCityPins
     }
 
     //default map zoom level
@@ -40,9 +43,11 @@ class MapViewModel : ViewModel() {
 
     fun calculateDistance(currentLocation: Location, pin: CityPin) {
         val earthRadius = 6371 //in km, in miles - 3958.75
-        val tmpPinLocation = Location("")
-        tmpPinLocation.latitude = pin.lat
-        tmpPinLocation.longitude = pin.lng
-        pin.isNear = currentLocation.distanceTo(tmpPinLocation) <= 60
+        if (pin.unlocked) {
+            val tmpPinLocation = Location("")
+            tmpPinLocation.latitude = pin.lat
+            tmpPinLocation.longitude = pin.lng
+            pin.isNear = currentLocation.distanceTo(tmpPinLocation) <= 60
+        }
     }
 }
