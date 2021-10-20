@@ -61,6 +61,7 @@
     <string name="empty_map_pins_list">Lista pinova za mapu je prazna, pokušajte ponovo</string>
     <string name="anonymous">anoniman</string>
     <string name="user">korisnik</string>
+    <string name="distance_info">Priđite na udaljenost manju od 50m da biste otključali pin</string>
 
 
 </resources>

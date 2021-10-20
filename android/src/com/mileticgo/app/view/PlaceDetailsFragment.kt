@@ -30,6 +30,8 @@ class PlaceDetailsFragment : Fragment() {
                 binding.tvDetailsTitle.text = cityPin.title
                 binding.tvDetailsDescription.movementMethod = ScrollingMovementMethod()
                 binding.tvDetailsDescription.text = cityPin.description
+
+                placeDetailsViewModel.addPinToInventory(cityPin)
             }
         }
 

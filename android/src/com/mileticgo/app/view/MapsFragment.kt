@@ -24,7 +24,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
-import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.FragmentMapBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.utils.oneButtonDialog
@@ -58,7 +57,7 @@ class MapsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
+        /*mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
             if (cityPins.isNotEmpty()) {
                 pins = cityPins as MutableList<CityPin>?
                 setUpMaps()
@@ -69,7 +68,7 @@ class MapsFragment : Fragment() {
                         setUpMaps()
                     })
             }
-        })
+        })*/
 
         return binding.root
     }
@@ -156,13 +155,11 @@ class MapsFragment : Fragment() {
             }
 
             googleMap.setOnInfoWindowClickListener {
-                //val place = currentLocation?.let { Place(Geometry(GeometryLocation(it1.latitude, it1.longitude))) }
                 for (pin in pins!!) {
                     if (pin.lat == it.position.latitude && pin.lng == it.position.longitude) {
                         val bundle = Bundle()
-                        //bundle.putSerializable("location_data", pin)
                         bundle.putSerializable("details", pin)
-                        if (pin.unlocked) {
+                        if (!pin.unlocked) {
                             if (pin.isNear) {
                                 if (isArrSupported) {
                                     Navigation.findNavController(binding.root)
@@ -172,10 +169,11 @@ class MapsFragment : Fragment() {
                                         .navigate(R.id.action_mapFragment_to_placeDetailsFragment, bundle)
                                 }
                             } else {
-                                Navigation.findNavController(binding.root)
-                                    .navigate(R.id.action_mapFragment_to_placeDetailsFragment, bundle)
+                                requireContext().oneButtonDialog(getString(R.string.info_dialog_title), getString(R.string.distance_info), getString(R.string.ok))
                             }
-
+                        } else {
+                            Navigation.findNavController(binding.root)
+                                .navigate(R.id.action_mapFragment_to_placeDetailsFragment, bundle)
                         }
                     }
                 }
@@ -246,7 +244,20 @@ class MapsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        println("##### ON RESUME")
         //setUpMaps()
+        mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
+            if (cityPins.isNotEmpty()) {
+                pins = cityPins as MutableList<CityPin>?
+                setUpMaps()
+            } else {
+                requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
+                    getString(R.string.empty_map_pins_list), getString(R.string.ok),
+                    buttonCallback = {
+                        setUpMaps()
+                    })
+            }
+        })
     }
 
     override fun onPause() {
