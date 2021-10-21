@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public final class Repository {
@@ -18,10 +19,12 @@ public final class Repository {
 
     public final static String USERSTORE = "user";
     public final static String PROFILESSTORE = "profiles";
+    public final static String SYNCSTORE = "sync";
     public final static String apiBaseUrl = "https://hello-vscf42q7eq-ew.a.run.app/api/";//"http://10.0.2.2:8080/api/";//
     public final static String apiGetProfiles = apiBaseUrl + "cityprofile/";
     public final static String apiLogin = apiBaseUrl + "login";
     public final static String apiRegister = apiBaseUrl + "register";
+    public final static String apiAddPinToInventory = apiBaseUrl + "addPinToInventory";
 
     private final User user = new User();
     private final ArrayList<CityProfile> cityProfiles = new ArrayList<>();
@@ -77,13 +80,17 @@ public final class Repository {
             }
             this.user.refreshInventory(this.cityProfiles);
         } else {
-            fetchData();
+            fetchCityData();
             return;
         }
         this.ready = true;
         if (callback != null) {
-            try { callback.onResult(true); } catch (Error err) {}
+            try { callback.onResult(true);
+            } catch (Error err) {
+                System.out.print(err.getMessage());
+            }
         }
+        syncQueued();
     }
 
     public void register(String name, String email, String password, final RepositoryCallback callback) {
@@ -102,21 +109,31 @@ public final class Repository {
                     String res = httpResponse.getResultAsString();
                     Repository.this.preferences.putString(USERSTORE, res).flush();
                     setupRepository();
-                    try { callback.onResult(true); } catch (Error err) {}
+                    try { callback.onResult(true);
+                    } catch (Error err) {
+                        System.out.print(err.getMessage());
+                    }
                 } else {
                     setupRepository();
-                    try { callback.onResult(false); } catch (Error err) {}
+                    try { callback.onResult(false);
+                    } catch (Error err) {
+                        System.out.print(err.getMessage());
+                    }
                 }
             }
             @Override
             public void failed(Throwable t) {
                 setupRepository();
-                try { callback.onResult(false); } catch (Error err) {}
+                try { callback.onResult(false);
+                } catch (Error err) {
+                    System.out.print(err.getMessage());
+                }
             }
             @Override
             public void cancelled() {
                 setupRepository();
-                try { callback.onResult(false); } catch (Error err) {}
+                try { callback.onResult(false);
+                } catch (Error err) { System.out.print(err.getMessage()); }
             }
         });
     }
@@ -134,18 +151,22 @@ public final class Repository {
                     String res = httpResponse.getResultAsString();
                     Repository.this.preferences.putString(USERSTORE, res).flush();
                     setupRepository();
-                    try { callback.onResult(true); } catch (Error err) {}
+                    try { callback.onResult(true);
+                    } catch (Error err) { System.out.print(err.getMessage()); }
                 } else {
-                    try { callback.onResult(false); } catch (Error err) {}
+                    try { callback.onResult(false);
+                    } catch (Error err) { System.out.print(err.getMessage()); }
                 }
             }
             @Override
             public void failed(Throwable t) {
-                try { callback.onResult(false); } catch (Error err) {}
+                try { callback.onResult(false);
+                } catch (Error err) { System.out.print(err.getMessage()); }
             }
             @Override
             public void cancelled() {
-                try { callback.onResult(false); } catch (Error err) {}
+                try { callback.onResult(false);
+                } catch (Error err) { System.out.print(err.getMessage()); }
             }
         });
     }
@@ -188,6 +209,8 @@ public final class Repository {
     public void addPinToInventory(CityPin pin){
         getUser().addPinToInventory(pin);
         this.preferences.putString(USERSTORE, this.user.toJson()).flush();
+        addPinToSyncQueue(getUser().getActiveCityProfileID(), pin.getId());
+        syncQueued();
     }
 
     public void removePinFromInventory(CityPin pin){
@@ -209,7 +232,7 @@ public final class Repository {
         return ready;
     }
 
-    private void fetchData() {
+    private void fetchCityData() {
         Net.HttpRequest cityProfilesReq = new Net.HttpRequest(Net.HttpMethods.GET);
         cityProfilesReq.setUrl(apiGetProfiles);
         this.net.sendHttpRequest(cityProfilesReq, new Net.HttpResponseListener() {
@@ -221,14 +244,70 @@ public final class Repository {
                     preferences.putString(PROFILESSTORE, res).flush();
                     setupRepository();
                 } else {
-                    try { callback.onResult(false); } catch (Error err) {}
+                    try { callback.onResult(false);
+                    } catch (Error err) { System.out.print(err.getMessage()); }
                 }
             }
             @Override
-            public void failed(Throwable t) { try { callback.onResult(false); } catch (Error err) {} }
+            public void failed(Throwable t) {
+                try { callback.onResult(false);
+                } catch (Error err) { System.out.print(err.getMessage()); }
+            }
             @Override
-            public void cancelled() { try { callback.onResult(false); } catch (Error err) {} }
+            public void cancelled() {
+                try { callback.onResult(false);
+                } catch (Error err) { System.out.print(err.getMessage()); }
+            }
         });
+    }
+
+    private void addPinToSyncQueue(String cityProfileID, String pinID) {
+        if (getUser().isAnonymous()) return;
+        JSONArray syncItems = getSyncQueue();
+        JSONObject item = new JSONObject();
+        item.put("cityID", cityProfileID);
+        item.put("pinID", pinID);
+        item.put("email", getUser().getEmail());
+        item.put("token", getUser().getToken());
+        item.put("timestamp", new Date().getTime());
+        syncItems.put(item);
+        flushSYNCSTORE(syncItems.toString());
+    }
+
+    private void syncQueued() {
+        JSONArray syncItems = getSyncQueue();
+        if (syncItems.length()==0) return;
+        JSONObject item = syncItems.getJSONObject(0);
+        Net.HttpRequest loginReq = new Net.HttpRequest(Net.HttpMethods.POST);
+        loginReq.setUrl(apiAddPinToInventory);
+        loginReq.setHeader("Content-Type", "application/json");
+        loginReq.setContent(item.toString());
+        this.net.sendHttpRequest(loginReq, new Net.HttpResponseListener() {
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                HttpStatus status = httpResponse.getStatus();
+                if (status.getStatusCode()==200) {
+                    flushSYNCSTORE(getSyncQueue().remove(0).toString());
+                    syncQueued();
+                }
+            }
+            @Override
+            public void failed(Throwable t) { }
+            @Override
+            public void cancelled() { }
+        });
+    }
+
+    synchronized void flushSYNCSTORE(String string) {
+        this.preferences.putString(SYNCSTORE, string).flush();
+    }
+
+    private JSONArray getSyncQueue() {
+        JSONArray syncItems = new JSONArray();
+        if (this.preferences.contains(SYNCSTORE)) {
+            syncItems = new JSONArray(this.preferences.getString(SYNCSTORE));
+        }
+        return syncItems;
     }
 
 }
