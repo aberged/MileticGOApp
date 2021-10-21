@@ -27,7 +27,7 @@
         android:id="@+id/mapFragment"
         android:name="com.mileticgo.app.view.MapsFragment"
         tools:layout="@layout/fragment_map"
-        android:label="MapFragment" >
+        android:label="MapFragment">
         <action
             android:id="@+id/action_mapFragment_to_arFragment"
             app:destination="@id/arFragment" />
@@ -73,7 +73,8 @@
         android:label="ARFragment">
         <action
             android:id="@+id/action_ARFragment_to_placeDetailsFragment"
-            app:destination="@id/placeDetailsFragment" />
+            app:destination="@id/placeDetailsFragment"
+            app:popUpTo="@id/mapFragment"/>
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
