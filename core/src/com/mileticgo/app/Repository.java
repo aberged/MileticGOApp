@@ -25,6 +25,7 @@ public final class Repository {
     public final static String apiLogin = apiBaseUrl + "login";
     public final static String apiRegister = apiBaseUrl + "register";
     public final static String apiAddPinToInventory = apiBaseUrl + "addPinToInventory";
+    public final static String apiLeaderboard = apiBaseUrl + "leaderboard";
 
     private final User user = new User();
     private final ArrayList<CityProfile> cityProfiles = new ArrayList<>();
@@ -86,7 +87,7 @@ public final class Repository {
         this.ready = true;
         if (callback != null) {
             try { callback.onResult(true);
-            } catch (Error err) {
+            } catch (Throwable err) {
                 System.out.print(err.getMessage());
             }
         }
@@ -110,13 +111,13 @@ public final class Repository {
                     Repository.this.preferences.putString(USERSTORE, res).flush();
                     setupRepository();
                     try { callback.onResult(true);
-                    } catch (Error err) {
+                    } catch (Throwable err) {
                         System.out.print(err.getMessage());
                     }
                 } else {
                     setupRepository();
                     try { callback.onResult(false);
-                    } catch (Error err) {
+                    } catch (Throwable err) {
                         System.out.print(err.getMessage());
                     }
                 }
@@ -125,7 +126,7 @@ public final class Repository {
             public void failed(Throwable t) {
                 setupRepository();
                 try { callback.onResult(false);
-                } catch (Error err) {
+                } catch (Throwable err) {
                     System.out.print(err.getMessage());
                 }
             }
@@ -133,7 +134,7 @@ public final class Repository {
             public void cancelled() {
                 setupRepository();
                 try { callback.onResult(false);
-                } catch (Error err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.print(err.getMessage()); }
             }
         });
     }
@@ -152,21 +153,21 @@ public final class Repository {
                     Repository.this.preferences.putString(USERSTORE, res).flush();
                     setupRepository();
                     try { callback.onResult(true);
-                    } catch (Error err) { System.out.print(err.getMessage()); }
+                    } catch (Throwable err) { System.out.print(err.getMessage()); }
                 } else {
                     try { callback.onResult(false);
-                    } catch (Error err) { System.out.print(err.getMessage()); }
+                    } catch (Throwable err) { System.out.print(err.getMessage()); }
                 }
             }
             @Override
             public void failed(Throwable t) {
                 try { callback.onResult(false);
-                } catch (Error err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.print(err.getMessage()); }
             }
             @Override
             public void cancelled() {
                 try { callback.onResult(false);
-                } catch (Error err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.print(err.getMessage()); }
             }
         });
     }
@@ -232,6 +233,40 @@ public final class Repository {
         return ready;
     }
 
+    public void getLeaderboard(final LeaderboardCallback callback) {
+        Net.HttpRequest leaderboardReq = new Net.HttpRequest(Net.HttpMethods.GET);
+        leaderboardReq.setUrl(apiLeaderboard + "?cityID=" + getUser().getActiveCityProfileID());
+        this.net.sendHttpRequest(leaderboardReq, new Net.HttpResponseListener() {
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                HttpStatus status = httpResponse.getStatus();
+                if (status.getStatusCode()==200) {
+                    ArrayList<TopScoreListItem> list = new ArrayList<>();
+                    try {
+                        String res = httpResponse.getResultAsString();
+                        JSONArray arr = new JSONArray(res);
+                        for (int i = 0; i < arr.length(); i++) {
+                            list.add(new TopScoreListItem(arr.getJSONObject(i)));
+                        }
+                    } catch (Exception ex) {
+                        System.out.print(ex.getMessage());
+                    }
+                    callback.result(list);
+                } else {
+                    callback.error("Nesto poslo je po zlu. Proveri vezu sa internetom.");
+                }
+            }
+            @Override
+            public void failed(Throwable t) {
+                callback.error("Nesto poslo je po zlu. Proveri vezu sa internetom.");
+            }
+            @Override
+            public void cancelled() {
+                callback.error("Nesto poslo je po zlu. Proveri vezu sa internetom.");
+            }
+        });
+    }
+
     private void fetchCityData() {
         Net.HttpRequest cityProfilesReq = new Net.HttpRequest(Net.HttpMethods.GET);
         cityProfilesReq.setUrl(apiGetProfiles);
@@ -245,18 +280,18 @@ public final class Repository {
                     setupRepository();
                 } else {
                     try { callback.onResult(false);
-                    } catch (Error err) { System.out.print(err.getMessage()); }
+                    } catch (Throwable err) { System.out.print(err.getMessage()); }
                 }
             }
             @Override
             public void failed(Throwable t) {
                 try { callback.onResult(false);
-                } catch (Error err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.print(err.getMessage()); }
             }
             @Override
             public void cancelled() {
                 try { callback.onResult(false);
-                } catch (Error err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.print(err.getMessage()); }
             }
         });
     }
