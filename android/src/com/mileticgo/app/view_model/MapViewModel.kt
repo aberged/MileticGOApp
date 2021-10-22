@@ -30,11 +30,11 @@ class MapViewModel : ViewModel() {
      * @param isNear if user is near the marker color marker to green
      */
     fun setMarkerColor(unlocked: Boolean, isNear: Boolean): BitmapDescriptor? {
-        return if (isNear) {
-            BitmapDescriptorFactory.fromResource(R.drawable.pin_green_small)
+        return if (unlocked) {
+            BitmapDescriptorFactory.fromResource(R.drawable.pin_blue_small)
         } else {
-            if (unlocked) {
-                BitmapDescriptorFactory.fromResource(R.drawable.pin_blue_small)
+            if (isNear) {
+                BitmapDescriptorFactory.fromResource(R.drawable.pin_green_small)
             } else {
                 BitmapDescriptorFactory.fromResource(R.drawable.pin_gray_small)
             }
