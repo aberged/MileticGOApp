@@ -1,5 +1,6 @@
 package com.mileticgo.app.view
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,12 +30,14 @@ class LoginFragment : Fragment() {
 
         loginViewModel.login.observe(viewLifecycleOwner, {
             if (checkEmailAndPassword()) {
+                showLoader()
                 sendUser(binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
             }
         })
 
         loginViewModel.register.observe(viewLifecycleOwner, {
             if (checkUserName() && checkEmailAndPassword() && passwordMatch()) {
+                showLoader()
                 registerUser(binding.etUserName.text.toString(), binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
             }
         })
@@ -85,11 +88,13 @@ class LoginFragment : Fragment() {
     private fun sendUser(email: String, password: String) {
         Repository.get().login(email, password) { successful ->
             if (successful) {
+                hideLoader()
                 //return to previous fragment/screen
                 this.activity?.runOnUiThread {
                     findNavController().popBackStack()
                 }
             } else {
+                hideLoader()
                 this.activity?.runOnUiThread {
                     requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.login_unsuccessful), getString(R.string.ok))
                 }
@@ -100,13 +105,27 @@ class LoginFragment : Fragment() {
     private fun registerUser(userName: String, email: String, password: String) {
         Repository.get().register(userName, email, password) { successful ->
             if (successful) {
+                hideLoader()
                 //return to previous fragment/screen
                 findNavController().popBackStack()
             } else {
+                hideLoader()
                 this.activity?.runOnUiThread {
                     requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.registration_unsuccessful), getString(R.string.ok))
                 }
             }
+        }
+    }
+
+    private fun showLoader() {
+        this.activity?.runOnUiThread {
+            binding.progressContainer.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideLoader() {
+        this.activity?.runOnUiThread {
+            binding.progressContainer.visibility = View.GONE
         }
     }
 }

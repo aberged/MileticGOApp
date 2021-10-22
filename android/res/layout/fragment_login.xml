@@ -123,6 +123,20 @@
             android:onClick="@{() -> loginViewModel.onRegisterNewUserClick ? loginViewModel.register() : loginViewModel.login()}"
             />
 
+    <RelativeLayout
+        android:id="@+id/progress_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/pb_loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
