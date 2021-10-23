@@ -88,7 +88,7 @@ public final class Repository {
         if (callback != null) {
             try { callback.onResult(true);
             } catch (Throwable err) {
-                System.out.print(err.getMessage());
+                System.out.println(err.getMessage());
             }
         }
         syncQueued();
@@ -112,13 +112,13 @@ public final class Repository {
                     setupRepository();
                     try { callback.onResult(true);
                     } catch (Throwable err) {
-                        System.out.print(err.getMessage());
+                        System.out.println(err.getMessage());
                     }
                 } else {
                     setupRepository();
                     try { callback.onResult(false);
                     } catch (Throwable err) {
-                        System.out.print(err.getMessage());
+                        System.out.println(err.getMessage());
                     }
                 }
             }
@@ -127,14 +127,14 @@ public final class Repository {
                 setupRepository();
                 try { callback.onResult(false);
                 } catch (Throwable err) {
-                    System.out.print(err.getMessage());
+                    System.out.println(err.getMessage());
                 }
             }
             @Override
             public void cancelled() {
                 setupRepository();
                 try { callback.onResult(false);
-                } catch (Throwable err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.println(err.getMessage()); }
             }
         });
     }
@@ -153,21 +153,21 @@ public final class Repository {
                     Repository.this.preferences.putString(USERSTORE, res).flush();
                     setupRepository();
                     try { callback.onResult(true);
-                    } catch (Throwable err) { System.out.print(err.getMessage()); }
+                    } catch (Throwable err) { System.out.println(err.getMessage()); }
                 } else {
                     try { callback.onResult(false);
-                    } catch (Throwable err) { System.out.print(err.getMessage()); }
+                    } catch (Throwable err) { System.out.println(err.getMessage()); }
                 }
             }
             @Override
             public void failed(Throwable t) {
                 try { callback.onResult(false);
-                } catch (Throwable err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.println(err.getMessage()); }
             }
             @Override
             public void cancelled() {
                 try { callback.onResult(false);
-                } catch (Throwable err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.println(err.getMessage()); }
             }
         });
     }
@@ -249,7 +249,7 @@ public final class Repository {
                             list.add(new TopScoreListItem(arr.getJSONObject(i)));
                         }
                     } catch (Exception ex) {
-                        System.out.print(ex.getMessage());
+                        System.out.println(ex.getMessage());
                     }
                     callback.result(list);
                 } else {
@@ -280,18 +280,18 @@ public final class Repository {
                     setupRepository();
                 } else {
                     try { callback.onResult(false);
-                    } catch (Throwable err) { System.out.print(err.getMessage()); }
+                    } catch (Throwable err) { System.out.println(err.getMessage()); }
                 }
             }
             @Override
             public void failed(Throwable t) {
                 try { callback.onResult(false);
-                } catch (Throwable err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.println(err.getMessage()); }
             }
             @Override
             public void cancelled() {
                 try { callback.onResult(false);
-                } catch (Throwable err) { System.out.print(err.getMessage()); }
+                } catch (Throwable err) { System.out.println(err.getMessage()); }
             }
         });
     }
