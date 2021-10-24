@@ -42,13 +42,12 @@
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
-        <string>UIInterfaceOrientationPortraitUpsideDown</string>
-        <string>UIInterfaceOrientationLandscapeLeft</string>
-        <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
     <key>UILaunchStoryboardName</key>
     <string>LaunchScreen</string>
     <key>CFBundleIconName</key>
     <string>AppIcon</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>App uses location so users can locate themselfs while searching for items on map</string>
 </dict>
 </plist>

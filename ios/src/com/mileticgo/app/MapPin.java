@@ -19,12 +19,12 @@ public class MapPin implements MKAnnotation {
 
     private MKMarkerAnnotationView view;
 
-    public MapPin(CLLocationCoordinate2D c, String t, String st, boolean ul) {
-        coordinate2D = c;
-        title = t;
-        subTitle = st;
-        unlocked = ul;
-        view = new MKMarkerAnnotationView(this, t);
+    public MapPin(CityPin pin) {
+        coordinate2D = new CLLocationCoordinate2D(pin.getLat(), pin.getLng());
+        title = pin.getTitle();
+        subTitle = "";
+        unlocked = pin.getUnlocked();
+        view = new MKMarkerAnnotationView(this, pin.getId());
     }
 
     @Override

@@ -1,18 +1,15 @@
 package com.mileticgo.app;
 
-import org.robovm.apple.coregraphics.CGPoint;
 import org.robovm.apple.coregraphics.CGRect;
-import org.robovm.apple.corelocation.CLLocation;
+import org.robovm.apple.corelocation.CLLocationAccuracy;
 import org.robovm.apple.corelocation.CLLocationCoordinate2D;
+import org.robovm.apple.corelocation.CLLocationManager;
 import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.mapkit.MKAnnotation;
-import org.robovm.apple.mapkit.MKAnnotationAdapter;
 import org.robovm.apple.mapkit.MKAnnotationView;
 import org.robovm.apple.mapkit.MKAnnotationViewDragState;
 import org.robovm.apple.mapkit.MKClusterAnnotation;
-import org.robovm.apple.mapkit.MKCoordinateRegion;
-import org.robovm.apple.mapkit.MKCoordinateSpan;
 import org.robovm.apple.mapkit.MKMapCamera;
 import org.robovm.apple.mapkit.MKMapView;
 import org.robovm.apple.mapkit.MKMapViewDelegate;
@@ -20,28 +17,21 @@ import org.robovm.apple.mapkit.MKMarkerAnnotationView;
 import org.robovm.apple.mapkit.MKOverlay;
 import org.robovm.apple.mapkit.MKOverlayRenderer;
 import org.robovm.apple.mapkit.MKOverlayView;
-import org.robovm.apple.mapkit.MKPinAnnotationView;
 import org.robovm.apple.mapkit.MKUserLocation;
 import org.robovm.apple.mapkit.MKUserTrackingMode;
-import org.robovm.apple.uikit.NSTextAlignment;
-import org.robovm.apple.uikit.UIButton;
-import org.robovm.apple.uikit.UIButtonType;
+import org.robovm.apple.uikit.UIBarButtonItem;
+import org.robovm.apple.uikit.UIBarButtonItemStyle;
 import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIControl;
-import org.robovm.apple.uikit.UIControlState;
-import org.robovm.apple.uikit.UIFont;
-import org.robovm.apple.uikit.UILabel;
-import org.robovm.apple.uikit.UIModalPresentationStyle;
 import org.robovm.apple.uikit.UIScreen;
-import org.robovm.apple.uikit.UIView;
 import org.robovm.apple.uikit.UIViewController;
-
 import java.util.ArrayList;
-import java.util.Map;
+
 
 public class MapViewController extends UIViewController implements MKMapViewDelegate {
 
     private MKMapView map;
+    private final CLLocationManager locationManager = new CLLocationManager();
 
     public MapViewController() {
     }
@@ -50,20 +40,39 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     public void viewDidLoad() {
         super.viewDidLoad();
         setTitle("Mapa");
+
+        locationManager.requestWhenInUseAuthorization();
+        locationManager.setDesiredAccuracy(CLLocationAccuracy.Best);
+        locationManager.setDistanceFilter(CLLocationManager.getDistanceFilterNone());
+        locationManager.startUpdatingLocation();
+
         map = new MKMapView(new CGRect(0, 0, UIScreen.getMainScreen().getBounds().getWidth(), UIScreen.getMainScreen().getBounds().getHeight()));
         map.setDelegate(this);
         map.setShowsUserLocation(true);
+        map.setShowsCompass(true);
+        map.setUserTrackingMode(MKUserTrackingMode.None);
         map.setCamera(new MKMapCamera(new CLLocationCoordinate2D(
                 Repository.get().getActiveCityProfile().getLat(),
                 Repository.get().getActiveCityProfile().getLng()), 15000, 0, 0));
 
         ArrayList<CityPin> pins = (ArrayList<CityPin>) Repository.get().getActiveCityPins();
         for (CityPin pin: pins) {
-            MapPin mapPin = new MapPin(new CLLocationCoordinate2D(
-                            pin.getLat(), pin.getLng()), pin.getTitle(), "", pin.getUnlocked());
+            MapPin mapPin = new MapPin(pin);
             map.addAnnotation(mapPin);
         }
+
         getView().addSubview(map);
+
+        getNavigationItem().setRightBarButtonItem(new UIBarButtonItem("Hide me", UIBarButtonItemStyle.Plain, barButtonItem -> {
+            map.setShowsUserLocation(!map.showsUserLocation());
+            if (map.showsUserLocation()) {
+                barButtonItem.setTitle("Hide me");
+                barButtonItem.setStyle(UIBarButtonItemStyle.Plain);
+            } else {
+                barButtonItem.setTitle("Show me");
+                barButtonItem.setStyle(UIBarButtonItemStyle.Done);
+            }
+        }));
     }
 
     @Override
@@ -108,6 +117,7 @@ public class MapViewController extends UIViewController implements MKMapViewDele
 
     @Override
     public MKAnnotationView getAnnotationView(MKMapView mapView, MKAnnotation annotation) {
+        if (!(annotation instanceof MapPin)) return null;
         System.out.println(annotation.getTitle() + "; unlocked - " + ((MapPin) annotation).isUnlocked());
         MKMarkerAnnotationView pin = ((MapPin) annotation).getView();
         if (((MapPin) annotation).isUnlocked()) {
@@ -194,4 +204,5 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     public MKClusterAnnotation getClusterAnnotationForMemberAnnotations(MKMapView mapView, NSArray<?> memberAnnotations) {
         return null;
     }
+
 }

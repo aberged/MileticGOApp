@@ -73,7 +73,7 @@ public class MainViewController extends UIViewController {
                     }
                 });
             } else {
-                Repository.get().logout(valid -> {
+                Repository.get().logout((boolean valid) -> {
                     if (valid) {
                         label.setText(Repository.get().getUser().getName());
                         login.setTitle("login", UIControlState.Normal);
