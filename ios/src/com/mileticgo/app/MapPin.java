@@ -1,30 +1,46 @@
 package com.mileticgo.app;
 
-import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.corelocation.CLLocationCoordinate2D;
 import org.robovm.apple.mapkit.MKAnnotation;
-import org.robovm.apple.mapkit.MKAnnotationView;
 import org.robovm.apple.mapkit.MKMarkerAnnotationView;
-import org.robovm.apple.mapkit.MKPinAnnotationView;
-import org.robovm.apple.mapkit.MKPointAnnotation;
 import org.robovm.apple.uikit.UIColor;
-import org.robovm.apple.uikit.UIView;
 
-public class MapPin implements MKAnnotation {
+public class MapPin extends MKMarkerAnnotationView implements MKAnnotation {
 
     private CLLocationCoordinate2D coordinate2D;
-    private String title;
-    private String subTitle;
-    private boolean unlocked;
 
-    private MKMarkerAnnotationView view;
+    private final CityPin cityPin;
 
     public MapPin(CityPin pin) {
-        coordinate2D = new CLLocationCoordinate2D(pin.getLat(), pin.getLng());
-        title = pin.getTitle();
-        subTitle = "";
-        unlocked = pin.getUnlocked();
-        view = new MKMarkerAnnotationView(this, pin.getId());
+        super();
+        this.cityPin = pin;
+        this.setCoordinate(new CLLocationCoordinate2D(pin.getLat(), pin.getLng()));
+        this.setAnnotation(this);
+        this.setDisplayPriority(1000);
+        colorPin();
+    }
+
+    private void colorPin() {
+        if (isUnlocked()) {
+            setMarkerTintColor(UIColor.systemBlue());
+        } else {
+            if (isNear())
+                setMarkerTintColor(UIColor.systemGreen());
+            else
+                setMarkerTintColor(UIColor.gray());
+        }
+    }
+
+    public boolean setIsNear(boolean near) {
+        boolean changed = near != cityPin.isNear();
+        this.cityPin.setNear(near);
+        if (changed)
+            colorPin();
+        return changed;
+    }
+
+    public boolean isNear() {
+        return cityPin.isNear();
     }
 
     @Override
@@ -39,23 +55,12 @@ public class MapPin implements MKAnnotation {
 
     @Override
     public String getTitle() {
-        return title;
+        return cityPin.getTitle();
     }
 
     @Override
-    public String getSubtitle() {
-        return subTitle;
-    }
+    public String getSubtitle() { return ""; }
 
-    public boolean isUnlocked() {
-        return unlocked;
-    }
+    public boolean isUnlocked() { return cityPin.getUnlocked(); }
 
-    public void setUnlocked(boolean unlocked) {
-        this.unlocked = unlocked;
-    }
-
-    public MKMarkerAnnotationView getView() {
-        return view;
-    }
 }

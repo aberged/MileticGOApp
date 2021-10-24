@@ -21,12 +21,10 @@ import org.robovm.apple.mapkit.MKUserLocation;
 import org.robovm.apple.mapkit.MKUserTrackingMode;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItemStyle;
-import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIControl;
 import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIViewController;
 import java.util.ArrayList;
-
 
 public class MapViewController extends UIViewController implements MKMapViewDelegate {
 
@@ -48,18 +46,17 @@ public class MapViewController extends UIViewController implements MKMapViewDele
 
         map = new MKMapView(new CGRect(0, 0, UIScreen.getMainScreen().getBounds().getWidth(), UIScreen.getMainScreen().getBounds().getHeight()));
         map.setDelegate(this);
-        map.setShowsUserLocation(true);
         map.setShowsCompass(true);
-        map.setUserTrackingMode(MKUserTrackingMode.None);
         map.setCamera(new MKMapCamera(new CLLocationCoordinate2D(
                 Repository.get().getActiveCityProfile().getLat(),
                 Repository.get().getActiveCityProfile().getLng()), 15000, 0, 0));
-
         ArrayList<CityPin> pins = (ArrayList<CityPin>) Repository.get().getActiveCityPins();
         for (CityPin pin: pins) {
             MapPin mapPin = new MapPin(pin);
             map.addAnnotation(mapPin);
         }
+        map.setShowsUserLocation(true);
+        map.setUserTrackingMode(MKUserTrackingMode.None);
 
         getView().addSubview(map);
 
@@ -87,7 +84,7 @@ public class MapViewController extends UIViewController implements MKMapViewDele
 
     @Override
     public void mapViewDidChangeVisibleRegion(MKMapView mapView) {
-        System.out.println("mapViewDidChangeVisibleRegion - " + mapView);
+        //System.out.println("mapViewDidChangeVisibleRegion - " + mapView);
     }
 
     @Override
@@ -119,13 +116,7 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     public MKAnnotationView getAnnotationView(MKMapView mapView, MKAnnotation annotation) {
         if (!(annotation instanceof MapPin)) return null;
         System.out.println(annotation.getTitle() + "; unlocked - " + ((MapPin) annotation).isUnlocked());
-        MKMarkerAnnotationView pin = ((MapPin) annotation).getView();
-        if (((MapPin) annotation).isUnlocked()) {
-            pin.setMarkerTintColor(UIColor.systemBlue());
-        } else {
-            pin.setMarkerTintColor(UIColor.gray());
-        }
-        return pin;
+        return (MapPin) annotation;
     }
 
     @Override
@@ -141,6 +132,12 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     @Override
     public void didSelectAnnotationView(MKMapView mapView, MKAnnotationView view) {
         System.out.println("didSelectAnnotationView - " + mapView);
+        if (!(view instanceof MapPin)) return;
+        if (((MapPin)view).isNear() && !((MapPin)view).isUnlocked()) {
+            System.out.println("GOTO AR");
+        } else if (((MapPin)view).isUnlocked()) {
+            System.out.println("GOTO details");
+        }
     }
 
     @Override
@@ -161,6 +158,17 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     @Override
     public void didUpdateUserLocation(MKMapView mapView, MKUserLocation userLocation) {
         System.out.println("didUpdateUserLocation - " + mapView);
+        for (MKAnnotation pin: map.getAnnotations()) {
+            if (!(pin instanceof MapPin)) continue;
+            System.out.println("loc: " + pin.getTitle());
+            boolean near = ((MapPin)pin).setIsNear(distance(
+                    pin.getCoordinate().getLatitude(),
+                    pin.getCoordinate().getLongitude(),
+                    userLocation.getCoordinate().getLatitude(),
+                    userLocation.getCoordinate().getLongitude()
+            ) < 10);
+            System.out.println("isNear - " + ((MapPin) pin).isNear());
+        }
     }
 
     @Override
@@ -203,6 +211,18 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     @Override
     public MKClusterAnnotation getClusterAnnotationForMemberAnnotations(MKMapView mapView, NSArray<?> memberAnnotations) {
         return null;
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double R = 6378.137; // Radius of earth in KM
+        double dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+        double dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c;
+        return d * 1000; // meters
     }
 
 }
