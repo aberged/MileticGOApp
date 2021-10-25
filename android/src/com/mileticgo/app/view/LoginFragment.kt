@@ -1,6 +1,5 @@
 package com.mileticgo.app.view
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.mileticgo.app.AndroidApplication
 import com.mileticgo.app.R
 import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.FragmentLoginBinding
-import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.utils.oneButtonDialog
 import com.mileticgo.app.view_model.LoginViewModel
 
