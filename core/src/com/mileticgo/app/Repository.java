@@ -20,7 +20,7 @@ public final class Repository {
     public final static String USERSTORE = "user";
     public final static String PROFILESSTORE = "profiles";
     public final static String SYNCSTORE = "sync";
-    public final static String apiBaseUrl = "https://hello-vscf42q7eq-ew.a.run.app/api/";//"http://10.0.2.2:8080/api/";//
+    public final static String apiBaseUrl = "https://mileticgoapi-west6-vscf42q7eq-oa.a.run.app/api/";//"https://hello-vscf42q7eq-ew.a.run.app/api/";//"http://10.0.2.2:8080/api/";//
     public final static String apiGetProfiles = apiBaseUrl + "cityprofile/";
     public final static String apiLogin = apiBaseUrl + "login";
     public final static String apiRegister = apiBaseUrl + "register";
@@ -235,7 +235,14 @@ public final class Repository {
 
     public void getLeaderboard(final LeaderboardCallback callback) {
         Net.HttpRequest leaderboardReq = new Net.HttpRequest(Net.HttpMethods.GET);
-        leaderboardReq.setUrl(apiLeaderboard + "?cityID=" + getUser().getActiveCityProfileID());
+        leaderboardReq.setUrl(apiLeaderboard +
+                "?cityID=" + getUser().getActiveCityProfileID() +
+                (
+                    Repository.get().getUser().isAnonymous() ?
+                        "" :
+                        "&email=" + Repository.get().getUser().getEmail()
+                )
+        );
         this.net.sendHttpRequest(leaderboardReq, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {

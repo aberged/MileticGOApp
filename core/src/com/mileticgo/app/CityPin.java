@@ -1,7 +1,6 @@
 package com.mileticgo.app;
 
 import org.json.JSONObject;
-
 import java.io.Serializable;
 
 public class CityPin implements Serializable {

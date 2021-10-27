@@ -9,8 +9,8 @@ import java.util.List;
 public class CityProfile {
 
     private final String id;
-    private double lat;
-    private double lng;
+    private final double lat;
+    private final double lng;
     private final String name;
 
     private final List<CityPin> cityPins;
