@@ -13,7 +13,6 @@ import org.robovm.apple.mapkit.MKClusterAnnotation;
 import org.robovm.apple.mapkit.MKMapCamera;
 import org.robovm.apple.mapkit.MKMapView;
 import org.robovm.apple.mapkit.MKMapViewDelegate;
-import org.robovm.apple.mapkit.MKMarkerAnnotationView;
 import org.robovm.apple.mapkit.MKOverlay;
 import org.robovm.apple.mapkit.MKOverlayRenderer;
 import org.robovm.apple.mapkit.MKOverlayView;
@@ -32,6 +31,12 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     private final CLLocationManager locationManager = new CLLocationManager();
 
     public MapViewController() {
+    }
+
+    @Override
+    public void viewWillAppear(boolean animated) {
+        super.viewWillAppear(animated);
+        getNavigationController().setNavigationBarHidden(false);
     }
 
     @Override

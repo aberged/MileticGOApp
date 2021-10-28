@@ -21,8 +21,8 @@ import java.io.File;
 import java.util.List;
 
 public class Main extends UIApplicationDelegateAdapter {
-    private UIWindow window;
-    private UIViewController rootViewController;
+    //private UIWindow window;
+    //private UIViewController rootViewController;
 
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
@@ -31,14 +31,14 @@ public class Main extends UIApplicationDelegateAdapter {
             List<CityPin> pins = Repository.get().getActiveCityPins();
             System.out.println(pins);
         });
-        // Set up the view controller.
-        rootViewController = new NavigationViewController();
-        // Create a new window at screen size.
-        window = new UIWindow(UIScreen.getMainScreen().getBounds());
-        // Set the view controller as the root controller for the window.
-        window.setRootViewController(rootViewController);
-        // Make the window visible.
-        window.makeKeyAndVisible();
+//        // Set up the view controller.
+//        rootViewController = new NavigationViewController();
+//        // Create a new window at screen size.
+//        window = new UIWindow(UIScreen.getMainScreen().getBounds());
+//        // Set the view controller as the root controller for the window.
+//        window.setRootViewController(rootViewController);
+//        // Make the window visible.
+//        window.makeKeyAndVisible();
         return true;
     }
 
