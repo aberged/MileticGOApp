@@ -12,32 +12,52 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <Toolbar
-            android:id="@+id/my_toolbar"
+        <RelativeLayout
+            android:id="@+id/rl_logo_container"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/light_blue_600"
-            android:title="@string/app_name"
-            android:titleTextColor="@color/white_overlay" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/logo"
+                android:contentDescription="@string/app_logo_description" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/iv_logo"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:text="@string/novisad"
+                android:textColor="@color/black"
+                app:autoSizeTextType="uniform" />
+        </RelativeLayout>
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:id="@+id/iv_menu_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/menu_background"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
-            android:background="@drawable/petrovaradinski_sat"
-            android:contentDescription="@string/app_logo_description" />
+            app:layout_constraintTop_toBottomOf="@+id/rl_logo_container"
+            app:layout_constraintVertical_bias="0.0"
+            android:contentDescription="@string/main_menu_background" />
 
         <Button
             android:id="@+id/btn_map"
+            style="@style/MainMenuButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -50,6 +70,7 @@
 
         <Button
             android:id="@+id/btn_collection"
+            style="@style/MainMenuButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -62,6 +83,7 @@
 
         <Button
             android:id="@+id/btn_results"
+            style="@style/MainMenuButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -74,11 +96,12 @@
 
         <Button
             android:id="@+id/btn_settings"
+            style="@style/MainMenuButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="100dp"
             android:text="@string/settings_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
