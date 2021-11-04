@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.ar.core.ArCoreApk
+import com.mileticgo.app.databinding.MainActivityBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.view.MainMenuFragment
 import com.mileticgo.app.utils.twoButtonsDialog
@@ -18,6 +19,8 @@ val FragmentManager.currentNavigationFragment: Fragment?
     get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
 class MainFragmentActivity: AppCompatActivity() {
+
+    private lateinit var binding : MainActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!isSupportedDevice() && !checkARCoreAvailability()) {
@@ -25,7 +28,8 @@ class MainFragmentActivity: AppCompatActivity() {
         } else {
             setArFlag(true)
         }
-        setContentView(R.layout.main_activity)
+        binding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
     }
 

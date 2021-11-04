@@ -16,7 +16,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
+import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.FragmentMapBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.utils.oneButtonDialog
@@ -53,9 +53,6 @@ class MapsFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
 
-        binding.myToolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
 
         /*mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
             if (cityPins.isNotEmpty()) {
@@ -249,6 +246,11 @@ class MapsFragment : Fragment() {
         mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
             if (cityPins.isNotEmpty()) {
                 pins = cityPins as MutableList<CityPin>?
+                for(pin in cityPins) {
+                    /*if (pin.title == "Kancelarija") {
+                        Repository.get().removePinFromInventory(pin)
+                    }*/
+                }
                 setUpMaps()
             } else {
                 requireContext().oneButtonDialog(getString(R.string.info_dialog_title),

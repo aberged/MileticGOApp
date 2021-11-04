@@ -1,6 +1,8 @@
 package com.mileticgo.app.utils
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -27,8 +29,9 @@ fun Context.twoButtonsDialog(
     builder.setView(binding.root)
         .setCancelable(false)
 
+
     val alert = builder.create()
-    //alert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    alert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     binding.btnFirst.text = firstButtonText
     binding.btnSecond.text = secondButtonText
 
@@ -60,6 +63,7 @@ fun Context.oneButtonDialog(
         .setCancelable(false)
 
     val alert = builder.create()
+    alert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     binding.btnConfirm.text = buttonText
 
     binding.btnConfirm.setOnClickListener {

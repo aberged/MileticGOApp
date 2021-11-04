@@ -20,9 +20,9 @@ class AboutFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.about_fragment, container, false)
 
-        binding.myToolbar.setNavigationOnClickListener {
+        /*binding.myToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
-        }
+        }*/
 
         return binding.root
     }

@@ -25,4 +25,12 @@ class TopResultsViewModel : ViewModel(), LeaderboardCallback {
     override fun error(message: String?) {
         _topScores.value = ArrayList()
     }
+
+    private var _userResult = MutableLiveData<TopScoreListItem>()
+    val userResult : LiveData<TopScoreListItem>
+            get() = _userResult
+
+    fun setUserResult(userResult: TopScoreListItem) {
+        _userResult.value = userResult
+    }
 }

@@ -52,9 +52,9 @@ class SettingsFragment : Fragment() {
             Navigation.findNavController(it).navigate(R.id.action_settingsFragment_to_aboutFragment)
         }
 
-        binding.myToolbar.setNavigationOnClickListener {
+        /*binding.myToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
-        }
+        }*/
 
         return binding.root
     }

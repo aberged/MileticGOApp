@@ -55,9 +55,9 @@ class CollectionFragment : Fragment() {
             }
         })
 
-        binding.myToolbar.setNavigationOnClickListener {
+        /*binding.myToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
-        }
+        }*/
 
         return binding.root
     }

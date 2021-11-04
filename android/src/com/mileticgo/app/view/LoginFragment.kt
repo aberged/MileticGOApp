@@ -39,10 +39,6 @@ class LoginFragment : Fragment() {
             }
         })
 
-        binding.myToolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-
         return binding.root
     }
 

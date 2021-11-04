@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentPlaceDetailsBinding
@@ -33,10 +32,6 @@ class PlaceDetailsFragment : Fragment() {
 
                 placeDetailsViewModel.addPinToInventory(cityPin)
             }
-        }
-
-        binding.myToolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
         }
 
         return binding.root

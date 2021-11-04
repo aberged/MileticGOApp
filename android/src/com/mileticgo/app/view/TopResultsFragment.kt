@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mileticgo.app.R
+import com.mileticgo.app.Repository
+import com.mileticgo.app.TopScoreListItem
 import com.mileticgo.app.databinding.FragmentTopResultsBinding
 import com.mileticgo.app.utils.oneButtonDialog
 import com.mileticgo.app.view_model.TopResultsViewModel
@@ -33,7 +35,14 @@ class TopResultsFragment : Fragment() {
 
         topResultViewModel.topScores.observe(viewLifecycleOwner, { topScores ->
             if (topScores.isNotEmpty()) {
+                for(position in topScores.indices) {
+                    topScores[position].position = position + 1
+                }
                 adapter.refreshList(topScores)
+                if (!Repository.get().user.isAnonymous) {
+                    binding.clUserContainer.visibility = View.VISIBLE
+                    topResultViewModel.setUserResult(topScores.last())
+                }
             } else {
                 requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
                     getString(R.string.empty_top_scores_list), getString(R.string.ok),
@@ -43,10 +52,16 @@ class TopResultsFragment : Fragment() {
             }
         })
 
-        binding.myToolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
+        topResultViewModel.userResult.observe(viewLifecycleOwner, { lastTopResult ->
+            setUserResult(lastTopResult)
+        })
 
         return binding.root
+    }
+
+    private fun setUserResult(lastTopResult: TopScoreListItem) {
+        binding.tvUserName.text = lastTopResult.userName
+        binding.tvPointsValue.text = lastTopResult.userPoints.toString()
+        binding.tvPositionValue.text = lastTopResult.position.toString()
     }
 }

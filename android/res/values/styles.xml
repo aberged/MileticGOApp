@@ -20,4 +20,25 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="DialogButtonStyle" parent="android:Widget.Button">
+        <item name="android:src">@color/white</item>
+        <item name="android:fontFamily">"@font/roboto"</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/blue_dialog_text</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="DialogTextViewStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_marginEnd">30dp</item>
+    </style>
+
+    <style name="LoginEditBoxStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorHint">@color/login_edit_text_hint_color</item>
+        <item name="android:backgroundTint">@color/login_edit_text_hint_color</item>
+        <item name="android:layout_marginStart">40dp</item>
+        <item name="android:layout_marginEnd">40dp</item>
+    </style>
 </resources>
