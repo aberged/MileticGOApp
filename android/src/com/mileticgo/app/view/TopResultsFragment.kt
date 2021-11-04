@@ -33,6 +33,8 @@ class TopResultsFragment : Fragment() {
         adapter = TopResultAdapter()
         binding.rvTopResultsList.adapter = adapter
 
+        showLoader()
+
         topResultViewModel.topScores.observe(viewLifecycleOwner, { topScores ->
             if (topScores.isNotEmpty()) {
                 for(position in topScores.indices) {
@@ -43,7 +45,9 @@ class TopResultsFragment : Fragment() {
                     binding.clUserContainer.visibility = View.VISIBLE
                     topResultViewModel.setUserResult(topScores.last())
                 }
+                hideLoader()
             } else {
+                hideLoader()
                 requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
                     getString(R.string.empty_top_scores_list), getString(R.string.ok),
                     buttonCallback = {
@@ -63,5 +67,17 @@ class TopResultsFragment : Fragment() {
         binding.tvUserName.text = lastTopResult.userName
         binding.tvPointsValue.text = lastTopResult.userPoints.toString()
         binding.tvPositionValue.text = lastTopResult.position.toString()
+    }
+
+    private fun showLoader() {
+        this.activity?.runOnUiThread {
+            binding.progressContainer.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideLoader() {
+        this.activity?.runOnUiThread {
+            binding.progressContainer.visibility = View.GONE
+        }
     }
 }
