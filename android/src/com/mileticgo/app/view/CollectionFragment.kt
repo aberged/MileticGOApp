@@ -32,7 +32,7 @@ class CollectionFragment : Fragment() {
 
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        binding.rvDiamondList.layoutManager = layoutManager
+        //binding.rvDiamondList.layoutManager = layoutManager
 
         adapterCollection = CollectionAdapter {
             //list item click listener
@@ -41,7 +41,7 @@ class CollectionFragment : Fragment() {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_collectionFragment_to_placeDetailsFragment, bundle)
         }
-        binding.rvDiamondList.adapter = adapterCollection
+        //binding.rvDiamondList.adapter = adapterCollection
 
         collectionViewModel.cityPins.observe(viewLifecycleOwner, { cityPins ->
             if (cityPins.isNotEmpty()) {

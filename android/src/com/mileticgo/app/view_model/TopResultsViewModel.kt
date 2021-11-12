@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.mileticgo.app.LeaderboardCallback
 import com.mileticgo.app.Repository
 import com.mileticgo.app.TopScoreListItem
-import java.util.*
 
 class TopResultsViewModel : ViewModel(), LeaderboardCallback {
 
@@ -22,8 +21,13 @@ class TopResultsViewModel : ViewModel(), LeaderboardCallback {
         _topScores.postValue(list!!)
     }
 
-    override fun error(message: String?) {
-        _topScores.value = ArrayList()
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage : LiveData<String>
+        get() = _errorMessage
+
+    override fun error(message: String) {
+        //_topScores.value = emptyList()
+        _errorMessage.postValue(message)
     }
 
     private var _userResult = MutableLiveData<TopScoreListItem>()

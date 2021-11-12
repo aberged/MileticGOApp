@@ -60,6 +60,18 @@ class TopResultsFragment : Fragment() {
             setUserResult(lastTopResult)
         })
 
+        topResultViewModel.errorMessage.observe(viewLifecycleOwner, { message ->
+            println("#### error observe $message")
+            if (message != null && !message.isNullOrBlank()) {
+                hideLoader()
+                requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
+                    message, getString(R.string.ok),
+                    buttonCallback = {
+                        findNavController().popBackStack()
+                    })
+            }
+        })
+
         return binding.root
     }
 

@@ -12,7 +12,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/collection_background">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_diamond_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -23,6 +28,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".9" />
+        app:layout_constraintVertical_bias=".9" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
