@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.R
 import com.mileticgo.app.Repository
@@ -32,36 +33,11 @@ class LoginFragment : Fragment() {
             }
         })
 
-        loginViewModel.register.observe(viewLifecycleOwner, {
-            if (checkUserName() && checkEmailAndPassword() && passwordMatch()) {
-                showLoader()
-                registerUser(binding.etUserName.text.toString(), binding.etLoginEmail.text.toString(), binding.etLoginPassword.text.toString())
-            }
-        })
+        binding.tvRegisterText.setOnClickListener { view ->
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registrationFragment)
+        }
 
         return binding.root
-    }
-
-    private fun checkUserName(): Boolean {
-        if (binding.etUserName.text.isNotBlank()) {
-            return true
-        } else {
-            binding.etUserName.error = getString(R.string.user_name)
-        }
-        return false
-    }
-
-    private fun passwordMatch(): Boolean {
-        if (binding.etRepeatRegisterPassword.text.isNotBlank()) {
-            if (binding.etLoginPassword.text.toString() == binding.etRepeatRegisterPassword.text.toString()) {
-                return true
-            } else {
-                binding.etRepeatRegisterPassword.error = getString(R.string.passwords_match_false)
-            }
-        } else {
-            binding.etRepeatRegisterPassword.error = getString(R.string.enter_password)
-        }
-        return false
     }
 
     private fun checkEmailAndPassword(): Boolean {
@@ -90,21 +66,6 @@ class LoginFragment : Fragment() {
                 hideLoader()
                 this.activity?.runOnUiThread {
                     requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.login_unsuccessful), getString(R.string.ok))
-                }
-            }
-        }
-    }
-
-    private fun registerUser(userName: String, email: String, password: String) {
-        Repository.get().register(userName, email, password) { successful ->
-            if (successful) {
-                hideLoader()
-                //return to previous fragment/screen
-                findNavController().popBackStack()
-            } else {
-                hideLoader()
-                this.activity?.runOnUiThread {
-                    requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.registration_unsuccessful), getString(R.string.ok))
                 }
             }
         }

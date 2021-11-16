@@ -31,12 +31,12 @@ class MapViewModel : ViewModel() {
      */
     fun setMarkerColor(unlocked: Boolean, isNear: Boolean): BitmapDescriptor? {
         return if (unlocked) {
-            BitmapDescriptorFactory.fromResource(R.drawable.pin_blue_small)
+            BitmapDescriptorFactory.fromResource(R.drawable.pin_checked)
         } else {
             if (isNear) {
-                BitmapDescriptorFactory.fromResource(R.drawable.pin_green_small)
+                BitmapDescriptorFactory.fromResource(R.drawable.pin_active)
             } else {
-                BitmapDescriptorFactory.fromResource(R.drawable.pin_gray_small)
+                BitmapDescriptorFactory.fromResource(R.drawable.pin_locked)
             }
         }
     }

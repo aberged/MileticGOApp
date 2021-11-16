@@ -36,6 +36,7 @@
     <string name="login_label">Login</string>
     <string name="register_label">Registracija</string>
     <string name="not_registered">Niste registrovani? Kliknite ovde</string>
+    <string name="already_registered">Već ste registrovani? Kliknite ovde</string>
     <string name="passwords_match_false">Šifre se ne opklapaju, probajte ponovo</string>
     <string name="sign_out_dialog_title">Odjavi me</string>
     <string name="sign_out_dialog_message">Da li ste sigurni da želite da se odjavite</string>
