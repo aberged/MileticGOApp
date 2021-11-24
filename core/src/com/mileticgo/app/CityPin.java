@@ -10,6 +10,7 @@ public class CityPin implements Serializable {
     private final double lng;
     private final String title;
     private final String description;
+    private final String category;
 
     private boolean unlocked;
     private boolean isNear;
@@ -20,6 +21,7 @@ public class CityPin implements Serializable {
         this.lng = cityPinJson.getDouble("lng");
         this.title = cityPinJson.getString("title");
         this.description = cityPinJson.getString("description");
+        this.category = cityPinJson.getString("category");
         this.unlocked = false;
         this.isNear = false;
     }
@@ -58,4 +60,7 @@ public class CityPin implements Serializable {
         isNear = near;
     }
 
+    public String getCategory() {
+        return category;
+    }
 }
