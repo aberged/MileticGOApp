@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.FragmentCollectionBinding
 import com.mileticgo.app.utils.oneButtonDialog
@@ -17,10 +17,8 @@ import com.mileticgo.app.view_model.CollectionViewModel
 
 class CollectionFragment : Fragment() {
 
-    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var binding: FragmentCollectionBinding
-    private lateinit var adapterCollection: CollectionAdapter
-
+    private lateinit var viewPagerAdapter: LocationViewPagerAdapter
     private val collectionViewModel by viewModels<CollectionViewModel>()
 
     override fun onCreateView(
@@ -30,22 +28,9 @@ class CollectionFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_collection, container, false)
 
-        layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
-        //binding.rvDiamondList.layoutManager = layoutManager
-
-        adapterCollection = CollectionAdapter {
-            //list item click listener
-            val bundle = Bundle()
-            bundle.putSerializable("details", it)
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_collectionFragment_to_placeDetailsFragment, bundle)
-        }
-        //binding.rvDiamondList.adapter = adapterCollection
-
         collectionViewModel.cityPins.observe(viewLifecycleOwner, { cityPins ->
             if (cityPins.isNotEmpty()) {
-                adapterCollection.refreshList(cityPins)
+                collectionViewModel.createCategorySubLists(cityPins)
             } else {
                 requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
                     getString(R.string.empty_city_pins_list), getString(R.string.ok),
@@ -55,9 +40,18 @@ class CollectionFragment : Fragment() {
             }
         })
 
-        /*binding.myToolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }*/
+        viewPagerAdapter = LocationViewPagerAdapter(requireActivity())
+        binding.pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.pager.adapter = viewPagerAdapter
+
+        //connect tab layout (with dots) with view pager
+        TabLayoutMediator(binding.tabDots, binding.pager) { tab, position ->
+
+        }.attach()
+
+        collectionViewModel.categoryList.observe(viewLifecycleOwner, { categoryList ->
+            viewPagerAdapter.refresh(categoryList)
+        })
 
         return binding.root
     }

@@ -241,16 +241,10 @@ class MapsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        println("##### ON RESUME")
         //setUpMaps()
         mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
             if (cityPins.isNotEmpty()) {
                 pins = cityPins as MutableList<CityPin>?
-                for(pin in cityPins) {
-                    /*if (pin.title == "Kancelarija") {
-                        Repository.get().removePinFromInventory(pin)
-                    }*/
-                }
                 setUpMaps()
             } else {
                 requireContext().oneButtonDialog(getString(R.string.info_dialog_title),

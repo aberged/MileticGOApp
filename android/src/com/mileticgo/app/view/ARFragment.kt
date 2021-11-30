@@ -16,7 +16,10 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.ar.core.*
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.FrameTime
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
+import com.google.ar.sceneform.ux.TransformableNode
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 import com.mileticgo.app.ar.PlaceNode
@@ -151,7 +154,10 @@ class ARFragment  : Fragment(), SensorEventListener {
 
         val pos = floatArrayOf(0F, 0.05F, -1f)
         val rotation = floatArrayOf(0f, 0f, 0f, 1f)
-        val anchor: Anchor? = session?.createAnchor(Pose(pos, rotation))
+        //val anchor: Anchor? = session?.createAnchor(Pose(pos, rotation))
+        val anchor: Anchor? = session?.createAnchor(arFragment.arSceneView.arFrame?.camera?.pose
+            ?.compose(Pose.makeTranslation(50f, 50f ,0f))
+            ?.extractTranslation())
         anchorNode = AnchorNode(anchor)
         anchorNode?.setParent(arFragment.arSceneView.scene)
         addPlaces(anchorNode!!)
@@ -185,13 +191,15 @@ class ARFragment  : Fragment(), SensorEventListener {
         val placeNode = PlaceNode(requireContext(), place).apply {
             val bundle = Bundle()
             bundle.putSerializable("details", cityPin)
-            setOnTapListener { hitTestResult, motionEvent ->
+            setOnTapListener { hitTestResult, _ ->
                 println("##### add place on tap listener")
                 Navigation.findNavController(binding.root).navigate(R.id.action_ARFragment_to_placeDetailsFragment, bundle)
             }
         }
         placeNode.setParent(anchorNode)
-        placeNode.localPosition = place.getPositionVector(orientationAngles[0], place.geometry.location.latLng)
+        println("###### get position vector ${place.getPositionVector(orientationAngles[0], place.geometry.location.latLng)}")
+        placeNode.localPosition = Vector3(0f, 0f, -8f)
+        //placeNode.localPosition = place.getPositionVector(orientationAngles[0], place.geometry.location.latLng)
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
