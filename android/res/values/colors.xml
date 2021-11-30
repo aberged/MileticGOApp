@@ -11,4 +11,5 @@
     <color name="blue_dialog_text">#35449C</color>
     <color name="login_edit_text_hint_color">#6B6C71</color>
     <color name="black_transparent">#8C000000</color>
+    <color name="selected_dot_gray">#5B5B5B</color>
 </resources>
