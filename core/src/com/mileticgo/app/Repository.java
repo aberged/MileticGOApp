@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -193,7 +194,12 @@ public final class Repository {
     }
 
     public List<CityPin> getActiveCityPins(){
-        return getActiveCityProfile().getCityPins();
+        if (getActiveCityProfile() == null || getActiveCityProfile().getCityPins() == null) {
+            return Collections.emptyList();
+        } else {
+            return getActiveCityProfile().getCityPins();
+        }
+
     }
     public UserInventory getUserInventory(){
         return getUser().getInventory();
