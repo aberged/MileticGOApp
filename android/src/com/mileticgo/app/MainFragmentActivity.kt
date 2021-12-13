@@ -18,12 +18,15 @@ import com.mileticgo.app.utils.twoButtonsDialog
 val FragmentManager.currentNavigationFragment: Fragment?
     get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
-class MainFragmentActivity: AppCompatActivity() {
+class MainFragmentActivity : AppCompatActivity() {
 
-    private lateinit var binding : MainActivityBinding
+    private lateinit var binding: MainActivityBinding
+
+    //private var installRequested = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!isSupportedDevice() && !checkARCoreAvailability()) {
+        if (!checkARCoreAvailability()) {  //!isSupportedDevice() &&
             setArFlag(false)
         } else {
             setArFlag(true)
@@ -64,13 +67,33 @@ class MainFragmentActivity: AppCompatActivity() {
     }
 
     private fun checkARCoreAvailability(): Boolean {
-        val availability = ArCoreApk.getInstance().checkAvailability(this)
-        if (availability.isTransient) {
+        //val availability = ArCoreApk.getInstance().checkAvailability(this)
+        /*if (availability.isTransient) {
             // Continue to query availability at 5Hz while compatibility is checked in the background.
             Handler().postDelayed({
                 checkARCoreAvailability()
             }, 200)
+        }*/
+        return when (ArCoreApk.getInstance().checkAvailability(this)) {
+            ArCoreApk.Availability.SUPPORTED_INSTALLED -> {
+                true
+            } else -> {
+                false
+            }
         }
-        return availability.isSupported
+        //return availability.isSupported
+
+        /*return when (ArCoreApk.getInstance().requestInstall(this, true)!!) {  //!installRequested
+            *//* ArCoreApk.InstallStatus.INSTALL_REQUESTED -> {
+                    println("###### INSTALL_REQUESTED")
+                }*//*
+            ArCoreApk.InstallStatus.INSTALLED -> {
+                println("###### INSTALLED ")
+                true
+            }
+            else -> {
+                false
+            }
+        }*/
     }
 }

@@ -41,7 +41,7 @@ class TopResultsFragment : Fragment() {
                     topScores[position].position = position + 1
                 }
                 adapter.refreshList(topScores)
-                if (!Repository.get().user.isAnonymous) {
+                if (!Repository.get().user.isAnonymous && (Repository.get().userInventoryCityPinsForActiveCityProfile.isNotEmpty()) ) {
                     binding.clUserContainer.visibility = View.VISIBLE
                     topResultViewModel.setUserResult(topScores.last())
                 }

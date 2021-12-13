@@ -25,7 +25,7 @@ public final class Repository {
     public final static String apiGetProfiles = apiBaseUrl + "cityprofile/";
     public final static String apiLogin = apiBaseUrl + "login";
     public final static String apiRegister = apiBaseUrl + "register";
-    public final static String apiAddPinToInventory = apiBaseUrl + "addPinToInventory";
+    public final static String apiAddPinToInventory = apiBaseUrl + "addPinToInentory";
     public final static String apiLeaderboard = apiBaseUrl + "leaderboard";
 
     private final User user = new User();
