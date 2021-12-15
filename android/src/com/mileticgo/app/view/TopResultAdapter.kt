@@ -23,7 +23,7 @@ class TopResultAdapter: RecyclerView.Adapter<TopResultAdapter.MyViewHolder>() {
         if (Repository.get().user.name == item.userName) {
             holder.binding.ivUserIcon.visibility = View.VISIBLE
         } else {
-            holder.binding.ivUserIcon.visibility = View.GONE
+            holder.binding.ivUserIcon.visibility = View.INVISIBLE
         }
         holder.binding.tvItemTitle.text = item.userName
         holder.binding.tvItemPoints.text = item.userPoints.toString()
