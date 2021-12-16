@@ -37,7 +37,7 @@ class MainMenuFragment : Fragment() {
         binding.btnMap.setOnClickListener {
             if (isLocationEnabled()) {
                 checkPermissions()
-               // Repository.get().addRandomPinToInventory()
+                Repository.get().addRandomPinToInventory()
             } else {
                 requireContext().twoButtonsDialog(getString(R.string.info_dialog_title), getString(R.string.turn_location_on_text),
                     getString(R.string.yes), getString(R.string.no), firstButtonCallback = {

@@ -51,7 +51,6 @@ public class UserInventory {
         List<CityPin> pins = map.get(cityProfile);
         if (!pins.contains(pin)) {
             pins.add(pin);
-            pin.setUnlocked(true);
             if (refresh) refreshJsonInventory();
         }
     }
@@ -70,7 +69,7 @@ public class UserInventory {
         this.jsonInventory = new JSONArray(this.toJson());
     }
 
-    void refresh(ArrayList<CityProfile> cityProfiles) {
+    void refresh(ArrayList<CityProfile> cityProfiles, boolean unlock) {
         for (int i=0;i<jsonInventory.length();i++) {
             JSONObject jsonCity = jsonInventory.getJSONObject(i);
             for (int j=0;j<cityProfiles.size();j++) {
@@ -83,6 +82,7 @@ public class UserInventory {
                         for (int l=0;l<cityPins.size();l++) {
                             CityPin cityPin = cityPins.get(l);
                             if (cityPin.getId().equals(jsonPin.getString("id"))) {
+                                if (unlock) cityPin.setUnlocked(true);
                                 addCityPinToInventory(cityPin, cityProfile, false);
                                 break;
                             }

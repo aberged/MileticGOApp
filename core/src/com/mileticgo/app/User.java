@@ -96,6 +96,7 @@ public class User {
     }
 
     void addPinToInventory(CityPin pin){
+        pin.setUnlocked(true);
         getInventory().addCityPinToInventory(pin, this.getActiveCityProfile());
     }
 
@@ -104,8 +105,8 @@ public class User {
     }
 
     void refreshInventory(ArrayList<CityProfile> cityProfiles) {
-        inventory.refresh(cityProfiles);
-        order.refresh(cityProfiles);
+        inventory.refresh(cityProfiles, true);
+        order.refresh(cityProfiles, false);
         if (order.getCityPins(getActiveCityProfile()).size() == 0) {
             randomizePins(order, cityProfiles);
         }

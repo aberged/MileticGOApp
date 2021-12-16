@@ -19,7 +19,7 @@ public final class Repository {
     public final static String USERSTORE = "user";
     public final static String PROFILESSTORE = "profiles";
     public final static String SYNCSTORE = "sync";
-    public final static String apiBaseUrl = "https://mileticgoapi-west6-vscf42q7eq-oa.a.run.app/api/";//"https://hello-vscf42q7eq-ew.a.run.app/api/";//"http://10.0.2.2:8080/api/";//
+    public final static String apiBaseUrl = "https://mileticgoapi-west6-vscf42q7eq-oa.a.run.app/api/";//"https://hello-vscf42q7eq-ew.a.run.app/api/";//"http://10.0.2.2:8080/api/";//"https://mileticgoapi-west6-vscf42q7eq-oa.a.run.app/api/";
     public final static String apiGetProfiles = apiBaseUrl + "cityprofile/";
     public final static String apiLogin = apiBaseUrl + "login";
     public final static String apiRegister = apiBaseUrl + "register";
@@ -100,6 +100,7 @@ public final class Repository {
                     }
                 }
                 this.user.refreshInventory(this.cityProfiles);
+                addPinToSyncQueue("-1", "-1");// sync order
             } else {
                 sessionStart = false;
                 fetchCityData();
