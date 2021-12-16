@@ -1,5 +1,5 @@
 package com.mileticgo.app;
 
 public interface RepositoryCallback {
-    void onResult(boolean valid);
+    void onResult(boolean ready, boolean updating, boolean error, String msg);
 }

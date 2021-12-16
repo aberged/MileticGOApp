@@ -55,8 +55,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun sendUser(email: String, password: String) {
-        Repository.get().login(email, password) { successful ->
-            if (successful) {
+        Repository.get().login(email, password) { ready, updating, error, msg ->
+            if (!error) {
                 hideLoader()
                 //return to previous fragment/screen
                 this.activity?.runOnUiThread {

@@ -78,8 +78,8 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun registerUser(userName: String, email: String, password: String) {
-        Repository.get().register(userName, email, password) { successful ->
-            if (successful) {
+        Repository.get().register(userName, email, password) { ready, updating, error, msg ->
+            if (!error) {
                 hideLoader()
                 //return to previous fragment/screen
                 findNavController().popBackStack()

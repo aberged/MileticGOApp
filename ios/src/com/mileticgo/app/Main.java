@@ -27,9 +27,8 @@ public class Main extends UIApplicationDelegateAdapter {
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
         // Set up repository
-        Repository.init(getPreferences("data"), valid -> {
-            List<CityPin> pins = Repository.get().getActiveCityPins();
-            System.out.println(pins);
+        Repository.init(getPreferences("data"), (ready, updating, error, msg) -> {
+            System.out.println(msg);
         });
 //        // Set up the view controller.
 //        rootViewController = new NavigationViewController();

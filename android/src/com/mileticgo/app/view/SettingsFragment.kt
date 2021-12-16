@@ -41,7 +41,7 @@ class SettingsFragment : Fragment() {
                 requireContext().twoButtonsDialog(getString(R.string.sign_out_dialog_title), getString(R.string.sign_out_dialog_message),
                 getString(R.string.yes), getString(R.string.no), firstButtonCallback = {
                         //todo sign out
-                        Repository.get().logout {
+                        Repository.get().logout { ready, updating, error, msg ->
                             setLoginButtonText()
                             setUserInfoText() }
                     })

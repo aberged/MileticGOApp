@@ -31,6 +31,15 @@ public class UserInventory {
         return map.get(cityProfile);
     }
 
+    public boolean hasCityPinInInventory(CityProfile cityProfile, String pinID) {
+        List<CityPin> allPins = getCityPins(cityProfile);
+        for (CityPin pin: allPins
+             ) {
+            if (pin.getId().equals(pinID)) return true;
+        }
+        return false;
+    }
+
     void addCityPinToInventory(CityPin pin, CityProfile cityProfile) {
         addCityPinToInventory(pin, cityProfile, true);
     }
@@ -87,7 +96,7 @@ public class UserInventory {
     }
 
     public String toJson() {
-        JSONArray json = new JSONArray();
+        JSONArray jsonArray = new JSONArray();
         Set<CityProfile> keys = map.keySet();
         for (CityProfile cityProfile : keys) {
             JSONObject cityItem = new JSONObject();
@@ -99,8 +108,8 @@ public class UserInventory {
                 pins.put(pin);
             }
             cityItem.put("pins", pins);
-            json.put(cityItem);
+            jsonArray.put(cityItem);
         }
-        return json.toString();
+        return jsonArray.toString();
     }
 }
