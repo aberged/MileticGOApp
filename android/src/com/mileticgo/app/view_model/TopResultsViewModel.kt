@@ -19,13 +19,19 @@ class TopResultsViewModel : ViewModel(), LeaderboardCallback {
 
     override fun result(list: MutableList<TopScoreListItem>) {
         if (list.isNotEmpty()) {
+            var isUserFound = false
             for(position in list.indices) {
                 list[position].position = position + 1
 
                 if (!Repository.get().user.isAnonymous && (Repository.get().userInventoryCityPinsForActiveCityProfile.isNotEmpty())
-                    && list[position].userName == Repository.get().user.name ) {
-                    setUserResult(list[position])
+                    && list[position].email == Repository.get().user.email ) {
+                    setUserResultFromList(list[position])
+                    isUserFound = true
                 }
+            }
+            if (!isUserFound) {
+                setUserResultFromRepository(RepositoryResult(Repository.get().userInventoryCityPinsForActiveCityProfile.size,
+                    Repository.get().user.name, 0))
             }
         }
         _topScores.postValue(list)
@@ -40,11 +46,21 @@ class TopResultsViewModel : ViewModel(), LeaderboardCallback {
         _errorMessage.postValue(message)
     }
 
-    private var _userResult = MutableLiveData<TopScoreListItem>()
-    val userResult : LiveData<TopScoreListItem>
-            get() = _userResult
+    private var _userResultFromList = MutableLiveData<TopScoreListItem>()
+    val userResultFromList : LiveData<TopScoreListItem>
+            get() = _userResultFromList
 
-    private fun setUserResult(userResult: TopScoreListItem) {
-        _userResult.postValue(userResult)
+    private fun setUserResultFromList(userResult: TopScoreListItem) {
+        _userResultFromList.postValue(userResult)
     }
+
+    private var _userResultFromRepository = MutableLiveData<RepositoryResult>()
+    val userResultFromRepository : LiveData<RepositoryResult>
+        get() = _userResultFromRepository
+
+    private fun setUserResultFromRepository(repositoryResult: RepositoryResult) {
+        _userResultFromRepository.postValue(repositoryResult)
+    }
+
+    data class RepositoryResult(val score: Int, val name: String, val position: Int)
 }

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mileticgo.app.R
+import com.mileticgo.app.Repository
 import com.mileticgo.app.TopScoreListItem
 import com.mileticgo.app.databinding.FragmentTopResultsBinding
 import com.mileticgo.app.utils.oneButtonDialog
@@ -48,8 +49,12 @@ class TopResultsFragment : Fragment() {
             }
         })
 
-        topResultViewModel.userResult.observe(viewLifecycleOwner, { lastTopResult ->
-            setUserResult(lastTopResult)
+        topResultViewModel.userResultFromList.observe(viewLifecycleOwner, { resultFromList ->
+            setUserResultFromList(resultFromList)
+        })
+
+        topResultViewModel.userResultFromRepository.observe(viewLifecycleOwner, { resultFromRepository ->
+            setUserResultFromRepository(resultFromRepository)
         })
 
         topResultViewModel.errorMessage.observe(viewLifecycleOwner, { message ->
@@ -66,11 +71,18 @@ class TopResultsFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUserResult(lastTopResult: TopScoreListItem) {
+    private fun setUserResultFromList(lastTopResult: TopScoreListItem) {
         binding.clUserContainer.visibility = View.VISIBLE
         binding.tvUserName.text = lastTopResult.userName
         binding.tvPointsValue.text = lastTopResult.userPoints.toString()
         binding.tvPositionValue.text = lastTopResult.position.toString()
+    }
+
+    private fun setUserResultFromRepository(repositoryResult: TopResultsViewModel.RepositoryResult) {
+        binding.clUserContainer.visibility = View.VISIBLE
+        binding.tvUserName.text = repositoryResult.name
+        binding.tvPointsValue.text = repositoryResult.score.toString()
+        binding.tvPositionValue.text = repositoryResult.position.toString()
     }
 
     private fun showLoader() {

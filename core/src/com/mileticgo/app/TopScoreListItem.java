@@ -30,6 +30,10 @@ public class TopScoreListItem {
         return userPoints;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public int getPosition() {
         return position;
     }
