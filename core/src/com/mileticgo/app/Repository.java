@@ -25,7 +25,7 @@ public final class Repository {
     public final static String apiRegister = apiBaseUrl + "register";
     public final static String apiAddPinToInventory = apiBaseUrl + "addPinToInentory";
     public final static String apiLeaderboard = apiBaseUrl + "leaderboard";
-    private static final int GET_ACTIVE_CITYPINS_PAGE = 5;
+    private static final int GET_ACTIVE_CITYPINS_PAGE = 10;
 
     private final NetJavaImpl net;
     private final Preferences preferences;

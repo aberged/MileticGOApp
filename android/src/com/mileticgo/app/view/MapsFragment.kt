@@ -114,6 +114,10 @@ class MapsFragment : Fragment() {
 
         //check if ar is supported
         isArrSupported = isARSupported()
+
+        binding.sShowCollectionPins.setOnClickListener {
+            mapViewModel.showCollectionPins(binding.sShowCollectionPins.isChecked)
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -122,6 +126,7 @@ class MapsFragment : Fragment() {
 
         mapFragment.getMapAsync { googleMap ->
             map = googleMap
+            map.clear()
             map.isMyLocationEnabled = true
             if (pins != null) {
                 if (pins!!.size > 0) {
@@ -250,6 +255,7 @@ class MapsFragment : Fragment() {
                 requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
                     getString(R.string.empty_map_pins_list), getString(R.string.ok),
                     buttonCallback = {
+                        binding.sShowCollectionPins.isChecked = false
                         setUpMaps()
                     })
             }
