@@ -53,7 +53,6 @@ class TopResultsFragment : Fragment() {
         })
 
         topResultViewModel.errorMessage.observe(viewLifecycleOwner, { message ->
-            println("#### error observe $message")
             if (message != null && !message.isNullOrBlank()) {
                 hideLoader()
                 requireContext().oneButtonDialog(getString(R.string.info_dialog_title),

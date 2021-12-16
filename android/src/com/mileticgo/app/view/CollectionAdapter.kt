@@ -33,8 +33,4 @@ class CollectionAdapter(private val onItemClick: (CityPin) -> Unit) : RecyclerVi
         mItemsList = itemsList
         notifyDataSetChanged()
     }
-
-    public fun setOnItemClickListener() {
-
-    }
 }

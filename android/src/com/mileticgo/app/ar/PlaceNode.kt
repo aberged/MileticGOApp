@@ -14,7 +14,7 @@ class PlaceNode(
 ) : Node() {
 
     private var placeRenderable: ViewRenderable? = null
-    private var textViewPlace: TextView? = null
+    //private var textViewPlace: TextView? = null
 
     override fun onActivate() {
         super.onActivate()
@@ -41,7 +41,7 @@ class PlaceNode(
             }
     }
 
-    fun showInfoWindow() {
+    /*fun showInfoWindow() {
         // Show text
         textViewPlace?.let {
             it.visibility = if (it.visibility == View.VISIBLE) View.GONE else View.VISIBLE
@@ -53,5 +53,5 @@ class PlaceNode(
         }?.forEach {
             (it as PlaceNode).textViewPlace?.visibility = View.GONE
         }
-    }
+    }*/
 }

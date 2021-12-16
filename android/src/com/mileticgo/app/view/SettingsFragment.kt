@@ -8,12 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.R
 import com.mileticgo.app.Repository
-import com.mileticgo.app.RepositoryCallback
 import com.mileticgo.app.databinding.FragmentSettingsBinding
-import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.utils.twoButtonsDialog
 import com.mileticgo.app.view_model.SettingsViewModel
 
@@ -51,10 +48,6 @@ class SettingsFragment : Fragment() {
         binding.btnSettingsAbout.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_settingsFragment_to_aboutFragment)
         }
-
-        /*binding.myToolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }*/
 
         return binding.root
     }
