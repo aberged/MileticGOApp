@@ -6,11 +6,19 @@ public class TopScoreListItem {
 
     private final String userName;
     private final int userPoints;
+    private final String email;
     private int position;
 
     public TopScoreListItem(JSONObject topScoreItemJson) {
         userName = topScoreItemJson.getString("name");
         userPoints = topScoreItemJson.getInt("score");
+        String mail = "";
+        try {
+            mail = topScoreItemJson.getString("email");
+        }catch (Throwable err) {
+            mail = "";
+        }
+        email = mail;
         position = 0;
     }
 
