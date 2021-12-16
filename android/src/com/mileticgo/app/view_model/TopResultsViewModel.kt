@@ -17,8 +17,18 @@ class TopResultsViewModel : ViewModel(), LeaderboardCallback {
         Repository.get().getLeaderboard(this)
     }
 
-    override fun result(list: MutableList<TopScoreListItem>?) {
-        _topScores.postValue(list!!)
+    override fun result(list: MutableList<TopScoreListItem>) {
+        if (list.isNotEmpty()) {
+            for(position in list.indices) {
+                list[position].position = position + 1
+
+                if (!Repository.get().user.isAnonymous && (Repository.get().userInventoryCityPinsForActiveCityProfile.isNotEmpty())
+                    && list[position].userName == Repository.get().user.name ) {
+                    setUserResult(list[position])
+                }
+            }
+        }
+        _topScores.postValue(list)
     }
 
     private val _errorMessage = MutableLiveData<String>()
@@ -34,7 +44,7 @@ class TopResultsViewModel : ViewModel(), LeaderboardCallback {
     val userResult : LiveData<TopScoreListItem>
             get() = _userResult
 
-    fun setUserResult(userResult: TopScoreListItem) {
-        _userResult.value = userResult
+    private fun setUserResult(userResult: TopScoreListItem) {
+        _userResult.postValue(userResult)
     }
 }

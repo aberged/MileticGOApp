@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mileticgo.app.R
-import com.mileticgo.app.Repository
 import com.mileticgo.app.TopScoreListItem
 import com.mileticgo.app.databinding.FragmentTopResultsBinding
 import com.mileticgo.app.utils.oneButtonDialog
@@ -37,14 +36,7 @@ class TopResultsFragment : Fragment() {
 
         topResultViewModel.topScores.observe(viewLifecycleOwner, { topScores ->
             if (topScores.isNotEmpty()) {
-                for(position in topScores.indices) {
-                    topScores[position].position = position + 1
-                }
                 adapter.refreshList(topScores)
-                if (!Repository.get().user.isAnonymous && (Repository.get().userInventoryCityPinsForActiveCityProfile.isNotEmpty()) ) {
-                    binding.clUserContainer.visibility = View.VISIBLE
-                    topResultViewModel.setUserResult(topScores.last())
-                }
                 hideLoader()
             } else {
                 hideLoader()
@@ -76,6 +68,7 @@ class TopResultsFragment : Fragment() {
     }
 
     private fun setUserResult(lastTopResult: TopScoreListItem) {
+        binding.clUserContainer.visibility = View.VISIBLE
         binding.tvUserName.text = lastTopResult.userName
         binding.tvPointsValue.text = lastTopResult.userPoints.toString()
         binding.tvPositionValue.text = lastTopResult.position.toString()
