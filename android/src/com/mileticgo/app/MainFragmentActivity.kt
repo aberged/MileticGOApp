@@ -1,14 +1,11 @@
 package com.mileticgo.app
 
-import android.app.ActivityManager
-import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.ar.core.ArCoreApk
+import com.mileticgo.app.databinding.MainActivityBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.view.MainMenuFragment
 import com.mileticgo.app.utils.twoButtonsDialog
@@ -17,15 +14,19 @@ import com.mileticgo.app.utils.twoButtonsDialog
 val FragmentManager.currentNavigationFragment: Fragment?
     get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
-class MainFragmentActivity: AppCompatActivity() {
+class MainFragmentActivity : AppCompatActivity() {
+
+    private lateinit var binding: MainActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!isSupportedDevice() && !checkARCoreAvailability()) {
+        if (!checkARCoreAvailability()) {  //!isSupportedDevice() &&
             setArFlag(false)
         } else {
             setArFlag(true)
         }
-        setContentView(R.layout.main_activity)
+        binding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
     }
 
@@ -47,7 +48,7 @@ class MainFragmentActivity: AppCompatActivity() {
         }
     }
 
-    private fun isSupportedDevice(): Boolean {
+    /*private fun isSupportedDevice(): Boolean {
         val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val openGlVersionString = activityManager.deviceConfigurationInfo.glEsVersion
         if (openGlVersionString.toDouble() < 3.0) {
@@ -57,16 +58,15 @@ class MainFragmentActivity: AppCompatActivity() {
             return false
         }
         return true
-    }
+    }*/
 
     private fun checkARCoreAvailability(): Boolean {
-        val availability = ArCoreApk.getInstance().checkAvailability(this)
-        if (availability.isTransient) {
-            // Continue to query availability at 5Hz while compatibility is checked in the background.
-            Handler().postDelayed({
-                checkARCoreAvailability()
-            }, 200)
+        return when (ArCoreApk.getInstance().checkAvailability(this)) {
+            ArCoreApk.Availability.SUPPORTED_INSTALLED -> {
+                true
+            } else -> {
+                false
+            }
         }
-        return availability.isSupported
     }
 }

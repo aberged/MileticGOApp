@@ -37,6 +37,7 @@ class MainMenuFragment : Fragment() {
         binding.btnMap.setOnClickListener {
             if (isLocationEnabled()) {
                 checkPermissions()
+               // Repository.get().addRandomPinToInventory()
             } else {
                 requireContext().twoButtonsDialog(getString(R.string.info_dialog_title), getString(R.string.turn_location_on_text),
                     getString(R.string.yes), getString(R.string.no), firstButtonCallback = {
@@ -90,25 +91,11 @@ class MainMenuFragment : Fragment() {
             Navigation.findNavController(binding.root).navigate(R.id.action_mainMenuFragment_to_mapFragment)
         } else {
             requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                println("######## ACCESS_BACKGROUND_LOCATION ${shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)}")
-                //if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
-                    //explain user why we need ACCESS_BACKGROUND_LOCATION location
-                    requireContext().twoButtonsDialog("Info", "Da bi aplikacija imala neophodnu funkcionalnost potrebna je dozvola za lokaciju u pozadini. U suprotnom ne mozemo znati kad ste se priblizili itemu. Dozvola se koristi samo u ovu svrhu",
-                    "U redu", "Nije u redu", firstButtonCallback = {
-                            requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION))
-                        })
-                //}
-            } else {
-                requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
-            }*/
-            //requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION))
         }
     }
 
-    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
         var isGrantedFineLocation = false
-        var isGrantedBackgroundLocation = false
         for (entry in it.entries) {
             if (entry.key == Manifest.permission.ACCESS_FINE_LOCATION) {
                 if (!entry.value) {
@@ -123,33 +110,9 @@ class MainMenuFragment : Fragment() {
                     isGrantedFineLocation = true
                 }
             }
-
-            /*if (entry.key == Manifest.permission.ACCESS_BACKGROUND_LOCATION) {
-                if (!entry.value) {
-                    isGrantedBackgroundLocation = false
-                    //background location permission is not granted
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.background_location_permission_denied),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    isGrantedBackgroundLocation = true
-                }
-            }*/
             if (isGrantedFineLocation) {
                 Navigation.findNavController(binding.root).navigate(R.id.action_mainMenuFragment_to_mapFragment)
             }
-
-            /*if (isGranted) {
-            Navigation.findNavController(binding.root).navigate(R.id.action_mainMenuFragment_to_mapFragment)
-        }*/
-            /*if (isGranted) {
-            Navigation.findNavController(binding.root).navigate(R.id.action_mainMenuFragment_to_mapFragment)
-        } else {
-            //location permission is not granted
-            Toast.makeText(requireContext(), getString(R.string.location_permission_denied), Toast.LENGTH_SHORT).show()
-        }*/
         }
     }
 }

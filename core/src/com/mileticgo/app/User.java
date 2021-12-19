@@ -3,6 +3,7 @@ package com.mileticgo.app;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class User {
@@ -17,6 +18,8 @@ public class User {
     private CityProfile activeCityProfile;
     private UserInventory inventory;
 
+    private UserInventory order;
+
     User(){
         logout();
     }
@@ -29,6 +32,7 @@ public class User {
         this.activeCityProfileID = "0";
         this.anonymous = true;
         this.inventory = new UserInventory(new JSONArray());
+        this.order = new UserInventory(new JSONArray());
     }
 
     void applyJson(JSONObject json) {
@@ -39,6 +43,11 @@ public class User {
         this.anonymous = json.getBoolean("anonymous");
         this.activeCityProfileID = json.getString("activeCityProfileID");
         this.inventory = new UserInventory(json.getJSONArray("inventory"));
+        try {
+            this.order = new UserInventory(json.getJSONArray("order"));
+        }catch (Throwable war) {
+            System.out.println(war.getMessage());
+        }
     }
 
     public String getName() {
@@ -75,13 +84,19 @@ public class User {
         if (profile == null) return;
         this.activeCityProfile = profile;
         activeCityProfileID = profile.getId();
+
     }
 
     public UserInventory getInventory(){
         return inventory;
     }
 
+    public UserInventory getOrder() {
+        return order;
+    }
+
     void addPinToInventory(CityPin pin){
+        pin.setUnlocked(true);
         getInventory().addCityPinToInventory(pin, this.getActiveCityProfile());
     }
 
@@ -90,7 +105,27 @@ public class User {
     }
 
     void refreshInventory(ArrayList<CityProfile> cityProfiles) {
-        inventory.refresh(cityProfiles);
+        inventory.refresh(cityProfiles, true);
+        order.refresh(cityProfiles, false);
+        if (order.getCityPins(getActiveCityProfile()).size() == 0) {
+            randomizePins(order, cityProfiles);
+        }
+    }
+
+    private void randomizePins(UserInventory ui, ArrayList<CityProfile> cpArr) {
+        for (CityProfile cp: cpArr
+             ) {
+            List<CityPin> cityPins = cp.getCityPins();
+            ArrayList<CityPin> pins = new ArrayList<>();
+            for (CityPin pin: cityPins
+                 ) {
+                pins.add(pin);
+            }
+            while (pins.size() > 0) {
+                CityPin pin = pins.remove((int) Math.round(Math.random()*(pins.size()-1)));
+                ui.addCityPinToInventory(pin, cp);
+            }
+        }
     }
 
     @Override
@@ -107,6 +142,7 @@ public class User {
         json.put("anonymous", anonymous);
         json.put("activeCityProfileID", activeCityProfileID);
         json.put("inventory", new JSONArray(inventory.toJson()));
+        json.put("order", new JSONArray(order.toJson()));
         return json.toString();
     }
 }

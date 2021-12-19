@@ -16,6 +16,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.ar.core.*
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
@@ -41,7 +42,7 @@ class ARFragment  : Fragment(), SensorEventListener {
     private val magnetometerReading = FloatArray(3)
     private val rotationMatrix = FloatArray(9)
 
-    var modelRenderable: ModelRenderable? = null
+    //var modelRenderable: ModelRenderable? = null
 
     private val arViewModel by viewModels<ARViewModel>()
 
@@ -54,11 +55,7 @@ class ARFragment  : Fragment(), SensorEventListener {
 
         if (arguments?.getSerializable("details") != null) {
             cityPin = arguments?.getSerializable("details") as CityPin
-            println("##### AR FRAGMENT result - $cityPin")
         }
-
-        //setupModel()
-        //setupPlane()
 
         binding.myToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -67,47 +64,8 @@ class ARFragment  : Fragment(), SensorEventListener {
         return binding.root
     }
 
-    /*private fun setupPlane() {
-        arFragment.setOnTapArPlaneListener { hitresult, plane, motionEvent ->
-            val anchor = hitresult.createAnchor()
-            val anchorNode = AnchorNode(anchor)
-            anchorNode.setParent(arFragment.arSceneView.scene)
-            createModel(anchorNode)
-        }
-    }*/
-
-    /*private fun createModel(anchorNode: AnchorNode) {
-        val node = TransformableNode(arFragment.transformationSystem).apply {
-            setOnTapListener{_, _ ->
-                println("##### node touch listener")
-            }
-        }
-        node.setParent(anchorNode)
-        node.renderable = modelRenderable
-        node.scaleController
-        node.select()
-    }*/
-
-    /*private fun setupModel() {
-        //println("###### PARSE URI ${Uri.parse("wolves.sfb")}")
-        ModelRenderable.builder()
-            .setSource(context, R.raw.android) //Uri.parse("wolves.sfb")
-            .build()
-            .thenAccept { renderable -> modelRenderable = renderable }
-            .exceptionally {
-                Toast.makeText(context, "Model can't be loaded", Toast.LENGTH_SHORT).show()
-                return@exceptionally null
-            }
-    }*/
-
-    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }*/
-
     override fun onResume() {
         super.onResume()
-        //println("##### onResume")
         sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also {
             sensorManager.registerListener(
                 this,
@@ -149,9 +107,12 @@ class ARFragment  : Fragment(), SensorEventListener {
             session.cameraConfig = cameraConfigList!![0]
         }
 
-        val pos = floatArrayOf(0F, 0.05F, -1f)
-        val rotation = floatArrayOf(0f, 0f, 0f, 1f)
-        val anchor: Anchor? = session?.createAnchor(Pose(pos, rotation))
+        //val pos = floatArrayOf(0F, 0.05F, -1f)
+        //val rotation = floatArrayOf(0f, 0f, 0f, 1f)
+        //val anchor: Anchor? = session?.createAnchor(Pose(pos, rotation))
+        val anchor: Anchor? = session?.createAnchor(arFragment.arSceneView.arFrame?.camera?.pose
+            ?.compose(Pose.makeTranslation(50f, 50f ,0f))
+            ?.extractTranslation())
         anchorNode = AnchorNode(anchor)
         anchorNode?.setParent(arFragment.arSceneView.scene)
         addPlaces(anchorNode!!)
@@ -185,13 +146,13 @@ class ARFragment  : Fragment(), SensorEventListener {
         val placeNode = PlaceNode(requireContext(), place).apply {
             val bundle = Bundle()
             bundle.putSerializable("details", cityPin)
-            setOnTapListener { hitTestResult, motionEvent ->
-                println("##### add place on tap listener")
+            setOnTapListener { hitTestResult, _ ->
                 Navigation.findNavController(binding.root).navigate(R.id.action_ARFragment_to_placeDetailsFragment, bundle)
             }
         }
         placeNode.setParent(anchorNode)
-        placeNode.localPosition = place.getPositionVector(orientationAngles[0], place.geometry.location.latLng)
+        placeNode.localPosition = Vector3(0f, 0f, -8f)
+        //placeNode.localPosition = place.getPositionVector(orientationAngles[0], place.geometry.location.latLng)
     }
 
     override fun onSensorChanged(event: SensorEvent?) {

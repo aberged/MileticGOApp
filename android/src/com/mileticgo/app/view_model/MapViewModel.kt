@@ -29,14 +29,14 @@ class MapViewModel : ViewModel() {
      * @param unlocked set color to gray if false
      * @param isNear if user is near the marker color marker to green
      */
-    fun setMarkerColor(unlocked: Boolean, isNear: Boolean): BitmapDescriptor? {
+    fun setMarkerColor(unlocked: Boolean, isNear: Boolean): BitmapDescriptor {
         return if (unlocked) {
-            BitmapDescriptorFactory.fromResource(R.drawable.pin_blue_small)
+            BitmapDescriptorFactory.fromResource(R.drawable.pin_checked)
         } else {
             if (isNear) {
-                BitmapDescriptorFactory.fromResource(R.drawable.pin_green_small)
+                BitmapDescriptorFactory.fromResource(R.drawable.pin_active)
             } else {
-                BitmapDescriptorFactory.fromResource(R.drawable.pin_gray_small)
+                BitmapDescriptorFactory.fromResource(R.drawable.pin_locked)
             }
         }
     }
@@ -48,6 +48,14 @@ class MapViewModel : ViewModel() {
             tmpPinLocation.latitude = pin.lat
             tmpPinLocation.longitude = pin.lng
             pin.isNear = currentLocation.distanceTo(tmpPinLocation) <= 50
+        }
+    }
+
+    fun showCollectionPins(show: Boolean) {
+        if (show) {
+            _pins.value = Repository.get().userInventoryCityPinsForActiveCityProfile
+        } else {
+            _pins.value = Repository.get().activeCityPins
         }
     }
 }

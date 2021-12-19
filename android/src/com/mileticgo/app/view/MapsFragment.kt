@@ -16,7 +16,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -53,9 +52,6 @@ class MapsFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
 
-        binding.myToolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
 
         /*mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
             if (cityPins.isNotEmpty()) {
@@ -117,6 +113,10 @@ class MapsFragment : Fragment() {
 
         //check if ar is supported
         isArrSupported = isARSupported()
+
+        binding.sShowCollectionPins.setOnClickListener {
+            mapViewModel.showCollectionPins(binding.sShowCollectionPins.isChecked)
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -125,6 +125,7 @@ class MapsFragment : Fragment() {
 
         mapFragment.getMapAsync { googleMap ->
             map = googleMap
+            map.clear()
             map.isMyLocationEnabled = true
             if (pins != null) {
                 if (pins!!.size > 0) {
@@ -244,7 +245,6 @@ class MapsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        println("##### ON RESUME")
         //setUpMaps()
         mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
             if (cityPins.isNotEmpty()) {
@@ -254,6 +254,7 @@ class MapsFragment : Fragment() {
                 requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
                     getString(R.string.empty_map_pins_list), getString(R.string.ok),
                     buttonCallback = {
+                        binding.sShowCollectionPins.isChecked = false
                         setUpMaps()
                     })
             }

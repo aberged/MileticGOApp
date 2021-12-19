@@ -25,9 +25,9 @@
     <application
         android:name=".AndroidApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <!-- Indicates that this app requires Google Play Services for AR ("AR Required") and causes
              the Google Play Store to download and intall Google Play Services for AR along with

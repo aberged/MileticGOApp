@@ -3,34 +3,37 @@ package com.mileticgo.app.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.mileticgo.app.R
+import com.mileticgo.app.Repository
 import com.mileticgo.app.TopScoreListItem
+import com.mileticgo.app.databinding.TopResultItemBinding
 
 class TopResultAdapter: RecyclerView.Adapter<TopResultAdapter.MyViewHolder>() {
 
     private var mItemsList : List<TopScoreListItem> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.top_result_item, parent, false)
-        return MyViewHolder(itemView)
+        val binding = TopResultItemBinding.inflate(LayoutInflater.from(parent.context),  parent, false)
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = mItemsList[position]
-        holder.itemTextView.text = item.userName
-        holder.itemTVPoints.text = item.userPoints.toString()
+        holder.binding.tvPosition.text = item.position.toString()
+        if (Repository.get().user.name == item.userName) {
+            holder.binding.ivUserIcon.visibility = View.VISIBLE
+        } else {
+            holder.binding.ivUserIcon.visibility = View.INVISIBLE
+        }
+        holder.binding.tvItemTitle.text = item.userName
+        holder.binding.tvItemPoints.text = item.userPoints.toString()
     }
 
     override fun getItemCount(): Int {
         return mItemsList.size
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var itemTextView : TextView = itemView.findViewById(R.id.tv_item_title)
-        var itemTVPoints : TextView = itemView.findViewById(R.id.tv_item_points)
-    }
+    class MyViewHolder(val binding: TopResultItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     fun refreshList(itemsList : List<TopScoreListItem>) {
         mItemsList = itemsList

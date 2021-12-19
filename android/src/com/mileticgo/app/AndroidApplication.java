@@ -13,9 +13,12 @@ public class AndroidApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Repository.init(new AndroidPreferences(this.getSharedPreferences("data", 0)), valid -> {
-            List<CityPin> pins = Repository.get().getUserInventoryCityPinsForActiveCityProfile();
-            Log.d("inventory pins", pins.toString());
+        Repository.init(new AndroidPreferences(this.getSharedPreferences("data", 0)), (ready, updating, error, msg) -> {
+            Log.d("MileticGO Repository - " +
+                    "ready: ", Boolean.toString(ready) +
+                    "; updating: " + Boolean.toString(updating) +
+                    "; error: " + Boolean.toString(error) +
+                    "; msg: " + msg);
         });
     }
 
