@@ -66,6 +66,9 @@
                                 <state key="normal" title="LOKACIJA">
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
+                                <connections>
+                                    <segue destination="NiI-8W-zdI" kind="show" id="JXW-RF-7wd"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O6z-hA-jOK">
                                 <rect key="frame" x="45" y="563" width="324" height="40"/>
@@ -125,13 +128,42 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="qY7-cx-Lg9"/>
-                    <connections>
-                        <outlet property="mapButtton" destination="Bp9-gv-sNM" id="mY5-7v-9i3"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bAQ-h1-RoW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1393.125" y="175"/>
+        </scene>
+        <!--Lokacija-->
+        <scene sceneID="RWV-Pg-opP">
+            <objects>
+                <viewController id="NiI-8W-zdI" customClass="MapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ywb-ZS-ikq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H9D-TR-d0S">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mwH-YA-2Wb"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="H9D-TR-d0S" firstAttribute="top" secondItem="mwH-YA-2Wb" secondAttribute="top" id="AA1-OR-y4M"/>
+                            <constraint firstItem="mwH-YA-2Wb" firstAttribute="trailing" secondItem="H9D-TR-d0S" secondAttribute="trailing" id="Ogm-AI-zcW"/>
+                            <constraint firstItem="mwH-YA-2Wb" firstAttribute="bottom" secondItem="H9D-TR-d0S" secondAttribute="bottom" id="lGk-Hw-WjJ"/>
+                            <constraint firstItem="H9D-TR-d0S" firstAttribute="leading" secondItem="mwH-YA-2Wb" secondAttribute="leading" id="xfk-BV-dh9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Lokacija" id="4q0-JP-Ok8">
+                        <barButtonItem key="backBarButtonItem" title="Nazad" id="ldL-xG-U1t"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="map" destination="H9D-TR-d0S" id="Tj2-zc-7c3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9QM-WK-DlY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2152" y="175"/>
         </scene>
         <!--Navigation View Controller-->
         <scene sceneID="BWl-xf-Qwm">

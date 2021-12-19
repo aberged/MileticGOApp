@@ -1,6 +1,5 @@
 package com.mileticgo.app;
 
-import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.corelocation.CLLocationAccuracy;
 import org.robovm.apple.corelocation.CLLocationCoordinate2D;
 import org.robovm.apple.corelocation.CLLocationManager;
@@ -21,14 +20,21 @@ import org.robovm.apple.mapkit.MKUserTrackingMode;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItemStyle;
 import org.robovm.apple.uikit.UIControl;
-import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIViewController;
+import org.robovm.objc.annotation.CustomClass;
+import org.robovm.objc.annotation.IBOutlet;
+
 import java.util.ArrayList;
 
+@CustomClass("MapViewController")
 public class MapViewController extends UIViewController implements MKMapViewDelegate {
 
     private MKMapView map;
     private final CLLocationManager locationManager = new CLLocationManager();
+
+    @IBOutlet public void setMap(MKMapView _map) {
+        this.map = _map;
+    }
 
     public MapViewController() {
     }
@@ -42,19 +48,17 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     @Override
     public void viewDidLoad() {
         super.viewDidLoad();
-        setTitle("Mapa");
 
         locationManager.requestWhenInUseAuthorization();
         locationManager.setDesiredAccuracy(CLLocationAccuracy.Best);
         locationManager.setDistanceFilter(CLLocationManager.getDistanceFilterNone());
         locationManager.startUpdatingLocation();
 
-        map = new MKMapView(new CGRect(0, 0, UIScreen.getMainScreen().getBounds().getWidth(), UIScreen.getMainScreen().getBounds().getHeight()));
         map.setDelegate(this);
         map.setShowsCompass(true);
         map.setCamera(new MKMapCamera(new CLLocationCoordinate2D(
                 Repository.get().getActiveCityProfile().getLat(),
-                Repository.get().getActiveCityProfile().getLng()), 15000, 0, 0));
+                Repository.get().getActiveCityProfile().getLng()), 21000, 0, 0));
         ArrayList<CityPin> pins = (ArrayList<CityPin>) Repository.get().getActiveCityPins();
         for (CityPin pin: pins) {
             MapPin mapPin = new MapPin(pin);
@@ -62,8 +66,6 @@ public class MapViewController extends UIViewController implements MKMapViewDele
         }
         map.setShowsUserLocation(true);
         map.setUserTrackingMode(MKUserTrackingMode.None);
-
-        getView().addSubview(map);
 
         getNavigationItem().setRightBarButtonItem(new UIBarButtonItem("Hide me", UIBarButtonItemStyle.Plain, barButtonItem -> {
             map.setShowsUserLocation(!map.showsUserLocation());

@@ -44,5 +44,6 @@
     <framework>AudioToolbox</framework>
     <framework>AVFoundation</framework>
     <framework>GameController</framework>
+    <framework>MapKit</framework>
   </frameworks>
 </config>
