@@ -50,9 +50,26 @@ class CollectionFragment : Fragment() {
         }.attach()
 
         collectionViewModel.categoryList.observe(viewLifecycleOwner, { categoryList ->
-            viewPagerAdapter.refresh(categoryList)
+            viewPagerAdapter.refresh(categoryList, collectionViewModel)
         })
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("#### onResume")
+        binding.tabDots.post {
+            //binding.tabDots.selectTab(binding.tabDots.getTabAt(collectionViewModel.viewPagerPosition)) // radi
+            binding.pager.currentItem = collectionViewModel.viewPagerPosition
+        }
+        /*if (binding.pager.isAttachedToWindow) {
+            binding.pager.currentItem = collectionViewModel.viewPagerPosition
+            binding.pager.scrollTo(collectionViewModel.viewPagerPosition, 0)
+            //binding.tabDots.getTabAt(collectionViewModel.viewPagerPosition)?.select()
+            binding.tabDots.selectTab(binding.tabDots.getTabAt(collectionViewModel.viewPagerPosition))
+            binding.tabDots.setScrollPosition(collectionViewModel.viewPagerPosition, 0f, true)
+        }*/
+
     }
 }

@@ -29,7 +29,7 @@ class TopResultsViewModel : ViewModel(), LeaderboardCallback {
                     isUserFound = true
                 }
             }
-            if (!isUserFound) {
+            if (!Repository.get().user.isAnonymous && !isUserFound) {
                 setUserResultFromRepository(RepositoryResult(Repository.get().userInventoryCityPinsForActiveCityProfile.size,
                     Repository.get().user.name, 0))
             }

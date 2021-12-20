@@ -4,11 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.material.tabs.TabLayout
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.Repository
 
 class CollectionViewModel(application: Application) : AndroidViewModel(application) {
 
+    var viewPagerPosition: Int = 0
     private val _cityPins = MutableLiveData<List<CityPin>>()
     val cityPins: LiveData<List<CityPin>>
         get() = _cityPins

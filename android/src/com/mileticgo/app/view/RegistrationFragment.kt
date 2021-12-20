@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.mileticgo.app.R
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.mileticgo.app.Repository
 import com.mileticgo.app.databinding.RegistrationFragmentBinding
@@ -81,8 +82,9 @@ class RegistrationFragment : Fragment() {
         Repository.get().register(userName, email, password) { ready, updating, error, msg ->
             if (!error) {
                 hideLoader()
-                //return to previous fragment/screen
-                findNavController().popBackStack()
+                //return to settings fragment/screen
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_registrationFragment_to_settingsFragment)
             } else {
                 hideLoader()
                 this.activity?.runOnUiThread {
