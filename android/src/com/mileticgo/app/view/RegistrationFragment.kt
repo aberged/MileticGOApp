@@ -83,8 +83,13 @@ class RegistrationFragment : Fragment() {
             if (!error) {
                 hideLoader()
                 //return to settings fragment/screen
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_registrationFragment_to_settingsFragment)
+                this.activity?.runOnUiThread {
+                    requireContext().oneButtonDialog(getString(R.string.login_dialog_info_title), getString(R.string.registration_successful), getString(R.string.ok),
+                    buttonCallback = {
+                        Navigation.findNavController(binding.root)
+                            .navigate(R.id.action_registrationFragment_to_settingsFragment)
+                    })
+                }
             } else {
                 hideLoader()
                 this.activity?.runOnUiThread {
