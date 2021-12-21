@@ -19,6 +19,7 @@ import org.robovm.apple.mapkit.MKUserLocation;
 import org.robovm.apple.mapkit.MKUserTrackingMode;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItemStyle;
+import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIControl;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.objc.annotation.CustomClass;
@@ -47,6 +48,9 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     @Override
     public void viewDidLoad() {
         super.viewDidLoad();
+
+        //adds random pin; testing only!
+        //Repository.get().addRandomPinToInventory();
 
         locationManager.requestWhenInUseAuthorization();
         locationManager.setDesiredAccuracy(CLLocationAccuracy.Best);
@@ -78,6 +82,7 @@ public class MapViewController extends UIViewController implements MKMapViewDele
         }));
 
         getNavigationController().setNavigationBarHidden(false);
+        getNavigationController().getNavigationBar().setTintColor(UIColor.black());
     }
 
     @Override

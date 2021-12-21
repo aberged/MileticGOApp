@@ -21,6 +21,7 @@ public class MainViewController extends UIViewController {
         super.viewDidLoad();
         getNavigationItem().setBackButtonTitle("Nazad");
         getNavigationController().setNavigationBarHidden(true);
+        getNavigationController().getNavigationBar().setTintColor(UIColor.white());
 
         getNavigationController().getNavigationBar().setBackgroundImage(new UIImage(), UIBarMetrics.Default);
         getNavigationController().getNavigationBar().setShadowImage(new UIImage());

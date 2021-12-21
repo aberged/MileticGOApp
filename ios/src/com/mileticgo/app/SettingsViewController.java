@@ -23,10 +23,21 @@ import org.robovm.objc.block.VoidBlock1;
 public class SettingsViewController extends UIViewController {
 
     private UIButton logInOut;
-
     @IBOutlet
     public void setButtonPrijava(UIButton _ui) {
         this.logInOut = _ui;
+    }
+
+    private UIButton bRegister;
+    @IBOutlet
+    public void setButtonRegister(UIButton _ui) {
+        this.bRegister = _ui;
+    }
+
+    private UIButton bAbout;
+    @IBOutlet
+    public void setButtonAbout(UIButton _ui) {
+        this.bAbout = _ui;
     }
 
     @Override
@@ -34,8 +45,10 @@ public class SettingsViewController extends UIViewController {
         super.viewWillAppear(animated);
         if (Repository.get().getUser().isAnonymous()) {
             logInOut.setTitle("PRIJAVA", UIControlState.Normal);
+            bRegister.setHidden(false);
         } else {
             logInOut.setTitle("ODJAVA", UIControlState.Normal);
+            bRegister.setHidden(true);
         }
     }
 
@@ -45,12 +58,7 @@ public class SettingsViewController extends UIViewController {
 
         getNavigationController().setNavigationBarHidden(false);
         getNavigationItem().setBackButtonTitle("Podešavanja");
-
-        getNavigationController().getNavigationBar().setBackgroundImage(new UIImage(), UIBarMetrics.Default);
-        getNavigationController().getNavigationBar().setShadowImage(new UIImage());
-        getNavigationController().getNavigationBar().setTranslucent(true);
-        getNavigationController().getNavigationBar().setBackgroundColor(new UIColor(0,0,0,0));
-        getNavigationController().getNavigationBar().setBarTintColor(new UIColor(0,0,0,0));
+        getNavigationController().getNavigationBar().setTintColor(UIColor.white());
 
         logInOut.addOnTouchUpInsideListener((control, event) -> {
             if (Repository.get().getUser().isAnonymous()) {
@@ -66,6 +74,7 @@ public class SettingsViewController extends UIViewController {
                         } else if (ready) {
                             showOKButtonPopup("Info", "Uspešno ste se odjavili.", "OK", null);
                             logInOut.setTitle("PRIJAVA", UIControlState.Normal);
+                            bRegister.setHidden(false);
                         }
                     });
                     System.out.println(msg);
