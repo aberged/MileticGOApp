@@ -101,6 +101,7 @@ public final class Repository {
                 }
                 this.user.refreshInventory(this.cityProfiles);
                 addPinToSyncQueue("-1", "-1");// sync order
+                this.preferences.putString(USERSTORE, this.user.toJson()).flush();
             } else {
                 sessionStart = false;
                 fetchCityData();
@@ -242,7 +243,7 @@ public final class Repository {
         if (user.getOrder() == null || user.getActiveCityProfile() == null || user.getOrder().getCityPins(user.getActiveCityProfile()) == null) {
             return Collections.emptyList();
         } else {
-            int page = (int) Math.floor(user.getInventory().getCityPins(user.getActiveCityProfile()).size() / GET_ACTIVE_CITYPINS_PAGE);
+            int page = (int) Math.floor((double)user.getInventory().getCityPins(user.getActiveCityProfile()).size() / ((double)GET_ACTIVE_CITYPINS_PAGE));
             int totalSize = user.getOrder().getCityPins(user.getActiveCityProfile()).size();
             ArrayList<CityPin> retList = new ArrayList<>();
             for (int i=page*GET_ACTIVE_CITYPINS_PAGE; i < (page+1)*GET_ACTIVE_CITYPINS_PAGE && i < totalSize; i++)
@@ -455,7 +456,6 @@ public final class Repository {
                     if (ip.getId().equals(p.getId())) {
                         there = true; break;
                     }
-                    if (there) break;
                 }
                 if (!there) {
                     addPinToInventory(p);

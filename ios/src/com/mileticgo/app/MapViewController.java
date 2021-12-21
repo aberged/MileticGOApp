@@ -42,7 +42,6 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     @Override
     public void viewWillAppear(boolean animated) {
         super.viewWillAppear(animated);
-        getNavigationController().setNavigationBarHidden(false);
     }
 
     @Override
@@ -77,6 +76,8 @@ public class MapViewController extends UIViewController implements MKMapViewDele
                 barButtonItem.setStyle(UIBarButtonItemStyle.Done);
             }
         }));
+
+        getNavigationController().setNavigationBarHidden(false);
     }
 
     @Override
