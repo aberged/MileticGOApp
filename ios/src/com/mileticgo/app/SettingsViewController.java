@@ -1,18 +1,13 @@
 package com.mileticgo.app;
 
-import org.robovm.apple.coregraphics.CGColor;
 import org.robovm.apple.dispatch.DispatchQueue;
-import org.robovm.apple.uikit.UIActivityIndicatorView;
 import org.robovm.apple.uikit.UIAlertAction;
 import org.robovm.apple.uikit.UIAlertActionStyle;
 import org.robovm.apple.uikit.UIAlertController;
 import org.robovm.apple.uikit.UIAlertControllerStyle;
-import org.robovm.apple.uikit.UIBarMetrics;
 import org.robovm.apple.uikit.UIButton;
 import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIControlState;
-import org.robovm.apple.uikit.UIImage;
-import org.robovm.apple.uikit.UINavigationBar;
 import org.robovm.apple.uikit.UIStoryboard;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.objc.annotation.CustomClass;

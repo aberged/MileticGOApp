@@ -1,24 +1,16 @@
 package com.mileticgo.app;
 
 import org.robovm.apple.dispatch.DispatchQueue;
-import org.robovm.apple.mapkit.MKMapView;
 import org.robovm.apple.uikit.UIActivityIndicatorView;
 import org.robovm.apple.uikit.UIAlertAction;
 import org.robovm.apple.uikit.UIAlertActionStyle;
 import org.robovm.apple.uikit.UIAlertController;
 import org.robovm.apple.uikit.UIAlertControllerStyle;
-import org.robovm.apple.uikit.UIBarMetrics;
-import org.robovm.apple.uikit.UIBarStyle;
 import org.robovm.apple.uikit.UIButton;
 import org.robovm.apple.uikit.UIColor;
-import org.robovm.apple.uikit.UIControlEvents;
-import org.robovm.apple.uikit.UIEvent;
-import org.robovm.apple.uikit.UIImage;
 import org.robovm.apple.uikit.UITextField;
 import org.robovm.apple.uikit.UIViewController;
-import org.robovm.objc.Selector;
 import org.robovm.objc.annotation.CustomClass;
-import org.robovm.objc.annotation.IBAction;
 import org.robovm.objc.annotation.IBOutlet;
 import org.robovm.objc.block.VoidBlock1;
 

@@ -1,12 +1,10 @@
 package com.mileticgo.app;
 
 import org.robovm.apple.uikit.UIBarMetrics;
-import org.robovm.apple.uikit.UIButton;
 import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIImage;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.objc.annotation.CustomClass;
-import org.robovm.objc.annotation.IBOutlet;
 
 @CustomClass("MainViewController")
 public class MainViewController extends UIViewController {
