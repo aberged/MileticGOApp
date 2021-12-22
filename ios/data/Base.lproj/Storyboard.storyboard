@@ -142,7 +142,7 @@
             </objects>
             <point key="canvasLocation" x="1393.125" y="175"/>
         </scene>
-        <!--Lokacija-->
+        <!--Map View Controller-->
         <scene sceneID="RWV-Pg-opP">
             <objects>
                 <viewController id="NiI-8W-zdI" customClass="MapViewController" sceneMemberID="viewController">
@@ -168,9 +168,7 @@
                             <constraint firstItem="H9D-TR-d0S" firstAttribute="leading" secondItem="mwH-YA-2Wb" secondAttribute="leading" id="xfk-BV-dh9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Lokacija" id="4q0-JP-Ok8">
-                        <barButtonItem key="backBarButtonItem" title="Nazad" id="ldL-xG-U1t"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="4q0-JP-Ok8"/>
                     <connections>
                         <outlet property="map" destination="H9D-TR-d0S" id="Tj2-zc-7c3"/>
                         <outlet property="switch" destination="6YX-Av-ZnX" id="vj1-D5-1bA"/>

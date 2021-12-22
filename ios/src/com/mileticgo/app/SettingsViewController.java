@@ -57,8 +57,7 @@ public class SettingsViewController extends UIViewController {
 
         logInOut.addOnTouchUpInsideListener((control, event) -> {
             if (Repository.get().getUser().isAnonymous()) {
-                UIStoryboard storyboard = new UIStoryboard("Storyboard", null);
-                UIViewController secondVC = storyboard.instantiateViewController("SettingsLoginViewController");
+                UIViewController secondVC = Main.storyboard().instantiateViewController("SettingsLoginViewController");
                 showViewController(secondVC, this);
             } else {
                 System.out.println("loging out - " + Repository.get().getUser().toJson());

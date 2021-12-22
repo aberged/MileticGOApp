@@ -27,6 +27,7 @@ public class LocationDetailsViewController extends UIViewController {
             uiLabel.setText("");
             uiText.setText("");
         }
+        getNavigationItem().setBackButtonTitle("Detalji lokacije");
     }
 
     public void setPin(CityPin pin) {

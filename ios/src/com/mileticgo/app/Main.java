@@ -10,6 +10,7 @@ import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIApplicationDelegateAdapter;
 import org.robovm.apple.uikit.UIApplicationLaunchOptions;
+import org.robovm.apple.uikit.UIStoryboard;
 
 import java.io.File;
 
@@ -46,6 +47,10 @@ public class Main extends UIApplicationDelegateAdapter {
             nsDictionary.write(finalPath, false);
         }
         return new IOSPreferences(nsDictionary, finalPath.getAbsolutePath());
+    }
+
+    public static UIStoryboard storyboard() {
+        return new UIStoryboard("Storyboard", null);
     }
 
     public static void main(String[] args) {

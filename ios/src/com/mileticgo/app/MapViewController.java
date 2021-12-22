@@ -127,6 +127,7 @@ public class MapViewController extends UIViewController implements MKMapViewDele
 
         getNavigationController().setNavigationBarHidden(false);
         getNavigationController().getNavigationBar().setTintColor(UIColor.black());
+        getNavigationItem().setBackButtonTitle("Mapa");
     }
 
     private void showOKButtonPopup(String title, String msg, String buttonLabel, VoidBlock1<UIAlertAction> btnHandler) {
@@ -157,10 +158,10 @@ public class MapViewController extends UIViewController implements MKMapViewDele
             System.out.println("GOTO AR");
         } else if (((MapPin)view).isUnlocked()) {
             System.out.println("GOTO details");
-            UIStoryboard storyboard = new UIStoryboard("Storyboard", null);
-            UIViewController secondVC = storyboard.instantiateViewController("LocationDetailsViewController");
+            UIViewController secondVC = Main.storyboard().instantiateViewController("LocationDetailsViewController");
             ((LocationDetailsViewController) secondVC).setPin(((MapPin)view).getPin());
-            showViewController(secondVC, this);
+            //showViewController(secondVC, this);
+            presentViewController(secondVC, true, null);
         } else if (!((MapPin)view).isUnlocked()) {
             showOKButtonPopup("Info", "Lokacija nije otključana. Priđi joj bliže da je otključaš.", "OK", null);
         }
