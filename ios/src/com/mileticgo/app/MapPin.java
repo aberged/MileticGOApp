@@ -1,11 +1,20 @@
 package com.mileticgo.app;
 
+import org.robovm.apple.corefoundation.CFBundle;
+import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.corelocation.CLLocationCoordinate2D;
+import org.robovm.apple.foundation.NSBundle;
+import org.robovm.apple.foundation.NSData;
 import org.robovm.apple.mapkit.MKAnnotation;
+import org.robovm.apple.mapkit.MKAnnotationView;
 import org.robovm.apple.mapkit.MKMarkerAnnotationView;
 import org.robovm.apple.uikit.UIColor;
+import org.robovm.apple.uikit.UIImage;
+import org.robovm.apple.uikit.UIView;
 
-public class MapPin extends MKMarkerAnnotationView implements MKAnnotation {
+import java.io.File;
+
+public class MapPin extends MKAnnotationView implements MKAnnotation {
 
     private CLLocationCoordinate2D coordinate2D;
 
@@ -17,17 +26,26 @@ public class MapPin extends MKMarkerAnnotationView implements MKAnnotation {
         this.setCoordinate(new CLLocationCoordinate2D(pin.getLat(), pin.getLng()));
         this.setAnnotation(this);
         this.setDisplayPriority(1000);
+        this.setFrame(new CGRect(0,0,10,10));
+        //this.setBackgroundColor(UIColor.yellow());
+        this.setHidden(false);
+        this.setDisplayPriority(10000);
+        this.setEnabled(true);
         colorPin();
     }
 
     private void colorPin() {
         if (isUnlocked()) {
-            setMarkerTintColor(UIColor.systemBlue());
+            //setMarkerTintColor(UIColor.systemBlue());
+            setImage(UIImage.getImage("pin_checked.png"));
         } else {
-            if (isNear())
-                setMarkerTintColor(UIColor.systemGreen());
-            else
-                setMarkerTintColor(UIColor.gray());
+            if (isNear()) {
+                //setMarkerTintColor(UIColor.systemGreen());
+                setImage(UIImage.getImage("pin_active.png"));
+            }else{
+                //setMarkerTintColor(UIColor.gray());
+                setImage(UIImage.getImage("pin_locked.png"));
+            }
         }
     }
 
@@ -63,4 +81,7 @@ public class MapPin extends MKMarkerAnnotationView implements MKAnnotation {
 
     public boolean isUnlocked() { return cityPin.getUnlocked(); }
 
+    public CityPin getPin() {
+        return cityPin;
+    }
 }

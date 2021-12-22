@@ -17,25 +17,39 @@ import org.robovm.apple.mapkit.MKOverlayRenderer;
 import org.robovm.apple.mapkit.MKOverlayView;
 import org.robovm.apple.mapkit.MKUserLocation;
 import org.robovm.apple.mapkit.MKUserTrackingMode;
+import org.robovm.apple.uikit.UIAlertAction;
+import org.robovm.apple.uikit.UIAlertActionStyle;
+import org.robovm.apple.uikit.UIAlertController;
+import org.robovm.apple.uikit.UIAlertControllerStyle;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItemStyle;
 import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIControl;
+import org.robovm.apple.uikit.UIStoryboard;
+import org.robovm.apple.uikit.UISwitch;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.objc.annotation.CustomClass;
 import org.robovm.objc.annotation.IBOutlet;
+import org.robovm.objc.block.VoidBlock1;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @CustomClass("MapViewController")
 public class MapViewController extends UIViewController implements MKMapViewDelegate {
 
     private MKMapView map;
+    private UISwitch uiSwitch;
     private final CLLocationManager locationManager = new CLLocationManager();
+
+    private ArrayList<CityPin> pins;
+    private final ArrayList<MapPin> mapPins = new ArrayList<>();
 
     @IBOutlet public void setMap(MKMapView _map) {
         this.map = _map;
     }
+
+    @IBOutlet public void setSwitch(UISwitch _ui) { this.uiSwitch = _ui; }
 
     public MapViewController() {
     }
@@ -62,13 +76,43 @@ public class MapViewController extends UIViewController implements MKMapViewDele
         map.setCamera(new MKMapCamera(new CLLocationCoordinate2D(
                 Repository.get().getActiveCityProfile().getLat(),
                 Repository.get().getActiveCityProfile().getLng()), 21000, 0, 0));
-        ArrayList<CityPin> pins = (ArrayList<CityPin>) Repository.get().getActiveCityPins();
+        pins = (ArrayList<CityPin>) Repository.get().getActiveCityPins();
+        mapPins.clear();
         for (CityPin pin: pins) {
             MapPin mapPin = new MapPin(pin);
-            map.addAnnotation(mapPin);
+            mapPins.add(mapPin);
         }
+        map.addAnnotations(mapPins);
         map.setShowsUserLocation(true);
         map.setUserTrackingMode(MKUserTrackingMode.None);
+
+        uiSwitch.addOnValueChangedListener(control -> {
+            if (uiSwitch.isOn()) {
+                ArrayList<CityPin> invPins = (ArrayList<CityPin>) Repository.get().getUserInventoryCityPinsForActiveCityProfile();
+                if (invPins.size() == 0) {
+                    uiSwitch.setOn(false);
+                    showOKButtonPopup("Info", "Nema otključanih lokacija u kolekciji.", "OK", null);
+                    return;
+                }
+                map.removeAnnotations(mapPins);
+                pins = invPins;
+                mapPins.clear();
+                for (CityPin pin: pins) {
+                    MapPin mapPin = new MapPin(pin);
+                    mapPins.add(mapPin);
+                }
+                map.addAnnotations(mapPins);
+            } else {
+                map.removeAnnotations(mapPins);
+                pins = (ArrayList<CityPin>) Repository.get().getActiveCityPins();
+                mapPins.clear();
+                for (CityPin pin: pins) {
+                    MapPin mapPin = new MapPin(pin);
+                    mapPins.add(mapPin);
+                }
+                map.addAnnotations(mapPins);
+            }
+        });
 
         getNavigationItem().setRightBarButtonItem(new UIBarButtonItem("Hide me", UIBarButtonItemStyle.Plain, barButtonItem -> {
             map.setShowsUserLocation(!map.showsUserLocation());
@@ -85,6 +129,43 @@ public class MapViewController extends UIViewController implements MKMapViewDele
         getNavigationController().getNavigationBar().setTintColor(UIColor.black());
     }
 
+    private void showOKButtonPopup(String title, String msg, String buttonLabel, VoidBlock1<UIAlertAction> btnHandler) {
+        // create the alert
+        UIAlertController alert = new UIAlertController(title, msg, UIAlertControllerStyle.Alert);
+        // add an action (button)
+        alert.addAction(new UIAlertAction(buttonLabel, UIAlertActionStyle.Default, btnHandler));
+        // show the alert
+        this.presentViewController(alert, true, null);
+    }
+
+    private void closeView() {
+        getNavigationController().popViewController(true);
+    }
+
+    @Override
+    public MKAnnotationView getAnnotationView(MKMapView mapView, MKAnnotation annotation) {
+        if (!(annotation instanceof MapPin)) return null;
+        System.out.println(annotation.getTitle() + "; unlocked - " + ((MapPin) annotation).isUnlocked());
+        return (MapPin) annotation;
+    }
+
+    @Override
+    public void didSelectAnnotationView(MKMapView mapView, MKAnnotationView view) {
+        System.out.println("didSelectAnnotationView - " + mapView);
+        if (!(view instanceof MapPin)) return;
+        if (((MapPin)view).isNear() && !((MapPin)view).isUnlocked()) {
+            System.out.println("GOTO AR");
+        } else if (((MapPin)view).isUnlocked()) {
+            System.out.println("GOTO details");
+            UIStoryboard storyboard = new UIStoryboard("Storyboard", null);
+            UIViewController secondVC = storyboard.instantiateViewController("LocationDetailsViewController");
+            ((LocationDetailsViewController) secondVC).setPin(((MapPin)view).getPin());
+            showViewController(secondVC, this);
+        } else if (!((MapPin)view).isUnlocked()) {
+            showOKButtonPopup("Info", "Lokacija nije otključana. Priđi joj bliže da je otključaš.", "OK", null);
+        }
+    }
+
     @Override
     public void willChangeRegion(MKMapView mapView, boolean animated) {
         System.out.println("willChangeRegion - " + mapView);
@@ -93,6 +174,22 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     @Override
     public void didChangeRegion(MKMapView mapView, boolean animated) {
         System.out.println("didChangeRegion - " + mapView);
+    }
+
+    @Override
+    public void didUpdateUserLocation(MKMapView mapView, MKUserLocation userLocation) {
+        System.out.println("didUpdateUserLocation - " + mapView);
+        for (MKAnnotation pin: map.getAnnotations()) {
+            if (!(pin instanceof MapPin)) continue;
+            System.out.println("loc: " + pin.getTitle());
+            boolean near = ((MapPin)pin).setIsNear(distance(
+                    pin.getCoordinate().getLatitude(),
+                    pin.getCoordinate().getLongitude(),
+                    userLocation.getCoordinate().getLatitude(),
+                    userLocation.getCoordinate().getLongitude()
+            ) < 10);
+            System.out.println("isNear - " + ((MapPin) pin).isNear());
+        }
     }
 
     @Override
@@ -115,6 +212,7 @@ public class MapViewController extends UIViewController implements MKMapViewDele
         System.out.println("didFailLoadingMap - " + mapView);
     }
 
+
     @Override
     public void willStartRenderingMap(MKMapView mapView) {
         System.out.println("willStartRenderingMap - " + mapView);
@@ -126,15 +224,8 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     }
 
     @Override
-    public MKAnnotationView getAnnotationView(MKMapView mapView, MKAnnotation annotation) {
-        if (!(annotation instanceof MapPin)) return null;
-        System.out.println(annotation.getTitle() + "; unlocked - " + ((MapPin) annotation).isUnlocked());
-        return (MapPin) annotation;
-    }
-
-    @Override
     public void didAddAnnotationViews(MKMapView mapView, NSArray<MKAnnotationView> views) {
-        System.out.println("didAddAnnotationViews - " + mapView);
+        System.out.println("didAddAnnotationViews - " + views);
     }
 
     @Override
@@ -142,16 +233,6 @@ public class MapViewController extends UIViewController implements MKMapViewDele
         System.out.println("calloutAccessoryControlTapped - " + mapView);
     }
 
-    @Override
-    public void didSelectAnnotationView(MKMapView mapView, MKAnnotationView view) {
-        System.out.println("didSelectAnnotationView - " + mapView);
-        if (!(view instanceof MapPin)) return;
-        if (((MapPin)view).isNear() && !((MapPin)view).isUnlocked()) {
-            System.out.println("GOTO AR");
-        } else if (((MapPin)view).isUnlocked()) {
-            System.out.println("GOTO details");
-        }
-    }
 
     @Override
     public void didDeselectAnnotationView(MKMapView mapView, MKAnnotationView view) {
@@ -166,22 +247,6 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     @Override
     public void didStopLocatingUser(MKMapView mapView) {
         System.out.println("didStopLocatingUser - " + mapView);
-    }
-
-    @Override
-    public void didUpdateUserLocation(MKMapView mapView, MKUserLocation userLocation) {
-        System.out.println("didUpdateUserLocation - " + mapView);
-        for (MKAnnotation pin: map.getAnnotations()) {
-            if (!(pin instanceof MapPin)) continue;
-            System.out.println("loc: " + pin.getTitle());
-            boolean near = ((MapPin)pin).setIsNear(distance(
-                    pin.getCoordinate().getLatitude(),
-                    pin.getCoordinate().getLongitude(),
-                    userLocation.getCoordinate().getLatitude(),
-                    userLocation.getCoordinate().getLongitude()
-            ) < 10);
-            System.out.println("isNear - " + ((MapPin) pin).isNear());
-        }
     }
 
     @Override
