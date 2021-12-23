@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 import com.mileticgo.app.databinding.LocationPagerLayoutBinding
+import com.mileticgo.app.view_model.CollectionViewModel
 
 class LocationViewPagerAdapter(private val activity: Activity) :
     RecyclerView.Adapter<LocationViewPagerAdapter.PagerViewHolder>() {
@@ -17,6 +18,7 @@ class LocationViewPagerAdapter(private val activity: Activity) :
     private var data : List<List<CityPin>> = emptyList()
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var adapterCollection: CollectionAdapter
+    private lateinit var collectionViewModel: CollectionViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewPagerAdapter.PagerViewHolder {
         val binding = LocationPagerLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,6 +29,7 @@ class LocationViewPagerAdapter(private val activity: Activity) :
     override fun onBindViewHolder(holder: LocationViewPagerAdapter.PagerViewHolder, position: Int) {
 
         adapterCollection = CollectionAdapter {
+            collectionViewModel.viewPagerPosition = holder.absoluteAdapterPosition //save position
             //list item click listener
             val bundle = Bundle()
             bundle.putSerializable("details", it)
@@ -46,10 +49,10 @@ class LocationViewPagerAdapter(private val activity: Activity) :
         return data.size
     }
 
-    fun refresh(categoryList: List<List<CityPin>>) {
+    fun refresh(categoryList: List<List<CityPin>>, collectionViewModel: CollectionViewModel) {
         data = categoryList
         notifyDataSetChanged()
-
+        this.collectionViewModel = collectionViewModel
     }
 
     inner class PagerViewHolder(val binding: LocationPagerLayoutBinding) : RecyclerView.ViewHolder(binding.root)
