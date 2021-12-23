@@ -25,7 +25,6 @@ import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItemStyle;
 import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIControl;
-import org.robovm.apple.uikit.UIStoryboard;
 import org.robovm.apple.uikit.UISwitch;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.objc.annotation.CustomClass;
@@ -160,7 +159,6 @@ public class MapViewController extends UIViewController implements MKMapViewDele
             System.out.println("GOTO details");
             UIViewController secondVC = Main.storyboard().instantiateViewController("LocationDetailsViewController");
             ((LocationDetailsViewController) secondVC).setPin(((MapPin)view).getPin());
-            //showViewController(secondVC, this);
             presentViewController(secondVC, true, null);
         } else if (!((MapPin)view).isUnlocked()) {
             showOKButtonPopup("Info", "Lokacija nije otključana. Priđi joj bliže da je otključaš.", "OK", null);

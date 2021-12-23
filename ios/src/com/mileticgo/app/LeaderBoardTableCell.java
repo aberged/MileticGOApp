@@ -1,14 +1,9 @@
 package com.mileticgo.app;
 
-import org.robovm.apple.foundation.NSIndexPath;
 import org.robovm.apple.uikit.UIEdgeInsets;
-import org.robovm.apple.uikit.UIImage;
 import org.robovm.apple.uikit.UIImageView;
 import org.robovm.apple.uikit.UILabel;
-import org.robovm.apple.uikit.UITableView;
 import org.robovm.apple.uikit.UITableViewCell;
-import org.robovm.apple.uikit.UITableViewCellEditingStyle;
-import org.robovm.apple.uikit.UITableViewDataSource;
 import org.robovm.objc.annotation.CustomClass;
 import org.robovm.objc.annotation.IBOutlet;
 

@@ -96,9 +96,9 @@ public class LeaderboardViewController extends UIViewController implements UITab
         getNavigationController().popViewController(true);
     }
 
-    /*
-    DATA SOURCE RELATED CODE
-    */
+/*
+DATA SOURCE RELATED CODE
+*/
     @Override
     public long getNumberOfRowsInSection(UITableView tableView, long section) {
         return list.size();

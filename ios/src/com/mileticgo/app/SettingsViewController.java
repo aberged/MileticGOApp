@@ -8,7 +8,6 @@ import org.robovm.apple.uikit.UIAlertControllerStyle;
 import org.robovm.apple.uikit.UIButton;
 import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIControlState;
-import org.robovm.apple.uikit.UIStoryboard;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.objc.annotation.CustomClass;
 import org.robovm.objc.annotation.IBOutlet;
@@ -78,7 +77,6 @@ public class SettingsViewController extends UIViewController {
         bAbout.addOnTouchUpInsideListener((control, event) -> {
             UIViewController secondVC = Main.storyboard().instantiateViewController("LocationDetailsViewController");
             ((LocationDetailsViewController) secondVC).setPin(new CityPin("O aplikaciji", "detalji aplikacije"));
-            //showViewController(secondVC, this);
             this.presentViewController(secondVC, true, null);
         });
     }

@@ -96,7 +96,6 @@ public class InventoryViewController extends UIViewController implements UIScrol
         pager.setNumberOfPages(categories.size());
         for (int i=0; i<categories.size();i++) {
             if (i==0) {
-                //pages.add(pageOne);
                 pageOne.setFrame(new CGRect(0, 0, scrollView.getFrame().getSize().getWidth(),scrollView.getFrame().getSize().getHeight()));
                 //dataSourceMap.get(categories.get(i)).addAll(dataSourceMap.get(categories.get(i))); // doubles data for test
                 pageOne.setData(dataSourceMap.get(categories.get(i)), this);
@@ -209,6 +208,5 @@ SCROLLVIEW DELEGATE METHODS
 
     @Override
     public void scrollViewDidChangeAdjustedContentInset(UIScrollView scrollView) {
-        System.out.println("scrollViewDidChangeAdjustedContentInset - " + scrollView);
     }
 }

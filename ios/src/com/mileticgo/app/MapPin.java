@@ -1,16 +1,10 @@
 package com.mileticgo.app;
 
-import org.robovm.apple.corefoundation.CFBundle;
 import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.corelocation.CLLocationCoordinate2D;
-import org.robovm.apple.foundation.NSBundle;
-import org.robovm.apple.foundation.NSData;
 import org.robovm.apple.mapkit.MKAnnotation;
 import org.robovm.apple.mapkit.MKAnnotationView;
-import org.robovm.apple.mapkit.MKMarkerAnnotationView;
-import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIImage;
-import org.robovm.apple.uikit.UIView;
 
 import java.io.File;
 
@@ -27,7 +21,6 @@ public class MapPin extends MKAnnotationView implements MKAnnotation {
         this.setAnnotation(this);
         this.setDisplayPriority(1000);
         this.setFrame(new CGRect(0,0,10,10));
-        //this.setBackgroundColor(UIColor.yellow());
         this.setHidden(false);
         this.setDisplayPriority(10000);
         this.setEnabled(true);
@@ -36,14 +29,11 @@ public class MapPin extends MKAnnotationView implements MKAnnotation {
 
     private void colorPin() {
         if (isUnlocked()) {
-            //setMarkerTintColor(UIColor.systemBlue());
             setImage(UIImage.getImage("pin_checked.png"));
         } else {
             if (isNear()) {
-                //setMarkerTintColor(UIColor.systemGreen());
                 setImage(UIImage.getImage("pin_active.png"));
             }else{
-                //setMarkerTintColor(UIColor.gray());
                 setImage(UIImage.getImage("pin_locked.png"));
             }
         }
