@@ -9,10 +9,17 @@ public class TopScoreListItem {
     private final String email;
     private int position;
 
+    public  TopScoreListItem(String name) {
+        userName = name;
+        userPoints = (int) Math.round(Math.random()*96);
+        email = "ads";
+        position = 0;
+    }
+
     public TopScoreListItem(JSONObject topScoreItemJson) {
         userName = topScoreItemJson.getString("name");
         userPoints = topScoreItemJson.getInt("score");
-        String mail = "";
+        String mail;
         try {
             mail = topScoreItemJson.getString("email");
         }catch (Throwable err) {
@@ -41,6 +48,7 @@ public class TopScoreListItem {
     public void setPosition(int position) {
         this.position = position;
     }
+
     @Override
     public String toString() {
         return "Position: " + position + "\nUser name: " + userName + "\nuser points: " + userPoints;
