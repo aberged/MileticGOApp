@@ -56,6 +56,18 @@ public class MapViewController extends UIViewController implements MKMapViewDele
     @Override
     public void viewWillAppear(boolean animated) {
         super.viewWillAppear(animated);
+        pins = (ArrayList<CityPin>) Repository.get().getActiveCityPins();
+        if (mapPins.size() > 0) {
+            map.removeAnnotations(mapPins);
+        }
+        mapPins.clear();
+        for (CityPin pin: pins) {
+            MapPin mapPin = new MapPin(pin);
+            mapPins.add(mapPin);
+        }
+        map.addAnnotations(mapPins);
+        map.setShowsUserLocation(true);
+        map.setUserTrackingMode(MKUserTrackingMode.None);
     }
 
     @Override
@@ -75,15 +87,6 @@ public class MapViewController extends UIViewController implements MKMapViewDele
         map.setCamera(new MKMapCamera(new CLLocationCoordinate2D(
                 Repository.get().getActiveCityProfile().getLat(),
                 Repository.get().getActiveCityProfile().getLng()), 21000, 0, 0));
-        pins = (ArrayList<CityPin>) Repository.get().getActiveCityPins();
-        mapPins.clear();
-        for (CityPin pin: pins) {
-            MapPin mapPin = new MapPin(pin);
-            mapPins.add(mapPin);
-        }
-        map.addAnnotations(mapPins);
-        map.setShowsUserLocation(true);
-        map.setUserTrackingMode(MKUserTrackingMode.None);
 
         uiSwitch.addOnValueChangedListener(control -> {
             if (uiSwitch.isOn()) {
@@ -155,6 +158,9 @@ public class MapViewController extends UIViewController implements MKMapViewDele
         if (!(view instanceof MapPin)) return;
         if (((MapPin)view).isNear() && !((MapPin)view).isUnlocked()) {
             System.out.println("GOTO AR");
+            UIViewController secondVC = Main.storyboard().instantiateViewController("GURUAR");
+            ((GURUAR)secondVC).setPin(((MapPin)view).getPin());
+            showViewController(secondVC, this);
         } else if (((MapPin)view).isUnlocked()) {
             System.out.println("GOTO details");
             UIViewController secondVC = Main.storyboard().instantiateViewController("LocationDetailsViewController");

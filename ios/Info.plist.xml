@@ -50,6 +50,6 @@
     <key>CFBundleIconName</key>
     <string>AppIcon</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>App uses location so users can locate themselfs while searching for items on map</string>
+    <string>App uses location so users can locate them selfs while searching for items on the map</string>
 </dict>
 </plist>

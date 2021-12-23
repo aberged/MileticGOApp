@@ -8,6 +8,38 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--GURUAR-->
+        <scene sceneID="Ghm-Yr-x9b">
+            <objects>
+                <viewController storyboardIdentifier="GURUAR" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ogA-dW-ySY" customClass="GURUAR" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="u8m-XH-ucy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arskView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kBV-Wz-nOi">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ogA-dW-ySY" id="qMJ-et-6Zn"/>
+                                </connections>
+                            </arskView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Fk1-0v-Juh"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="kBV-Wz-nOi" firstAttribute="leading" secondItem="Fk1-0v-Juh" secondAttribute="leading" id="9n2-QL-zWD"/>
+                            <constraint firstItem="kBV-Wz-nOi" firstAttribute="top" secondItem="Fk1-0v-Juh" secondAttribute="top" id="glw-JW-4Qs"/>
+                            <constraint firstItem="Fk1-0v-Juh" firstAttribute="trailing" secondItem="kBV-Wz-nOi" secondAttribute="trailing" id="ocI-Cc-6c1"/>
+                            <constraint firstItem="Fk1-0v-Juh" firstAttribute="bottom" secondItem="kBV-Wz-nOi" secondAttribute="bottom" id="uwK-L5-ZG4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="aR" destination="kBV-Wz-nOi" id="k5T-UG-ykg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ADm-Np-7ZC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1391" y="-610"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="lsu-CL-6LL">
             <objects>

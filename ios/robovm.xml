@@ -45,5 +45,6 @@
     <framework>AVFoundation</framework>
     <framework>GameController</framework>
     <framework>MapKit</framework>
+    <framework>ARKit</framework>
   </frameworks>
 </config>
