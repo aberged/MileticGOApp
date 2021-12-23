@@ -26,6 +26,15 @@ public class CityPin implements Serializable {
         this.isNear = false;
     }
 
+    CityPin(String title, String description) {
+        this.title = title;
+        this.description = description;
+        this.category = "";
+        this.lat = 0;
+        this.lng = 0;
+        this.ID = "";
+    }
+
     public String getId() { return ID; }
 
     public double getLat() {

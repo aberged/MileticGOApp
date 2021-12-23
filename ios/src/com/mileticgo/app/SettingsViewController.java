@@ -75,6 +75,12 @@ public class SettingsViewController extends UIViewController {
                 });
             }
         });
+        bAbout.addOnTouchUpInsideListener((control, event) -> {
+            UIViewController secondVC = Main.storyboard().instantiateViewController("LocationDetailsViewController");
+            ((LocationDetailsViewController) secondVC).setPin(new CityPin("O aplikaciji", "detalji aplikacije"));
+            //showViewController(secondVC, this);
+            this.presentViewController(secondVC, true, null);
+        });
     }
 
     private void showOKButtonPopup(String title, String msg, String buttonLabel, VoidBlock1<UIAlertAction> btnHandler) {
