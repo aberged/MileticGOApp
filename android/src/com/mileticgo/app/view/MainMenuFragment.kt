@@ -15,7 +15,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.mileticgo.app.R
 import com.mileticgo.app.Repository
@@ -23,13 +22,10 @@ import com.mileticgo.app.databinding.FragmentMainMenuBinding
 import com.mileticgo.app.utils.SharedPrefs
 import com.mileticgo.app.utils.oneButtonDialog
 import com.mileticgo.app.utils.twoButtonsDialog
-import com.mileticgo.app.view_model.MainMenuViewModel
 
 class MainMenuFragment : Fragment() {
 
     private lateinit var binding: FragmentMainMenuBinding
-
-    private val mainMenuViewModel by viewModels<MainMenuViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_menu, container, false)

@@ -11,23 +11,16 @@ import android.view.ViewGroup
 import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.ar.core.*
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.math.Vector3
-import com.google.ar.sceneform.rendering.ModelRenderable
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.R
 import com.mileticgo.app.ar.PlaceNode
 import com.mileticgo.app.ar.PlacesArFragment
 import com.mileticgo.app.databinding.FragmentArBinding
-import com.mileticgo.app.model.Geometry
-import com.mileticgo.app.model.GeometryLocation
-import com.mileticgo.app.model.Place
-import com.mileticgo.app.model.getPositionVector
-import com.mileticgo.app.view_model.ARViewModel
 import java.util.*
 
 class ARFragment  : Fragment(), SensorEventListener {
@@ -41,10 +34,6 @@ class ARFragment  : Fragment(), SensorEventListener {
     private val accelerometerReading = FloatArray(3)
     private val magnetometerReading = FloatArray(3)
     private val rotationMatrix = FloatArray(9)
-
-    //var modelRenderable: ModelRenderable? = null
-
-    private val arViewModel by viewModels<ARViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ar, container, false)
@@ -107,43 +96,17 @@ class ARFragment  : Fragment(), SensorEventListener {
             session.cameraConfig = cameraConfigList!![0]
         }
 
-        //val pos = floatArrayOf(0F, 0.05F, -1f)
-        //val rotation = floatArrayOf(0f, 0f, 0f, 1f)
-        //val anchor: Anchor? = session?.createAnchor(Pose(pos, rotation))
         val anchor: Anchor? = session?.createAnchor(arFragment.arSceneView.arFrame?.camera?.pose
             ?.compose(Pose.makeTranslation(50f, 50f ,0f))
             ?.extractTranslation())
         anchorNode = AnchorNode(anchor)
         anchorNode?.setParent(arFragment.arSceneView.scene)
         addPlaces(anchorNode!!)
-
-        /*arFragment.setOnTapArPlaneListener { hitResult, _, _ ->
-            // Create anchor
-            val anchor = hitResult.createAnchor()
-            anchorNode = AnchorNode(anchor)
-            anchorNode?.setParent(arFragment.arSceneView.scene)
-            addPlaces(anchorNode!!)
-        }*/
-
-        //Add an Anchor and a renderable in front of the camera
-        /*val session: Session = Session(context)  // arFragment.arSceneView.session
-        arFragment.arSceneView.setupSession(session)
-        println("#### session ${session}")
-        val pos = floatArrayOf(0f, 0f, -1f)
-        val rotation = floatArrayOf(0f, 0f, 0f, 1f)
-        session.resume()
-        val anchor: Anchor = session.createAnchor(Pose(pos, rotation))
-        anchorNode = AnchorNode(anchor)
-        //anchorNode!!.renderable = andyRenderable
-        anchorNode!!.setParent(arFragment.arSceneView.scene)
-        addPlaces(anchorNode!!)*/
-
     }
 
     private fun addPlaces(anchorNode: AnchorNode) {
         // Add the place in AR
-        val place = Place(Geometry(GeometryLocation(cityPin!!.lat, cityPin!!.lng)))
-        val placeNode = PlaceNode(requireContext(), place).apply {
+        val placeNode = PlaceNode(requireContext()).apply {
             val bundle = Bundle()
             bundle.putSerializable("details", cityPin)
             setOnTapListener { hitTestResult, _ ->

@@ -42,12 +42,11 @@ class MapViewModel : ViewModel() {
     }
 
     fun calculateDistance(currentLocation: Location, pin: CityPin) {
-        val earthRadius = 6371 //in km, in miles - 3958.75
         if (!pin.unlocked) {
             val tmpPinLocation = Location("")
             tmpPinLocation.latitude = pin.lat
             tmpPinLocation.longitude = pin.lng
-            pin.isNear = currentLocation.distanceTo(tmpPinLocation) <= 50
+            pin.isNear = currentLocation.distanceTo(tmpPinLocation) <= 30
         }
     }
 

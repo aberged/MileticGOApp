@@ -7,19 +7,24 @@ import java.io.Serializable
 import kotlin.math.cos
 import kotlin.math.sin
 
+/*
 data class Place(
     val geometry: Geometry
 ) : Serializable {
-    /*override fun equals(other: Any?): Boolean {
+    */
+/*override fun equals(other: Any?): Boolean {
         if (other !is Place) {
             return false
         }
         return this.id == other.id
-    }*/
+    }*//*
 
-    /*override fun hashCode(): Int {
+
+    */
+/*override fun hashCode(): Int {
         return this.id.hashCode()
-    }*/
+    }*//*
+
 }
 
 fun Place.getPositionVector(azimuth: Float, latLng: LatLng): Vector3 {
@@ -44,4 +49,4 @@ data class GeometryLocation(
 ) {
     val latLng: LatLng
         get() = LatLng(lat, lng)
-}
+}*/
