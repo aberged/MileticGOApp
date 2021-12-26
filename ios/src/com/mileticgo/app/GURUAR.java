@@ -8,13 +8,10 @@ import org.robovm.apple.arkit.ARSKView;
 import org.robovm.apple.arkit.ARSKViewDelegate;
 import org.robovm.apple.arkit.ARSession;
 import org.robovm.apple.coremedia.CMSampleBuffer;
-import org.robovm.apple.foundation.GlobalValueEnumeration;
-import org.robovm.apple.foundation.MatrixDouble4x4;
 import org.robovm.apple.foundation.MatrixFloat4x4;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.spritekit.SKLabelNode;
 import org.robovm.apple.spritekit.SKNode;
-import org.robovm.apple.spritekit.SKTransformNode;
 import org.robovm.apple.spritekit.SKView;
 import org.robovm.apple.uikit.UIAlertAction;
 import org.robovm.apple.uikit.UIAlertActionStyle;
@@ -40,17 +37,21 @@ public class GURUAR extends UIViewController implements ARSKViewDelegate {
     public void viewDidLoad() {
         super.viewDidLoad();
         session = ar.getSession();
-        if (session != null) {
-            MatrixFloat4x4 translation = new MatrixFloat4x4();
-            translation.getC3().setZ((float) -0.2);
-            MatrixFloat4x4 arTransform = session.getCurrentFrame().getCamera().getTransform();
-            arTransform.setC3(translation.getC3());
+        try {
+            if (session != null) {
+                MatrixFloat4x4 translation = new MatrixFloat4x4();
+                translation.getC3().setZ((float) -0.2);
+                MatrixFloat4x4 arTransform = session.getCurrentFrame().getCamera().getTransform();
+                arTransform.setC3(translation.getC3());
 
-            ARAnchor anchor = new ARAnchor(arTransform);
-            session.addAnchor(anchor);
-        } else {
-            if (cityPin != null) Repository.get().addPinToInventory(cityPin);
-            showOKButtonPopup("Info", "AR ne radi. Lokacija je otkljucana.", "OK", uiAlertAction -> closeView());
+                ARAnchor anchor = new ARAnchor(arTransform);
+                session.addAnchor(anchor);
+            } else {
+                if (cityPin != null) Repository.get().addPinToInventory(cityPin);
+                showOKButtonPopup("Info", "AR ne radi. Lokacija je otkljucana.", "OK", uiAlertAction -> closeView());
+            }
+        }catch (Throwable err) {
+
         }
     }
 

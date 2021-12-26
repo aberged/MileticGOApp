@@ -57,6 +57,7 @@ public class CategoryView extends UIView {
             lab.setFrame(new CGRect(20, index*55, this.getFrame().getSize().getWidth()-40, 40));
             lab.setBackgroundColor(UIColor.white());
             lab.setTintColor(UIColor.black());
+            lab.setTextColor(UIColor.black());
             lab.setText("    " + pin.getTitle());
             UITapGestureRecognizer tap = new UITapGestureRecognizer();
             tap.addListener(gestureRecognizer -> {

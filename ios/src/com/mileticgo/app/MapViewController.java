@@ -157,18 +157,23 @@ public class MapViewController extends UIViewController implements MKMapViewDele
         System.out.println("didSelectAnnotationView - " + mapView);
         if (!(view instanceof MapPin)) return;
         if (((MapPin)view).isNear() && !((MapPin)view).isUnlocked()) {
-            System.out.println("GOTO AR");
-            UIViewController secondVC = Main.storyboard().instantiateViewController("GURUAR");
-            ((GURUAR)secondVC).setPin(((MapPin)view).getPin());
-            showViewController(secondVC, this);
+            gotoar(view);
         } else if (((MapPin)view).isUnlocked()) {
             System.out.println("GOTO details");
             UIViewController secondVC = Main.storyboard().instantiateViewController("LocationDetailsViewController");
             ((LocationDetailsViewController) secondVC).setPin(((MapPin)view).getPin());
             presentViewController(secondVC, true, null);
         } else if (!((MapPin)view).isUnlocked()) {
-            showOKButtonPopup("Info", "Lokacija nije otključana. Priđi joj bliže da je otključaš.", "OK", null);
+            //showOKButtonPopup("Info", "Lokacija nije otključana. Priđi joj bliže da je otključaš.", "OK", null);
+            gotoar(view);
         }
+    }
+
+    private void gotoar(MKAnnotationView view) {
+        System.out.println("GOTO AR");
+        UIViewController secondVC = Main.storyboard().instantiateViewController("GURUAR");
+        ((GURUAR)secondVC).setPin(((MapPin)view).getPin());
+        showViewController(secondVC, this);
     }
 
     @Override

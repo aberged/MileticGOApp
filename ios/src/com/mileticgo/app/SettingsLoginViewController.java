@@ -8,6 +8,7 @@ import org.robovm.apple.uikit.UIAlertController;
 import org.robovm.apple.uikit.UIAlertControllerStyle;
 import org.robovm.apple.uikit.UIButton;
 import org.robovm.apple.uikit.UIColor;
+import org.robovm.apple.uikit.UITapGestureRecognizer;
 import org.robovm.apple.uikit.UITextField;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.objc.annotation.CustomClass;
@@ -73,6 +74,10 @@ public class SettingsLoginViewController extends UIViewController {
                 System.out.println(msg);
             });
         });
+
+        UITapGestureRecognizer tap = new UITapGestureRecognizer();
+        tap.addListener(gestureRecognizer -> getView().endEditing(true));
+        getView().addGestureRecognizer(tap);
     }
 
     private void showOKButtonPopup(String title, String msg, String buttonLabel, VoidBlock1<UIAlertAction> btnHandler) {

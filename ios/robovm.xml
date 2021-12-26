@@ -46,5 +46,6 @@
     <framework>GameController</framework>
     <framework>MapKit</framework>
     <framework>ARKit</framework>
+    <framework>SpriteKit</framework>
   </frameworks>
 </config>
