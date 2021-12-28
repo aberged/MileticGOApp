@@ -52,5 +52,7 @@
     <string>AppIcon</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>App uses location so users can locate them selfs while searching for items on the map</string>
+    <key>NSCameraUsageDescription</key>
+    <string>App uses camera to provide augmented reality experience for users while they are unlocking details about available locations</string>
 </dict>
 </plist>
