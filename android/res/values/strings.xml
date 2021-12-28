@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">GURU</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="main_menu_tittle">MAIN TITLE</string>
-    <string name="map_button">lokacija</string>
-    <string name="collection_button">kolekcija</string>
-    <string name="results_button">liderbord</string>
-    <string name="settings_button">podešavanja</string>
+    <string name="map_button">Lokacija</string>
+    <string name="collection_button">Kolekcija</string>
+    <string name="results_button">Liderbord</string>
+    <string name="settings_button">Podešavanja</string>
     <string name="settings_label">Podešavanja</string>
-
     <string name="exit_title">Izlazak iz aplikacije</string>
     <string name="exit_message">Da li ste sigurni da želite da napustite aplikaciju?</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
-
     <!--login/register-->
-    <string name="user_name">unesite korisničko ime</string>
+    <string name="user_name">Unesite korisničko ime</string>
     <string name="login_email_text">Email</string>
     <string name="login_password_text">Šifra</string>
     <string name="register_repeat_password">Unesite šifru još jednom</string>
@@ -29,50 +22,46 @@
     <string name="was_login_info_dialog_shown">was_login_info_dialog_shown</string>
     <string name="is_user_logged_in">is_user_logged_in</string>
     <string name="login_dialog_info_title">Login info</string>
-    <string name="login_dialog_info_message">Korisnik nije prijavljen, mozete se prijaviti u settings sekciji</string>
+    <string name="login_dialog_info_message">Korisnik nije prijavljen, možete se prijaviti u Settings sekciji</string>
     <string name="login_unsuccessful">Prijavljivanje nije bilo uspešno, pokušajte ponovo</string>
     <string name="registration_unsuccessful">Registracija nije bilo uspešna, pokušajte ponovo</string>
     <string name="registration_successful">Registracija je uspela</string>
-    <string name="register_btn_text">Registruj se</string>
+    <string name="register_btn_text">Registrujte se</string>
     <string name="login_label">Login</string>
     <string name="register_label">Registracija</string>
-    <string name="not_registered">Niste registrovani? Kliknite ovde</string>
-    <string name="already_registered">Već ste registrovani? Kliknite ovde</string>
-    <string name="passwords_match_false">Šifre se ne opklapaju, probajte ponovo</string>
-    <string name="sign_out_dialog_title">Odjavi me</string>
+    <string name="not_registered">Niste registrovani? Učinite to ovde</string>
+    <string name="already_registered">Već ste registrovani? Pređite ovde</string>
+    <string name="passwords_match_false">Šifre se ne poklapaju, probajte ponovo</string>
+    <string name="sign_out_dialog_title">Odjavite se</string>
     <string name="sign_out_dialog_message">Da li ste sigurni da želite da se odjavite</string>
-
-
     <string name="ar_not_supported">Vaš uređaj ne podržava AR funkcionalnost</string>
     <string name="location_permission_denied">Permisija za lokaciju nije odobrena</string>
-    <string name="background_location_permission_denied">Permisija za background lokaciju nije odobrena</string>
+    <string name="background_location_permission_denied">Permisija za Background lokaciju nije odobrena</string>
     <string name="turn_on_location">Uključite lokaciju</string>
-
-
     <string name="ar_supported_flag">ar_supported</string>
     <string name="ok">OK</string>
     <string name="app_logo_description">app logo</string>
     <string name="was_ar_dialog_shown">was_dialog_shown</string>
     <string name="btn_about">O aplikaciji</string>
     <string name="about_label">O aplikaciji</string>
-
     <string name="info_dialog_title">Info</string>
-    <string name="turn_location_on_text">Da bi aplikacija imala neophodnu funkcionalnost potrebno je da uključite lokaciju.</string>
+    <string name="turn_location_on_text">Da bi aplikacija imala neophodnu funkcionalnost potrebno je da uključite Lokaciju.</string>
     <string name="empty_city_pins_list">Lista pinova je prazna, pokušajte ponovo</string>
     <string name="empty_top_scores_list">Lista top rezultata je prazna, pokušajte ponovo</string>
     <string name="empty_map_pins_list">Lista pinova za mapu je prazna, pokušajte ponovo</string>
     <string name="anonymous">anoniman</string>
     <string name="user">korisnik</string>
-    <string name="distance_info">Priđite na udaljenost manju od 50m da biste otključali pin</string>
+    <string name="distance_info">Priđite na udaljenost manju od 30 metara da biste otključali lokacijski pin</string>
     <string name="novisad">NOVI SAD</string>
     <string name="main_menu_background">image for the main menu background</string>
-    <string name="about_app_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="about_app_text">Mobilna aplikacija Gradovi Unapređene Realnosti ili GURU nastala je sa ciljem digitalizacije kulture Republike Srbije. U slučaju GURU aplikacije, taj proces koristi tehnologije geolokacije i AR (Augmented Reality) da korisnicima približi značajne tačke za istoriju, kulturu, sport, umetnost, javni život i druge relevantne oblasti koje čine identitet svake države.
+GURU aplikacija predstavlja kolekciju preko 100 lokacija u Novom Sadu, od kojih svaka nosi priču značajnu za ovaj grad, kao i ljude i događaje koji su ga stvorili. Koncept korišćenja uključuje odlazak na bilo koju od inicijalno dostupnih fizičkih lokacija (pinova) i “otključavanje” iste kroz korišćenje AR funkcije. Nakon otključavanja, korisnik može da dobije informacije o istoj lokaciji i onome što je čini značajnom. Kroz etapni proces otključavanja svih dostupnih pinova, korisnik dobija dodatne lokacije za istraživanje. Na taj način, korisnik polako može da upoznaje Novi Sad i saznaje njegove priče, a samim tim i njegovu prošlost, sadašnjost, ali i budućnost. Korisnik takođe može da vidi kako je rangiran u odnosu na druge korisnike putem Leaderbord opcije.
+Mobilna aplikacija Gradovi Unapređene Realnosti nastala je uz podršku Ministarstva kulture i informisanja Republike Srbije i program projekata u kulturi "SAVREMENO STVARALAŠTVO", kao i podršku Gradske uprave za kulturu Novog Sada.
+Sve komentare, primedbe i sugestije (uključujući i nove lokacije koje GURU treba da sadrži) šaljite na office@aimistudio.com.</string>
     <string name="position">Pozicija</string>
     <string name="points">Poeni</string>
-    <string name="show_collection_pins">otključane lokacije</string>
-    <string name="remove_collection_pins">ukloni pinove iz kolekcije</string>
+    <string name="show_collection_pins">Otključane lokacije</string>
+    <string name="remove_collection_pins">Ukloni pinove iz kolekcije</string>
     <string name="off">off</string>
     <string name="on">on</string>
-
-
 </resources>

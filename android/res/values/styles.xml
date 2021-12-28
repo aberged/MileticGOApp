@@ -1,5 +1,5 @@
-<resources>
-
+<resources xmlns:tools="http://schemas.android.com/tools">
+<!--
     <style name="GdxTheme" parent="android:Theme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -7,11 +7,14 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowFullscreen">true</item>
-    </style>
+    </style>-->
 
-    <style name="Widget.GdxTheme.ButtonBar.Fullscreen" parent="">
+    <!--<style name="Widget.GdxTheme.ButtonBar.Fullscreen" parent="">
         <item name="android:background">@color/white_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>-->
+    <style name="GuruTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
     <style name="MainMenuButtonStyle" parent="android:Widget.Button">

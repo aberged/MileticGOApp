@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.material.tabs.TabLayout
 import com.mileticgo.app.CityPin
 import com.mileticgo.app.Repository
 

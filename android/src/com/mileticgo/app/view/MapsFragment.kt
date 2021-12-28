@@ -52,20 +52,6 @@ class MapsFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
 
-
-        /*mapViewModel.pins.observe(viewLifecycleOwner, {cityPins ->
-            if (cityPins.isNotEmpty()) {
-                pins = cityPins as MutableList<CityPin>?
-                setUpMaps()
-            } else {
-                requireContext().oneButtonDialog(getString(R.string.info_dialog_title),
-                    getString(R.string.empty_map_pins_list), getString(R.string.ok),
-                    buttonCallback = {
-                        setUpMaps()
-                    })
-            }
-        })*/
-
         return binding.root
     }
 
@@ -104,10 +90,6 @@ class MapsFragment : Fragment() {
                         )?.setIcon(mapViewModel.setMarkerColor(pin.unlocked, pin.isNear))
                     }
                 }
-            }
-
-            override fun onLocationAvailability(p0: LocationAvailability) {
-                super.onLocationAvailability(p0)
             }
         }
 
